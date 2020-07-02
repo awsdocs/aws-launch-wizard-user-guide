@@ -1,4 +1,4 @@
-# Accessing and Deploying an Application with AWS Launch Wizard<a name="launch-wizard-deploying"></a>
+# Accessing and deploying an application with AWS Launch Wizard for SQL Server<a name="launch-wizard-deploying"></a>
 
 ## Accessing AWS Launch Wizard<a name="accessing-launch-wizard"></a>
 
@@ -11,7 +11,7 @@ You can launch AWS Launch Wizard from the following locations\.
 
 The following steps guide you through a SQL Server Always On application deployment with AWS Launch Wizard after you have launched it from the console\.
 
-1. When you launch Launch Wizard, you are directed to the **Choose application** page where you are prompted to select the type of application that you want to deploy\. Currently, the wizard supports SQL Server Always On deployments\. 
+1. When you select **Create deployment** from the AWS Launch Wizard landing page, you are directed to the **Choose application** page where you are prompted to select the type of application that you want to deploy\. Select **Microsoft SQL Server Always On**\.
 
 1. After you select an application type, under **Permissions**, Launch Wizard displays the AWS Identity and Access Management \(IAM\) policy required for Launch Wizard to access other AWS services on your behalf\. For more information about setting up IAM for Launch Wizard, see [AWS Identity and Access Management \(IAM\)](launch-wizard-setting-up.md#launch-wizard-iam)\. Select **Next** \.
 
@@ -21,6 +21,7 @@ The following steps guide you through a SQL Server Always On application deploym
 #### [ General ]
    + **Deployment name**\. Enter a unique application name for your deployment\.
    + **Simple Notification Service \(SNS\) topic ARN \(Optional\)**\. Specify an SNS topic where AWS Launch Wizard can send notifications and alerts\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
+   + **CloudWatch application monitoring \(Optional\)**\. Select the checkbox to set up monitors and automated insights for your deployment using CloudWatch Application Insights\. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-application-insights.html)\.
 
 ------
 #### [ Connectivity ]
@@ -35,7 +36,7 @@ This is the only chance for you to save the private key file, so be sure to down
      Return to the Launch Wizard console and choose the refresh button next to the **Key Pairs** dropdown list\. The newly created key pair appears in the dropdown list\. For more information about key pairs, see [Amazon EC2 Key Pairs and Windows Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)\.
 
    **Virtual Private Cloud \(VPC\)**\. Choose whether you want to use an existing VPC or create a new VPC\.
-   + **Select Virtual Private Cloud \(VPC\)**\. Choose the VPC that you want to use from the dropdown list\. Your VPC must contain one public subnet and, at least, two private subnets\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. For more information about NAT Gateways, see [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide\.
+   + **Select Virtual Private Cloud \(VPC\)**\. Choose the VPC that you want to use from the dropdown list\. Your VPC must contain one public subnet and, at least, two private subnets\. Your VPC must be associated with a [DHCP Options Set](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. For more information about NAT Gateways, see [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide\.
      + **Public Subnet**\. Your VPC must contain one public subnet and, at least, two private subnets\. Choose a public subnet for your VPC from the dropdown list\. To continue, you must select the check box that indicates that the Public subnet has been set up and each of the selected private subnets have outbound connectivity enabled\. 
 
 **To add a new public subnet**
@@ -70,7 +71,7 @@ This is the only chance for you to save the private key file, so be sure to down
    + **Domain DNS name**\. Enter the Fully Qualified Domain Name \(FQDN\) of the [ forest root domain ](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/selecting-the-forest-root-domain) used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
 
 **Creating a new AWS Managed Active Directory through Launch Wizard**
-   + **Domain user name and Password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
+   + **Domain user name and password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
    + **Domain DNS name**\. Enter a Fully Qualified Domain Name \(FQDN\) of the forest root domain used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
 
 **Creating an on\-premises Active Directory through Launch Wizard**  
@@ -80,37 +81,53 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
 #### [ SQL Server ]
 
    When you use an existing Active Directory, you have the option of using an existing SQL Server service account or creating a new account\. If you create a new Active Directory account, you must create a new SQL Server account\. 
-   + **User name and Password**\. If you are using an existing SQL Server service account, provide your user name and password\. This SQL Server service account should be part of the Managed Active Directory in which you are deploying\. If you are creating a new SQL Server service account through Launch Wizard, enter a user name for the SQL Server service account\. Create a complex Password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
+   + **User name and password**\. If you are using an existing SQL Server service account, provide your user name and password\. This SQL Server service account should be part of the Managed Active Directory in which you are deploying\. If you are creating a new SQL Server service account through Launch Wizard, enter a user name for the SQL Server service account\. Create a complex Password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
    + **SQL Server install type**\. Select the version of SQL Server Enterprise that you want to deploy\. You can select an AMI from either the License\-included AMI or Custom AMI dropdown lists\.
-   + **Additional SQL Server settings \(Optional\)**\. You can optionally specify aditional nodes and their subnets\.
+   + **Additional SQL Server settings \(Optional\)**\. You can optionally specify additional nodes and their subnets\.
      + **Nodes**\. Enter a **Primary SQL node name** and a **Secondary SQL node name**\. 
      + **Additional secondary SQL node \(maximum of 5\)**\. Enter a secondary **Node name**, select the **Access type** from the dropdown list, and select the **Private subnet** for the additional secondary SQL node from the dropdown list\. You can add more secondary nodes by selecting **Add an additional secondary node**\. 
      + Additional naming\. Enter a **Database name**, **Availability group name**, a **Listener name**, or a **Cluster name**\. 
 
 ------
-#### [ Infrastructure ]
 
-   You have the option of defining your high availability cluster needs\. If no selections are made, default values are assigned\.
-   + **Number of Cores**\. Choose the number of CPU cores for your infrastructure\. The default value assigned is 4\. 
-   + **Expected RAM size \(Memory\)**\. Choose the amount of RAM that you want to attach to your EC2 instances\. The default value assigned is 4 GB\.
-   + **Desired network performance**\. Choose your preferred network performance in Gbps\.
-   + **Type of storage drive**\. Select the storage drive type for the SQL data, logs, and tempdb volumes\. The default value assigned is SSD\. 
-   + **Drive letters**\. Select the storage drive letter for SQL data, logs, and tempdb volumes\.
-**Important**  
-For custom AMIs, Launch Wizard assumes the root volume drive is `C:`\.
-   + **Size of SQL Server data volume**\. Select the size of the SQL Server data volume in Gb\.
-   + **SQL Server throughput**\. Select the sustained SQL Server throughput that you need\. 
-   + **Recommended resources**\. Launch Wizard displays the system\-recommended resources based on your infrastructure selections\. If you want to change the recommended resources, select different infrastructure requirements\. EBS volume type `io1` is not supported\. 
-   + **Tags\-Optional**\. You can provide optional custom tags for the resources Launch Wizard creates on your behalf\. For example, you can set different tags for EC2 instances, EBS volumes, VPC, and subnets\. If you select **All**, you can assign a common set of tags to your resources\. Launch Wizard assigns tags with a fixed key LaunchWizardResourceGroupID and value that corresponds to the ID of the AWS Resource Group created for a deployment\. Launch Wizard does not support custom tagging for root volumes\. 
+1. When you are satisfied with your configuration selections, select **Next**\. If you don't want to complete the configuration, select **Cancel**\. When you select **Cancel**, all of the selections on the specification page are lost and you are returned to the landing page\. To go to the previous screen, select **Previous**\.
+
+1. After configuring your application, you are prompted to define the infrastructure requriements for the new deployment on the **Define infrastructure requirements** page\. The following tabs provide information about the specification fields\.
 
 ------
-#### [ Estimated On\-Demand Cost ]
+#### [ Storage and Compute ]
+
+   You can choose to select your instance and volume types, or to use AWS recommended resources\. If you choose to use AWS recommended resources, you have the option of defining your high availability cluster needs\. If no selections are made, default values are assigned\.
+   + **Number of instance cores**\. Choose the number of CPU cores for your infrastructure\. The default value assigned is 4\. 
+   + **Network performance**\. Choose your preferred network performance in Gbps\.
+   + **Expected RAM size \(Memory\)**\. Choose the amount of RAM that you want to attach to your EC2 instances\. The default value assigned is 4 GB\.
+   + **Type of storage drive**\. Select the storage drive type for the SQL data, logs, and tempdb volumes\. The default value assigned is SSD\. 
+   + **SQL Server throughput**\. Select the sustained SQL Server throughput that you need\. 
+   + **Recommended resources**\. Launch Wizard displays the system\-recommended resources based on your infrastructure selections\. If you want to change the recommended resources, select different infrastructure requirements\. 
+   + 
+
+**Drive letters and volume size**
+     + **Drive letter**\. Select the storage drive letter for **Root drive**, **Logs**, **Data**, and **Backup** volumes\.
+**Important**  
+For custom AMIs, Launch Wizard assumes the root volume drive is `C:`\.
+     + **Volume size**\. Select the size of the SQL Server data volume in Gb for **Root drive**, **Logs**, **Data**, and **Backup** volumes\.
+     + **Provisioned IOPS\. ** Select the IOPS value of the SQL Server data volume in IOPS for **Root drive**, **Logs**, **Data**, and **Backup** volumes\.
+
+       For throughput limits and volume characteristics, see [Amazon EBS Volume Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide\.
+
+------
+#### [ Tags\-Optional ]
+
+   You can provide optional custom tags for the resources Launch Wizard creates on your behalf\. For example, you can set different tags for EC2 instances, EBS volumes, VPC, and subnets\. If you select **All**, you can assign a common set of tags to your resources\. Launch Wizard assigns tags with a fixed key LaunchWizardResourceGroupID and value that corresponds to the ID of the AWS Resource Group created for a deployment\. Launch Wizard does not support custom tagging for root volumes\. 
+
+------
+#### [ Estimated On\-Demand Cost to Deploy Additional Resources ]
 
    AWS Launch Wizard provides an estimate for application charges incurred to deploy the selected resources\. The estimate updates each time you change a resource type in the Wizard\. The provided estimates are only for general comparisons\. They are based upon On\-Demand costs and your actual costs may be lower\. 
 
 ------
 
-1. When you are satisfied with your configuration selections, select **Next**\. If you don't want to complete the configuration, select **Cancel**\. When you select **Cancel**, all of the selections on the specification page are lost and you are returned to the landing page\. To go to the previous screen, select **Previous**\.
+1. When you are satisfied with your infrastructure selections, select **Next**\. If you don't want to complete the configuration, select **Cancel**\. When you select **Cancel**, all of the selections on the specification page are lost and you are returned to the landing page\. To go to the previous screen, select **Previous**\.
 
 1. On the **Review and deploy** page, review your configuration details\. If you want to make changes, select **Previous**\. To stop, select **Cancel**\. When you select **Cancel**, all of the selections on the specification page are lost and you are returned to the landing page\. If you are ready to deploy, read and select the check box next to the Acknowledgment\. Then choose **Deploy**\.
 

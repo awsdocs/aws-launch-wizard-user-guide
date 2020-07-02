@@ -64,12 +64,44 @@ This is the only time that you can save the private key file, so download and sa
        + Follow the steps in [Creating a Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#AddaSubnet) in the Amazon VPC User Guide using the existing VPC that you will use in Launch Wizard\.
        + When you create a VPC, it includes a main route table by default\. On the **Route Tables** page in the Amazon VPC console, you can view the main route table for a VPC by looking for **Yes** in the **Main** column\. The main route table controls the routing for all subnets that are not explicitly associated with any other route table\. If the main route table for your VPC has an outbound route to an internet gateway, then any subnet created using the previous step, by default, becomes a public subnet\. To ensure the subnets are private, you may need to create separate route tables for your private subnets\. These route tables must not contain any routes to an internet gateway\. Alternatively, you can create a custom route table for your public subnet and remove the internet gateway entry from the main route table\.
    + **Verify Connectivity**\. Select the check box to verify that your private subnets have outbound internet connectivity\.
-   + **Security groups**\. You can choose already existing security groups or Launch Wizard can create security groups that will be assigned to the EC2 instances that Launch Wizard deploys\. If you choose already existing security groups, you must ensure that all of the necessary ports required to access the SAP and HANA databases are open\. If you choose to allow Launch Wizard to create the security groups, the security groups are created to enable the components of the cluster to communicate\. Systems that are deployed with the same configuration settings can also communicate\. 
+   + **Security groups**\. You can choose already existing security groups or Launch Wizard can create security groups that will be assigned to the EC2 instances that Launch Wizard deploys\. If you choose already existing security groups, you must ensure that all of the necessary ports required to access the SAP and SAP HANA databases are open\. If you choose to allow Launch Wizard to create the security groups, the security groups are created to enable the components of the cluster to communicate\. Systems that are deployed with the same configuration settings can also communicate\. 
 
      If you choose an existing security group, Launch Wizard displays the security groups that will be assigned to the EC2 instances that Launch Wizard deploys\. This enables the components to communicate and systems that are deployed with the same configuration settings to communicate\.
    + **Connectivity to external systems or users**\. If you allowed Launch Wizard to create the security groups, then choose the **Connection type** and **Value** of the IP address or security groups required to access the SAP systems\. These values can be a network segment from which the end users access the SAP systems, or downstream/upstream systems assigned a different security group in AWS or on premises\.
+   + **Proxy setting**\. During the launch process, the deployed Amazon EC2 instances require outbound internet access in order to:
+     + Access the operating system \(SUSE/RHEL\) repositories\.
+     + Access AWS services, such as Amazon S3, CloudWatch and Systems Manager\.
+
+     An [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) is typically configured for outbound internet access\. If you want to route internet traffic through a proxy server, enter the proxy server details\. When proxy server information is provided, Launch Wizard will make the necessary environment changes to the EC2 instances during launch so that outbound internet traffic is routed through the proxy server\. 
+     + **PROXY**\. Enter the proxy server name and port, for example `http://10.0.0.140:3128` or `https://10.0.0.140.3128`\.
+     + **NO\_PROXY**\. When a proxy server is used for outbound communication, the `NO_PROXY` environment variable is used to route traffic without using the proxy for the following types of traffic:
+       + local communication
+       + traffic to other instances within the VPC
+       + traffic to other AWS services for which VPC endpoints are created
+
+       Enter a list of comma\-separated values to denote hostnames, domain names, or a combination of both\.
+
+     We recommend that you add all AWS service endpoints \(if defined\) to the `NO_PROXY` environment variable so that a private connection between the VPC and the service endpoint can be established in the AWS VPN\. For more information on AWS service endpoints, see [AWS service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html)\. 
+
+     `NO_PROXY` is an optional parameter\. If no value is entered, the following default URLs are added to the environment\. Values entered for `NO_PROXY` at a later time are added to this list\.
+
+     ```
+     NO_PROXY="localhost,127.0.0.1,169.254.169.254,.internal,{VPC_CIDR_RANGE}"
+     ```
+
+**Default `NO_PROXY` URL details**
+     + **localhost**—loopback hostname
+     + **127\.0\.0\.1**—loopback adapter IP
+     + **169\.254\.169\.254**—EC2 metadata link\-local address
+     + **\.internal**—default DNS for the VPC
+     + **\{VPC\_CIDR\_RANGE\}**—CIDR block of the VPC, for example, 10\.0\.0/24
    + **Time zone**\. Choose the time zone settings to configure the timezone on the instances from the dropdown list\.
    + **EBS encryption**\. From the dropdown list, choose whether or not to enable EBS encryption for all of the EBS volumes that are created for the SAP systems\. For more information, see [Amazon EBS Encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)\.
+   + **Domain name \(DNS\) settings \(Optional\)**\. Select **Domain Name** or **Route 53** from the **DNS type** dropdown list\. 
+     + If you select **Domain Name**, you have the option to enter a domain name to maintain a Fully Qualified Domain Name \(FQDN\) in the `/etc/hosts` file for each instance that is launched and configured by Launch Wizard\.
+     + If you select **Route 53**, select a Route 53 hosted zone from the dropdown list\. Launch Wizard will create a DNS entry for each EC2 instance launched\.
+**Note**  
+Before you use a Route 53 hosted zone, verify that the hosted zone is [integrated with the VPC](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html), and that the [VPC DHCP options](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) are correctly set up\.
    + **SAP landscape settings**\. Enter the system settings for your SAP landscape\.
      + **SAP System Admin User ID**\. Enter the user ID for the SAP system administrator\.
      + **SAP System Admin Group ID**\. Enter the group ID for SAPSYS\. We recommend that you replicate this number across all of your SAP systems because SAPSYS GID must be the same between systems that are part of the transport domain\.
@@ -83,38 +115,38 @@ This is the only time that you can save the private key file, so download and sa
 
 ### Application and deployment settings<a name="launch-wizard-sap-application-settings"></a>
 
-The following steps show the deployment paths for **Netweaver stack on HANA database** and **HANA database**\. Please follow the deployment steps for your deployment path\.
+The following steps show the deployment paths for **Netweaver stack on SAP HANA database** and **SAP HANA database**\. Please follow the deployment steps for your deployment path\.
 
 **Topics**
-+ [Netweaver stack on HANA database](#netweaver-on-hana)
-+ [HANA database](#launch-wizard-hana)
++ [Netweaver stack on SAP HANA database](#netweaver-on-hana)
++ [SAP HANA database](#launch-wizard-hana)
 
-#### Netweaver stack on HANA database<a name="netweaver-on-hana"></a>
+#### Netweaver stack on SAP HANA database<a name="netweaver-on-hana"></a>
 
 ------
 #### [ Application settings  ]
 
-On the **Configure application settings** page, enter your Netweaver stack on HANA database application settings\.
+On the **Configure application settings** page, enter your Netweaver stack on SAP HANA database application settings\.
 
-1. **Application type**\. Select **Netweaver stack on HANA database**\. This configuration includes:
+1. **Application type**\. Select **Netweaver stack on SAP HANA database**\. This configuration includes:
    + Netweaver stack for a single instance , distributed instance, or multi\-AZ for high availability \(HA\) deployment\.
    + EC2 instances for the Netweaver application tier
-   + EC2 instances for HANA database and optional HANA database install
+   + EC2 instances for SAP HANA database and optional SAP HANA database install
 
 1. **General settings – SAP system**\. Enter the settings for your SAP system\.
    + **SAP System ID \(SAPSID\)**\. An identifier for your system\. The ID must be a three character, alphanumeric string\.
    + **EBS Volume Type for Netweaver application stack instances**\. Choose which volume type to use for the NW application file system `/usr/sap/SAPSID` from the dropdown list\.
    + **Transport Domain Controller**\. Specify whether the SAP system will be the domain controller for the SAP landscape\. If not, select the transport file system of the domain controller to be mounted\.
 
-1. **General Settings – HANA**\. Enter the settings for your HANA installation\.
-   + **HANA System ID\.** Enter the identifier for your HANA database\. The ID must be a three character, alphanumeric string\.
-   + **HANA Instance number\.** Enter the instance number to be used for the SAP HANA installation and setup\. The ID must be a two\-digit number\.
-   + **EBS Volume Type for HANA**\. Select the EBS volume types to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
-   + **HANA software install**\. Choose whether to download the SAP HANA software\.
-     + If you choose **Yes**, enter the Amazon S3 location to store the SAP software files\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Amazon S3 folder structure for HANA software download](launch-wizard-sap-structure.md)\.
+1. **General Settings – SAP HANA**\. Enter the settings for your SAP HANA installation\.
+   + **SAP HANA System ID\.** Enter the identifier for your SAP HANA database\. The ID must be a three character, alphanumeric string\.
+   + **SAP HANA Instance number\.** Enter the instance number to be used for the SAP HANA installation and setup\. The ID must be a two\-digit number\.
+   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
+   + **SAP HANA software install**\. Choose whether to download the SAP HANA software\.
+     + If you choose **Yes**, enter the Amazon S3 location to store the SAP software files\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Making SAP HANA software available for AWS Launch Wizard to deploy HANA databaseMaking SAP HANA software available for Launch Wizard ](launch-wizard-sap-structure.md)\.
      + If you choose **No**, only AWS infrastructure is provisioned\.
-   + **S3 location for HANA media \- *optional*\.** Enter the path for the S3 bucket in which you want to store HANA media\. 
-   + **HANA password**\. Enter a password for your SAP HANA installation\.
+   + **S3 location for SAP HANA media \- *optional*\.** Enter the path for the S3 bucket in which you want to store SAP HANA media\. 
+   + **SAP HANA password**\. Enter a password for your SAP HANA installation\.
 
 1. After you enter your application settings, choose **Next**\. 
 
@@ -151,7 +183,7 @@ On the **Configure deployment model** page, enter the deployment details for a s
 ------
 #### [ Distributed instance deployment ]
 
-On the **Configure HANA deployment model** page, enter the deployment details for a distributed instance deployment\.
+On the **Configure SAP HANA deployment model** page, enter the deployment details for a distributed instance deployment\.
 
 1. **Deployment details**\. Launch Wizard supports single instance deployments, distributed instance deployments, and high availability deployments\. Select **Distributed instance deployment**\. 
 
@@ -209,7 +241,7 @@ On the **Configure HANA deployment model** page, enter the deployment details fo
 ------
 #### [ High availability deployment ]
 
-On the **Configure HANA deployment model** page, enter the deployment details for the high availability deployment\.
+On the **Configure SAP HANA deployment model** page, enter the deployment details for the high availability deployment\.
 
 1. **Deployment details**\. Launch Wizard supports single instance deployments, distributed instance deployments, and high availability deployments\. Select **High availability deployment**\. 
 
@@ -251,7 +283,7 @@ On the **Configure HANA deployment model** page, enter the deployment details fo
    + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
      + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
      + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
-   + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active HANA node\. 
+   + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
    + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
    + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
@@ -302,24 +334,24 @@ On the **Configure HANA deployment model** page, enter the deployment details fo
 
 ------
 
-#### HANA database<a name="launch-wizard-hana"></a>
+#### SAP HANA database<a name="launch-wizard-hana"></a>
 
 ------
 #### [ Application settings  ]
 
-On the **Configure application settings** page, enter your HANA database application settings\.
+On the **Configure application settings** page, enter your SAP HANA database application settings\.
 
-1. **Application type**\. Select **HANA database**\. This configuration includes:
-   + EC2 instances for a HANA database 
-   + Optional installation of HANA database software
+1. **Application type**\. Select **SAP HANA database**\. This configuration includes:
+   + EC2 instances for an SAP HANA database 
+   + Optional installation of SAP HANA database software
 
-1. **General Settings – HANA**\. Enter the settings for your HANA database installation\.
-   + **HANA System ID \(SID\)**\. Enter the HANA system ID for your system\. The HANASID must be different from SAPSID if you are configuring a single instance deployment\.
-   + **HANA Instance number**\. Enter the instance number to use for your HANA system\. This must be a two\-digit number from 00 through 99\.
-   + **EBS Volume Type for HANA**\. Select the EBS volume types that you want to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
-   + **HANA software install**\. Select whether you want to download the SAP HANA software\.
-     + If you select **Yes**, enter the Amazon S3 location where the HANA software is located\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Amazon S3 folder structure for HANA software download](launch-wizard-sap-structure.md)\. Enter a password to use for your SAP HANA installation\.
-     + If you select **No**, only the AWS infrastructure is provisioned so you can manually deploy a HANA database post deployment \.
+1. **General Settings – SAP HANA**\. Enter the settings for your SAP HANA database installation\.
+   + **SAP HANA System ID \(SID\)**\. Enter the SAP HANA system ID for your system\. The HANASID must be different from SAPSID if you are configuring a single instance deployment\.
+   + **SAP HANA Instance number**\. Enter the instance number to use for your SAP HANA system\. This must be a two\-digit number from 00 through 99\.
+   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types that you want to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
+   + **SAP HANA software install**\. Select whether you want to download the SAP HANA software\.
+     + If you select **Yes**, enter the Amazon S3 location where the SAP HANA software is located\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Making SAP HANA software available for AWS Launch Wizard to deploy HANA databaseMaking SAP HANA software available for Launch Wizard ](launch-wizard-sap-structure.md)\. Enter a password to use for your SAP HANA installation\.
+     + If you select **No**, only the AWS infrastructure is provisioned so you can manually deploy an SAP HANA database post deployment \.
 
 1. After you enter your application settings, choose **Next**\.
 
@@ -328,11 +360,11 @@ On the **Configure application settings** page, enter your HANA database applica
 ------
 #### [ Single instance deployment ]
 
-On the **Configure deployment model** page, enter the deployment details for the HANA database deployment\.
+On the **Configure deployment model** page, enter the deployment details for the SAP HANA database deployment\.
 
 1. **Deployment model**\. Launch Wizard supports single instance deployments, multiple instance deployments, and high availability deployments\. Select **Single instance deployment**\. 
 
-1. **Settings for HANA database on one instance**
+1. **Settings for SAP HANA database on one instance**
    + **Instance details\.**
      + Under **Image type**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
        + **Operating System**\. Select a supported operating system version for the ERS instance\. 
@@ -354,16 +386,16 @@ On the **Configure deployment model** page, enter the deployment details for the
 ------
 #### [ Multiple instance deployment ]
 
-On the **Configure deployment model** page, enter the deployment details for the HANA database deployment\.
+On the **Configure deployment model** page, enter the deployment details for the SAP HANA database deployment\.
 
 1. **Deployment model**\. Launch Wizard supports single instance deployments, multiple instance deployments, and high availability deployments\. Select **Multiple instance deployment**\. 
 
 1. 
 
-**HANA on multiple EC2 instances**
+**SAP HANA on multiple EC2 instances**
    + **Instance details\.**
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the HANA servers\. 
+       + **Operating System**\. Select a supported operating system version for the SAP HANA servers\. 
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\.
    + Under **Instance sizing**, choose **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
@@ -373,7 +405,7 @@ On the **Configure deployment model** page, enter the deployment details for the
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
      + **Host Name for SAP system**\. Enter the host name for the EC2 instance\.
-     + **Number of worker nodes**\. Enter the number of EC2 instances to be configured as worker nodes for this HANA system\. 
+     + **Number of worker nodes**\. Enter the number of EC2 instances to be configured as worker nodes for this SAP HANA system\. 
      + **Worker node hostname prefix**\. Enter the hostname prefix for the worker nodes\.
      + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see Recover Your Instance in the Amazon EC2 User Guide\.
      + **Recommended Resources**\. Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include applicable taxes or discounts\.
@@ -384,19 +416,19 @@ On the **Configure deployment model** page, enter the deployment details for the
 ------
 #### [ High availability deployment ]
 
-On the **Configure deployment model** page, enter the deployment details for the HANA database deployment\.
+On the **Configure deployment model** page, enter the deployment details for the SAP HANA database deployment\.
 
 1. **Deployment model**\. Launch Wizard supports single instance deployments, multiple instance deployments, and high availability deployments\. Select **High availability deployment**\. 
 
 1. 
    + **Instance details\.**
      + Under **Instance details**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the HANA servers\. 
+       + **Operating System**\. Select a supported operating system version for the SAP HANA servers\. 
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\.
      + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
        + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
        + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
-     + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active HANA node\. 
+     + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
      + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
    + Under **Instance sizing**, choose **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.

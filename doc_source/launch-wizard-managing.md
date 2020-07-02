@@ -1,4 +1,4 @@
-# Managing Application Resources with AWS Launch Wizard<a name="launch-wizard-managing"></a>
+# Managing application resources with AWS Launch Wizard for SQL Server<a name="launch-wizard-managing"></a>
 
 After your SQL Server Always On application is deployed, you can manage it by following these steps\.
 
@@ -8,13 +8,19 @@ After your SQL Server Always On application is deployed, you can manage it by fo
 
    1. **Manage resources on the EC2 console**\. You are taken to the Amazon EC2 console, where you can view and manage your SQL Server Always On application resources\. For example, you can view and manage EC2, Amazon EBS, Active Directory, Amazon VPC, Subnets, NAT Gateways, and Elastic IPs\. 
 
-   1. **Access SQL Server using RDGW instance**\. Connect to SQL Server via Remote Desktop Protocol\. For more information, see [Connecting to your Windows Instance](https://docs.aws.amazon.com//AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.htm) in the *User Guide for Windows Instances*\.
+   1. **Access SQL Server using RDGW instance**\. Connect to SQL Server via Remote Desktop Protocol\. For more information, see [Connecting to your Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.htm) in the *User Guide for Windows Instances*\.
 
-   1. **Manage your application on Systems Manager**\. You are taken to Systems Manager, where you can manage your SQL Server Always On application with built\-in integrations through resource groups\. Launch Wizard automatically tags your deployment with resource groups\. When you access Systems Manager through Launch Wizard, the resources are automatically filtered for you based on your resource group\. You can manage, patch, and maintain your applications in Systems Manager\.
+   1. **View resource group with SSM**\. You are taken to the Systems Manager console to view your resource groups\.
+
+   1. **View SSM deployment template**\. You are taken to the Systems Manager console to view your documents\.
+
+   1. **View CloudWatch application Logs**\. You are taken to CloudWatch Logs, where you can monitor, store, and access your SQL Server Always On application log files\. 
 
    1. **View your CloudFormation template**\. This is the CloudFormation template created by your most recent deployment, and it can be accessed through the CloudFormation console\. For help with finding and using your CloudFormation template, see [Viewing AWS CloudFormation Stack Data and Resources on the AWS Management Console](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-view-stack-data-resources.html)\.
 
-   1. **View CloudWatch Logs**\. You are taken to CloudWatch Logs, where you can monitor, store, and access your SQL Server Always On application log files\. 
+   1. If you have not set up monitoring for your application on CloudWatch Application Insights, you have the option to **Set up monitoring on CloudWatch Application Insights**\. You are taken to the CloudWatch Application Insights console to set up monitoring for your application\. 
+
+      If you have set up monitoring for your application on CloudWatch Application Insights, you can **View insights on Amazon CloudWatch**\. You are taken to the application monitoring dashboards on the CloudWatch Application Insights console\.
 
 1. To delete a deployment, select the application that you want to delete and select **Delete**\. You are prompted to confirm your action\.
 **Important**  

@@ -1,9 +1,10 @@
-# Related Services<a name="related-services"></a>
+# Related services<a name="related-services"></a>
 
 **Topics**
 + [AWS CloudFormation](#launch-wizard-related-services-cloudformation)
 + [AWS Systems Manager](#launch-wizard-related-services-ssm)
 + [Amazon Simple Notification Service \(SNS\)](#launch-wizard-related-services-sns)
++ [Amazon CloudWatch Application Insights](#launch-wizard-related-services-application-insights)
 
 ## AWS CloudFormation<a name="launch-wizard-related-services-cloudformation"></a>
 
@@ -16,3 +17,7 @@
 ## Amazon Simple Notification Service \(SNS\)<a name="launch-wizard-related-services-sns"></a>
 
 [Amazon Simple Notification Service \(SNS\)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) is a highly available, durable, secure, fully managed pub/sub messaging service that provides topics for high\-throughput, push\-based, many\-to\-many messaging\. Using Amazon SNS topics, your publisher systems can fan out messages to a large number of subscriber endpoints and send notifications to end users using mobile push, SMS, and email\. You can use SNS topics for your Launch Wizard deployments to stay up\-to\-date on deployment progress\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
+
+## Amazon CloudWatch Application Insights<a name="launch-wizard-related-services-application-insights"></a>
+
+[Amazon CloudWatch Application Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-application-insights.html) facilitates observability for \.NET and SQL Server applications\. It can help you set up the best monitors for your application resources to continuously analyze data for signs of problems with your applications\. Application Insights, which is powered by Sagemaker and other AWS technologies, provides automated dashboards that show potential problems with monitored applications, helping you to quickly isolate ongoing issues with your applications and infrastructure\. The enhanced visibility into the health of your applications that Application Insights provides can help you reduce your mean time to repair \(MTTR\) so that you don't have to pull in multiple teams and experts to troubleshoot your application issues\.

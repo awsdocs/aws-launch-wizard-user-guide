@@ -6,5 +6,6 @@ This section of the AWS Launch Wizard documentation contains guidance specific t
 + [What Is AWS Launch Wizard for SQL Server?](what-is-launch-wizard.md)
 + [Getting started with AWS Launch Wizard for SQL Server](launch-wizard-getting-started.md)
 + [Managing application resources with AWS Launch Wizard for SQL Server](launch-wizard-managing.md)
++ [Monitoring SQL Server Always On deployments](launch-wizard-sql-monitoring.md)
 + [High availability and security best practices for AWS Launch Wizard for SQL Server](launch-wizard-best-practices.md)
 + [Troubleshooting AWS Launch Wizard for SQL Server](launch-wizard-troubleshooting.md)

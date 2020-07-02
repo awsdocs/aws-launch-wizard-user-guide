@@ -8,6 +8,7 @@ The following AWS services are used when you deploy an SAP application with AWS 
 + [Amazon Elastic File System](#launch-wizard-sap-related-services-efs)
 + [Amazon EC2 Systems Manager](#launch-wizard-sap-related-services-SSM)
 + [Amazon Simple Notification Service \(SNS\)](#launch-wizard-related-services-sns)
++ [Amazon Route 53](#launch-wizard-related-services-route53)
 
 ## AWS CloudFormation<a name="launch-wizard-sap-related-services-cloudformation"></a>
 
@@ -28,3 +29,7 @@ The following AWS services are used when you deploy an SAP application with AWS 
 ## Amazon Simple Notification Service \(SNS\)<a name="launch-wizard-related-services-sns"></a>
 
 [Amazon Simple Notification Service \(SNS\)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) is a highly available, durable, secure, fully managed pub/sub messaging service that provides topics for high\-throughput, push\-based, many\-to\-many messaging\. Using Amazon SNS topics, your publisher systems can fan out messages to a large number of subscriber endpoints and send notifications to end users using mobile push, SMS, and email\. You can use SNS topics for your Launch Wizard deployments to stay up\-to\-date on deployment progress\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
+
+## Amazon Route 53<a name="launch-wizard-related-services-route53"></a>
+
+[Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) is a highly available and scalable Domain Name System \(DNS\) web service\. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking\. Launch Wizard integrates with Route 53 hosted zones, which are containers for records\. The records contain information about how you want to route traffic for a specific domain, such as example\.com, and its subdomains \(acme\.example\.com, zenith\.example\.com\)\. There are two types of hosted zones: public and private hosted zones\. We recommend that you use private hosted zones for SAP applications unless an application must be directly accessible from the internet\. 

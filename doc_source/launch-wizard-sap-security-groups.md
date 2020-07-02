@@ -69,6 +69,7 @@ Each entry in the outbound and inbound communication rules for the application s
 | Input |  TCP  | 8080 | 
 | Input |  TCP  | 8443 | 
 | Input |  TCP  | 3600\-3699 | 
+| Input | TCP  | 4237 | 
 
 **Note**  
 When the deployment is complete, you can update the security group information by adjusting the port range and source information\.

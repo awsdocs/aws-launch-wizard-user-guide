@@ -7,15 +7,15 @@ AWS Launch Wizard reduces the time it takes to deploy SQL Server high availabili
 Once deployed, your SQL Server Always On application is ready to use and can be accessed on the EC2 console\. You can manage your SQL Server Always On application with [AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)\.
 
 **Topics**
-+ [Supported Operating Systems and SQL Versions](#launch-wizard-os)
++ [Supported operating systems and SQL versions](#launch-wizard-os)
 + [Features of AWS Launch Wizard](launch-wizard-features.md)
 + [Components](launch-wizard-components.md)
-+ [Related Services](related-services.md)
-+ [How AWS Launch Wizard Works](how-launch-wizard-works.md)
-+ [Deployment Options](launch-wizard-deployment-options.md)
++ [Related services](related-services.md)
++ [How AWS Launch Wizard works](how-launch-wizard-works.md)
++ [Deployment options](launch-wizard-deployment-options.md)
 
-## Supported Operating Systems and SQL Versions<a name="launch-wizard-os"></a>
+## Supported operating systems and SQL versions<a name="launch-wizard-os"></a>
 
 AWS Launch Wizard supports the following operating systems and SQL Server versions:
 + Windows Server 2019/2016/2012 R2
-+ Enterprise and Standard Editions of Microsoft SQL Server 2017/2016
++ Enterprise and Standard Editions of Microsoft SQL Server 2019/2017/2016

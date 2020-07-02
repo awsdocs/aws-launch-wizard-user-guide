@@ -1,13 +1,13 @@
 # Supported deployments and features of AWS Launch Wizard<a name="launch-wizard-sap-deployments"></a>
 
 **Supported deployments**  
-AWS Launch Wizard currently supports the deployment of AWS resources for the following SAP systems and patterns\. HANA database software is optionally installed and customer provided\. 
+AWS Launch Wizard currently supports the deployment of AWS resources for the following SAP systems and patterns\. SAP HANA database software is optionally installed and customer provided\. 
 + **SAP HANA database on a single Amazon EC2 instance\.** Deploy SAP HANA in a single\-node, scale\-up architecture, with up to 24TB of memory\.
-+ **SAP Netweaver on HANA system on a single Amazon EC2 instance\.** Deploy an SAP application on the same Amazon EC2 instance as your HANA Database\. 
++ **SAP Netweaver on SAP HANA system on a single Amazon EC2 instance\.** Deploy an SAP application on the same Amazon EC2 instance as your SAP HANA Database\. 
 + **SAP HANA database on multiple EC2 instances\.** Deploy SAP HANA in a multi\-node, scale\-out architecture\.
-+ **SAP Netweaver system on multiple EC2 instances\.** Deploy an SAP Netweaver system using a distributed deployment model, which includes an ASCS/PAS server, single/multiple HANA servers running HANA databases, and multiple application servers\.
++ **SAP Netweaver system on multiple EC2 instances\.** Deploy an SAP Netweaver system using a distributed deployment model, which includes an ASCS/PAS server, single/multiple SAP HANA servers running SAP HANA databases, and multiple application servers\.
 + **Cross\-AZ SAP HANA database high availability setup\.** Deploy SAP HANA with high availability configured across two Availability Zones\. 
-+ **Cross\-AZ SAP Netweaver system setup\.** Deploy Amazon EC2 instances for ASCS/ERS and HANA databases across two Availability Zones, and spread the deployment of application servers across them\.
++ **Cross\-AZ SAP Netweaver system setup\.** Deploy Amazon EC2 instances for ASCS/ERS and SAP HANA databases across two Availability Zones, and spread the deployment of application servers across them\.
 
 AWS Launch Wizard provides the following features:
 

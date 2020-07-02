@@ -1,13 +1,13 @@
-# Setting Up for AWS Launch Wizard<a name="launch-wizard-setting-up"></a>
+# Setting up for AWS Launch Wizard for SQL Server<a name="launch-wizard-setting-up"></a>
 
 The following prerequisites must be verified in order to deploy a SQL Server Always On application with AWS Launch Wizard\.
 
 **Topics**
 + [Active Directory](#launch-wizard-ad)
 + [AWS Identity and Access Management \(IAM\)](#launch-wizard-iam)
-+ [Using Custom AMIs](#launch-wizard-custom-ami)
++ [Using custom AMIs](#launch-wizard-custom-ami)
 + [Requirements](#launch-wizard-requirements)
-+ [Configuration Settings](#launch-wizard-config)
++ [Configuration settings](#launch-wizard-config)
 
 ## Active Directory<a name="launch-wizard-ad"></a>
 
@@ -26,10 +26,10 @@ The following key operations are performed against your Active Directory by Laun
 + CreateChild role added to Windows Server Failover Cluster as part of ActiveDirectoryAccessRule\.
 + FullControl role added to SQL Server Service user as part of FileSystemRights\.
 
-### On\-Premises Active Directory Through AWS Direct Connect<a name="launch-wizard-ad-onprem"></a>
+### On\-premises Active Directory through AWS Direct Connect<a name="launch-wizard-ad-onprem"></a>
 
 If you are [deploying SQL Server into an existing VPC and connecting to an on-premises Active Directory](launch-wizard-deployment-options.md#option-4), ensure the following prerequisites\.
-+ Make sure you have connectivity between your AWS account and your on\-premises network\. You can establish a dedicated network connection from your on\-premises network to your AWS account with AWS Direct Connect\. For more information, see [the AWS Direct Connect documentation](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.htm)\. 
++ Make sure you have connectivity between your AWS account and your on\-premises network\. You can establish a dedicated network connection from your on\-premises network to your AWS account with AWS Direct Connect\. For more information, see [the AWS Direct Connect documentation](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\. 
 + The domain functional level of your Active Directory domain controller must be Windows Server 2012 or later\.
 + The IP addresses of your DNS server must be either in the same VPC CIDR range as the one in which your Launch Wizard SQL Server Always On deployment will be created, or in the private IP address range\. 
 + The firewall on the Active Directory domain controllers should allow the connections from the Amazon VPC from which you will create the Launch Wizard deployment\. At a minimum, your configuration should include the ports mentioned in [How to configure a firewall for Active Directory domains and trusts](https://support.microsoft.com/en-us/help/179442/how-to-configure-a-firewall-for-domains-and-trusts)\.
@@ -41,17 +41,17 @@ You can optionally perform the following step\.
 
 The following steps for establishing the AWS Identity and Access Management \(IAM\) role and setting up the IAM user for permissions are typically performed by an IAM Administrator for your organization\. 
 
-### One\-Time Creation of IAM Role<a name="launch-wizard-iam-role"></a>
+### One\-time creation of IAM Role<a name="launch-wizard-iam-role"></a>
 
-On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM role required for Launch Wizard to access other AWS services on your behalf\. When you select **Next**, Launch Wizard attempts to discover the IAM role in your account\. If the role exists, the role is attached to the instance profile for the EC2 instances that Launch Wizard will launch into your account\. If the role does not exist, Launch Wizard attempts to create the role with the same name, `AmazonEC2RoleForLaunchWizard`\. This role is comprised of two IAM managed policies: `AmazonSSMManagedInstanceCore` and `AmazonEC2RolePolicyForLaunchWizard`\. After the role is created, the IAM Administrator can delegate the application deployment process to another IAM user who, in turn, must have the Launch Wizard IAM managed policy described in the following section\.
+On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM role required for the Amazon EC2 service to access other AWS services on your behalf\. When you select **Next**, Launch Wizard attempts to discover the IAM role in your account\. If the role exists, the role is attached to the instance profile for the EC2 instances that Launch Wizard will launch into your account\. If the role does not exist, Launch Wizard attempts to create the role with the same name, `AmazonEC2RoleForLaunchWizard`\. This role is comprised of two IAM managed policies: `AmazonSSMManagedInstanceCore` and `AmazonEC2RolePolicyForLaunchWizard`\. After the role is created, the IAM Administrator can delegate the application deployment process to another IAM user who, in turn, must have the Launch Wizard IAM managed policy described in the following section\.
 
-### IAM User Setup<a name="launch-wizard-iam-user-setup"></a>
+### IAM user setup<a name="launch-wizard-iam-user-setup"></a>
 
-To deploy a SQL Server Always On application with Launch Wizard, you must create an [Identity and Access Management \(IAM\) policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and attach it to your IAM user identity\. The IAM policy defines the user permissions\. If you do not already have an IAM user in your account, follow the steps listed in [Create an IAM User in Your AWS Account](https://docs.aws.amazon.com/IAM/latest/UserGuide//id_users_create.html)\.
+To deploy a SQL Server Always On application with Launch Wizard, you must create an [Identity and Access Management \(IAM\) policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and attach it to your IAM user identity\. The IAM policy defines the user permissions\. If you do not already have an IAM user in your account, follow the steps listed in [Create an IAM User in Your AWS Account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)\.
 
 When you have an IAM user in your account, create an IAM policy\.
 
-1. Go to the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\. In the left navigation pane, choose **Policies**\.
+1. Go to the IAM console at [ https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam)\. In the left navigation pane, choose **Policies**\.
 
 1. Choose **Users** from the left navigation pane\. 
 
@@ -70,7 +70,7 @@ When you have an IAM user in your account, create an IAM policy\.
 **Important**  
 Make sure that you log in with the user associated with the above policy when you use Launch Wizard\. 
 
-## Using Custom AMIs<a name="launch-wizard-custom-ami"></a>
+## Using custom AMIs<a name="launch-wizard-custom-ami"></a>
 
 We recommend that you use Amazon Windows license\-included AMIs whenever possible\. There are occasions when you may want to use a custom AMI\. For example, you may have existing licenses \(BYOL\) or you may have made changes to one of our public images and re\-imaged it\.
 
@@ -89,6 +89,7 @@ While not exhaustive, the following requirements cover most of the configuration
 | --- | --- | --- | --- | 
 |  SQL Server 2016  |  YES  |  YES  |  YES  | 
 |  SQL Server 2017  |  YES  |  YES  |  YES  | 
+| SQL Server 2019 | Currently not supported\.  | YES | YES | 
 
 **OS and SQL Requirements**
 + Microsoft Windows Server 2012 R2 \(Datacenter\) \(64\-bit only\)
@@ -108,7 +109,7 @@ While not exhaustive, the following requirements cover most of the configuration
 + Network drivers \(SRIOV, ENA\)
 + Storage drivers \(NVMe, AWS PV\)
 
-## Configuration Settings<a name="launch-wizard-config"></a>
+## Configuration settings<a name="launch-wizard-config"></a>
 
 The following configuration settings are applied when deploying a SQL Server Always On application with Launch Wizard\.
 

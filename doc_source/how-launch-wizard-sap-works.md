@@ -1,10 +1,10 @@
 # How AWS Launch Wizard for SAP works<a name="how-launch-wizard-sap-works"></a>
 
-AWS Launch Wizard provisions and configures the infrastructure required to run HANA database\- and Netweaver\-based SAP applications on AWS\. You select the SAP deployment pattern and provide the specifications, such as operating system, instance size, and vCPU/memory\. Or, Launch Wizard can make these selections for you according to [SAP Standard Application Benchmarks \(SAPS\)](https://www.sap.com/about/benchmark/measuring.html)\. You have the option to manually choose the instance\. Based on your selections, Launch Wizard automatically provisions the necessary AWS resources in the cloud\. 
+AWS Launch Wizard provisions and configures the infrastructure required to run SAP HANA database\- and Netweaver\-based SAP applications on AWS\. You select the SAP deployment pattern and provide the specifications, such as operating system, instance size, and vCPU/memory\. Or, Launch Wizard can make these selections for you according to [SAP Standard Application Benchmarks \(SAPS\)](https://www.sap.com/about/benchmark/measuring.html)\. You have the option to manually choose the instance\. Based on your selections, Launch Wizard automatically provisions the necessary AWS resources in the cloud\. 
 
 Launch Wizard recommends Amazon EC2 instances by evaluating the [SAPS](https://www.sap.com/about/benchmark/measuring.html) or vCPU/memory requirements against the performance of Amazon EC2 instances supported by AWS\. When new EC2 instances are released and certified for SAP, the sizing feature of Launch Wizard will take them into consideration when proposing recommendations\.
 
-Launch Wizard maintains a mapping rule engine built on the list of certified EC2 instances that are supported by SAP\. When you enter your vCPU/memory or SAPS requirements, Launch Wizard recommends an Amazon EC2 instance that is certified for SAP workloads and offers performance that is no less than your input requirements\. For certain workloads, such as HANA in a production environment, Launch Wizard recommends instances based on the official SAP recommendations for HANA database workloads\. For workloads in a non\-production environment, Launch Wizard recommends Amazon EC2 instances that meet SAP recommended requirements; however, the recommended instances are not enforced\. You can change the instance types after deployment, or you can override the recommendation by making manual selections\. 
+Launch Wizard maintains a mapping rule engine built on the list of certified EC2 instances that are supported by SAP\. When you enter your vCPU/memory or SAPS requirements, Launch Wizard recommends an Amazon EC2 instance that is certified for SAP workloads and offers performance that is no less than your input requirements\. For certain workloads, such as SAP HANA in a production environment, Launch Wizard recommends instances based on the official SAP recommendations for SAP HANA database workloads\. For workloads in a non\-production environment, Launch Wizard recommends Amazon EC2 instances that meet SAP recommended requirements; however, the recommended instances are not enforced\. You can change the instance types after deployment, or you can override the recommendation by making manual selections\. 
 
 In addition to launching instances based on the SAP system information that you provide, such as SAP System Number and SAP System Identifier \(SAP SID\), Launch Wizard performs the following operations:
 + Configures the operating system
@@ -22,13 +22,16 @@ AWS Launch Wizard implements SAP deployments as follows\.
 **Topics**
 + [Storage for SAP Systems](#launch-wizard-sap-storage)
 + [Amazon Elastic File System setup for transport directory](#launch-wizard-sap-efs)
++ [Amazon Elastic File System setup for SAP Central Services instances configured for high availability](#launch-wizard-sap-efs-ha)
 + [Bring your own image \(BYOI\)](#launch-wizard-sap-byoi)
 + [Configuration settings](#launch-wizard-sap-config)
 + [Manual cleanup activities](#launch-wizard-sap-manual-cleanup)
++ [Default Quotas](#launch-wizard-sap-default-quotas)
++ [AWS Regions and Endpoints](#launch-wizard-sap-regions-endpoints)
 
 ### Storage for SAP Systems<a name="launch-wizard-sap-storage"></a>
 
-Storage capacity and performance are key aspects of any SAP system installation\. Launch Wizard provides storage type options for the SAP Netweaver Application tier and the HANA database tiers\.
+Storage capacity and performance are key aspects of any SAP system installation\. Launch Wizard provides storage type options for the SAP Netweaver Application tier and the SAP HANA database tiers\.
 
 Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architecture to provide durable, high\-performance storage\. Amazon EBS volumes are network\-attached disk storage, which you can create and attach to EC2 instances\. When attached, you can create a file system on top of these volumes, run a database, or use them in any way that you would use a block device\. Amazon EBS volumes are placed in a specific Availability Zone, where they are automatically replicated to protect you from the failure of a single component\.
 
@@ -36,7 +39,7 @@ Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architectu
 
 [Provisioned IOPS Amazon EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops) offer storage with consistent and low\-latency performance\. They are backed by solid state drives \(SSDs\) and designed for applications with I/O intensive workloads, such as databases\. Amazon EBS\-optimized instances, such as the R4 instance type, deliver dedicated throughput between Amazon EC2 and Amazon EBS\.
 
-By default, Launch Wizard deploys Amazon EBS volumes for the HANA database that meet the storage KPIs for SAP as listed in [Storage Configurations for SAP HANA](https://docs.aws.amazon.com/quickstart/latest/sap-hana/storage.html)\.
+By default, Launch Wizard deploys Amazon EBS volumes for the SAP HANA database that meet the storage KPIs for SAP as listed in [Storage Configurations for SAP HANA](https://docs.aws.amazon.com/quickstart/latest/sap-hana/storage.html)\.
 
 For Netweaver database stacks, you can choose between a `gp2` or `io1` volume for the `usr/sap/SAPSID` file system, whereas other configurations are deployed with `gp2` volumes\.
 
@@ -50,6 +53,19 @@ When systems within the same SAP Transport Domain are created in one VPC and nee
 
 **Note**  
 When a transport files system is created with Amazon Elastic File System, Launch Wizard considers it a shared resource and will not delete it when you delete the deployment or if the deployment is rolled back\.
+
+### Amazon Elastic File System setup for SAP Central Services instances configured for high availability<a name="launch-wizard-sap-efs-ha"></a>
+
+The SAP Central Services instances that make up a Netweaver high availability deployment, ABAP Central Server \(ASCS\) and Enqueue Replication Server \(ERS\) instances, must contain the following file systems to be highly available: `/sapmnt`, `/usr/sap<SAPSID>/ASCS<XX>`, and `/usr/sap/<SAPSID>/ERS<XX>`\. These file systems are built with Amazon EFS to avoid a single point of failure for the SAP system\. Launch Wizard creates these file systems for the Netweaver high availability pattern using a single Amazon Elastic File System\. 
+
+The following table contains information about how a single Amazon EFS is configured and mounted on an ASCS, ERS, Primary Application Server \(PAS\), and Additional Application Server \(AAS\)\. 
+
+
+| EFS ID | EFS DNS name | Instance mounted on | File System name | Server mounted on | 
+| --- | --- | --- | --- | --- | 
+| fs\-123A456B | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com:/SAPMNT\-<SAPSID> | /sapmnt | SAP ASCS, ERS, Primary and Additional Application servers | 
+| fs\-123A456B | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com:/ASCS\-<SAPSID> |  `/usr/sap/<SAPSID>/` `ASCS<XX>`  | SAP ASCS Server | 
+| fs\-123A456B | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com | fs\-123A456B\.efs\.<AWS Region>\.amazonaws\.com:/ERS\-<SAPSID> |  `/usr/sap/<SAPSID>/` `ERS<XX>`  | SAP ERS Server | 
 
 ### Bring your own image \(BYOI\)<a name="launch-wizard-sap-byoi"></a>
 
@@ -70,10 +86,10 @@ The following configuration settings are applied when deploying an SAP applicati
 | --- | --- | 
 | SSM Agent |  All SAP systems and patterns  | 
 | EBS Volumes for SAP application tier |  All SAP systems and patterns  | 
-| EBS Volumes for HANA database, log and backup file systems |  All SAP systems and patterns  | 
+| EBS Volumes for SAP HANA database, log and backup file systems |  All SAP systems and patterns  | 
 | EFS volumes for SAP transport file systems | All SAP systems and patterns | 
 | EFS volumes for SAP central services: sapmnt, /usr/sap/<SID>/ASCS<XX> and /usr/sap/<SID>/ERS<XX | ASCS and ERS systems | 
-|  OS parameters required based on the operating system chosen for HANA  |  All SAP systems and patterns  | 
+|  OS parameters required based on the operating system chosen for SAP HANA  |  All SAP systems and patterns  | 
 | Security groups created and assigned for accessing the SAP system |  All SAP systems and patterns  | 
 |  SSM Session Manager to remotely access the server for administrator activities  |  All SAP systems and patterns  | 
 |  Time zone settings at the OS level  |  All SAP systems and patterns  | 
@@ -85,3 +101,11 @@ If you choose to delete a deployment, or a deployment fails during the deploymen
 + Security groups that you create 
 
 These resources must be verified manually to ensure that they are not being used by other systems in the landscape\. They must then be manually deleted from either the Amazon Elastic File System or Amazon EC2 consoles, or using APIs\. 
+
+### Default Quotas<a name="launch-wizard-sap-default-quotas"></a>
+
+To view the default quotas for AWS Launch Wizard, see [AWS Launch Wizard Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/launchwizard.html)\.
+
+### AWS Regions and Endpoints<a name="launch-wizard-sap-regions-endpoints"></a>
+
+To view the service endpoints for AWS Launch Wizard, see [AWS Launch Wizard Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/launchwizard.html)\.

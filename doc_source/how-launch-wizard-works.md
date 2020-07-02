@@ -1,4 +1,4 @@
-# How AWS Launch Wizard Works<a name="how-launch-wizard-works"></a>
+# How AWS Launch Wizard works<a name="how-launch-wizard-works"></a>
 
 AWS Launch Wizard provides a complete solution to provision popular third\-party applications on AWS\. Currently, Launch Wizard supports Microsoft SQL Server Always On applications\. You select Microsoft SQL Server Always On and provide the specifications, such as for performance, throughput, and networking requirements\. Based on the application requirements that you enter, Launch Wizard automatically provisions the right AWS resources in the cloud\. For example, Launch Wizard determines the best instance type and EBS volume for your CPU, memory, and bandwidth specifications, then deploys and configures them\. 
 
@@ -8,15 +8,15 @@ Launch Wizard creates a CloudFormation stack according to your infrastructure ne
 
 Launch Wizard supports AWS Managed Microsoft Active Directory \(AD\) as well as connecting to Active Directory on\-premises through AWS Direct Connect\.
 
-## Implementation Details<a name="launch-wizard-implementation"></a>
+## Implementation details<a name="launch-wizard-implementation"></a>
 
 AWS Launch Wizard implements SQL Server Always On deployments as follows\.
 
 ### SQL Server Enterprise Edition<a name="launch-wizard-sql"></a>
 
- Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through License Included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a custom AMI, ensure that your AMI meets the requirements listed in [Using Custom AMIs](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
+ Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through License Included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a custom AMI, ensure that your AMI meets the requirements listed in [Using custom AMIs](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
 
-### Storage on WSFC Nodes<a name="launch-wizard-storage"></a>
+### Storage on WSFC nodes<a name="launch-wizard-storage"></a>
 
 Storage capacity and performance are key aspects of any production SQL Server installation\. Launch Wizard lets you choose capacity and performance based on your deployment needs\. 
 
@@ -58,10 +58,10 @@ The first command runs on each instance during the bootstrapping process\. It in
 If you set the optional third Availability Zone, Launch Wizard keeps the quorum settings to the default node majority\.
 
 ```
-Set-ClusterQuorum –NodeMajority
+PS C:\> Set-ClusterQuorum –NodeMajority
 ```
 
-### Always On Configuration<a name="launch-wizard-alwayson"></a>
+### Always On configuration<a name="launch-wizard-alwayson"></a>
 
 After SQL Server Enterprise edition has been installed and the Windows Server failover cluster has been built, Launch Wizard enables SQL Server Always On with the following PowerShell command\.
 

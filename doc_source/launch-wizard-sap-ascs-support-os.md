@@ -3,7 +3,7 @@
 The following table provides the details for the operating systems supported by Launch Wizard for SAP deployments \.
 
 
-| Operating system version | Single\-node deployment | ASCS | ERS | PAS | HANA database | HANA database in HA cluster | 
+| Operating system version | Single\-node deployment | ASCS | ERS | PAS | SAP HANA database | SAP HANA database in HA cluster | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | Red\-Hat\-Enterprise\-Linux\-7\.5\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ |  ✓  | ✓ | 
 | Red\-Hat\-Enterprise\-Linux\-7\.5\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 

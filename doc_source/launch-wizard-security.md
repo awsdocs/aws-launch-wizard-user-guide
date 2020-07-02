@@ -1,4 +1,4 @@
-# AWS Launch Wizard Security<a name="launch-wizard-security"></a>
+# AWS Launch Wizard security<a name="launch-wizard-security"></a>
 
 Cloud security at AWS is the highest priority\. As an AWS customer, you benefit from a data center and network architecture that is built to meet the requirements of the most security\-sensitive organizations\.
 
@@ -11,25 +11,25 @@ This documentation helps you understand how to apply the shared responsibility m
 AWS Launch Wizard deployes Amazon EC2 instances into Amazon VPCs\. For security information for Amazon EC2 and Amazon VPC, see the security sections in the [Amazon EC2 Getting Started Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_Network_and_Security.html) and the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)\.
 
 **Topics**
-+ [Infrastructure Security in Launch Wizard](#infrastructure-security)
++ [Infrastructure security in Launch Wizard](#infrastructure-security)
 + [Resilience in Launch Wizard](#disaster-recovery-resiliency)
-+ [Data Protection in Launch Wizard](#data-protection)
++ [Data protection in Launch Wizard](#data-protection)
 + [Identity and Access Management for AWS Launch Wizard](#identity-access-management)
-+ [Update Management in Launch Wizard](#update-management)
++ [Update management in Launch Wizard](#update-management)
 
-## Infrastructure Security in Launch Wizard<a name="infrastructure-security"></a>
+## Infrastructure security in Launch Wizard<a name="infrastructure-security"></a>
 
 As a managed service, Launch Wizard is protected by the AWS global network security procedures that are described in the [Amazon Web Services: Overview of Security Processes](https://d0.awsstatic.com/whitepapers/Security/AWS_Security_Whitepaper.pdf) whitepaper\.
 
 ## Resilience in Launch Wizard<a name="disaster-recovery-resiliency"></a>
 
-The AWS global infrastructure is built around AWS Regions and Availability Zones\. Regions provide multiple physically separated and isolated Availability Zones, which are connected through low\-latency, high\-throughput, and highly redundant networking\. With Availability Zones, you can design and operate applications and databases that automatically fail over between zones without interruption\. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple data center infrastructures\.
+The AWS global infrastructure is built around AWS Regions and Availability Zones\. Regions provide multiple physically separated and isolated Availability Zones, which are connected through low\-latency, high\-throughput, and highly redundant networking\. With Availability Zones, you can design and operate applications and databases that automatically fail over between Availability Zones without interruption\. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple data center infrastructures\.
 
 For more information about AWS Regions and Availability Zones, see [AWS Global Infrastructure](http://aws.amazon.com/about-aws/global-infrastructure/)\.
 
-AWS Launch Wizard sets up the SQL Server Always On application across multiple Availability Zones to ensure automatic failover between Availability Zones without interruption\. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple datacenter infrastructures\. 
+AWS Launch Wizard sets up an application across multiple Availability Zones to ensure automatic failover between Availability Zones without interruption\. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple datacenter infrastructures\. 
 
-## Data Protection in Launch Wizard<a name="data-protection"></a>
+## Data protection in Launch Wizard<a name="data-protection"></a>
 
 AWS Launch Wizard \(Launch Wizard\) conforms to the AWS [shared responsibility model](http://aws.amazon.com/compliance/shared-responsibility-model/), which includes regulations and guidelines for data protection\. AWS is responsible for protecting the global infrastructure that runs all AWS services\. AWS maintains control over data hosted on this infrastructure, including the security configuration controls for handling customer content and personal data\. AWS customers and APN Partners, acting either as data controllers or data processors, are responsible for any personal data that they put in the AWS Cloud\.
 
@@ -40,7 +40,7 @@ For data protection purposes, we recommend that you protect AWS account credenti
 + Use AWS encryption solutions, along with all default security controls within AWS services\.
 + Use advanced managed security services such as Amazon Macie, which assists in discovering and securing personal data that is stored in Amazon S3\.
 
-We strongly recommend that you never put sensitive identifying information, such as your customers' account numbers, into free\-form fields or metadata, such as function names and tags\. Any data that you enter into metadata might get picked up for inclusion in diagnostic logs\. When you provide a URL to an external server, don't include credential information in the URL to validate your request to that server\.
+We strongly recommend that you do not put sensitive identifying information, such as your customers' account numbers, into free\-form fields or metadata, such as function names and tags\. Any data that you enter into metadata might get picked up for inclusion in diagnostic logs\. When you provide a URL to an external server, don't include credential information in the URL to validate your request to that server\.
 
 For more information about data protection, see the [AWS Shared Responsibility Model and GDPR](http://aws.amazon.com/blogs/security/the-aws-shared-responsibility-model-and-gdpr/) blog post on the *AWS Security Blog*\.
 
@@ -48,9 +48,7 @@ For more information about data protection, see the [AWS Shared Responsibility M
 
 AWS Launch Wizard uses AWS managed policies to grant permissions to users and services\.
 
-### AWS Managed Policies<a name="iam-policy-examples"></a>
-
-To deploy a SQL Server Always On application with AWS Launch Wizard , you must create an Identity and Access Management \(IAM\) policy and attach it to your IAM user identity\. The IAM policy defines the user permissions\. This is a one\-time setup process that is typically performed by the IAM Administrator for your organization\.
+### AWS managed policies<a name="iam-policy-examples"></a>
 
 **AmazonEC2RolePolicyForLaunchWizard**  
 AWS Launch Wizard creates an IAM role with the name **AmazonEC2RoleForLaunchWizard ** in your account if the role already does not already exist in your account\. If the role exists, the role is attached to the instance profile for the Amazon EC2 instances that Launch Wizard will launch into your account\. This role is comprised of two IAM managed policies: **AmazonSSMManagedInstanceCore** and **AmazonEC2RolePolicyForLaunchWizard**\.
@@ -69,9 +67,15 @@ AWS Launch Wizard creates an IAM role with the name **AmazonEC2RoleForLaunchWiza
 + Push SNS notifications
 + Create and delete Systems Manager automations
 + Invoke SSM run commands
-+ Create and delete CloudFormation stacks
++ Create and delete AWS CloudFormation stacks
 + Grant IAM role\-related permissions with a specific role prefix
 
-## Update Management in Launch Wizard<a name="update-management"></a>
+**AWSLambdaVPCAccessExecutionRole**  
+This policy provides minimum permissions for a Lambda function to execute while accessing a resource within a VPC\. These permissions include create, describe, delete network interfaces, and write permissions to CloudWatch Logs\.
+
+**AmazonLambdaRolePolicyForLaunchWizardSAP**  
+This policy provides minimum permissions to enable SAP provisioning scenarios on Launch Wizard\. It allows invocation of Lambda functions to be able to perform certain actions, such as validation of route tables and perform pre\-configuration and configuration tasks for HA mode enabling\.
+
+## Update management in Launch Wizard<a name="update-management"></a>
 
 We recommend that you regularly patch, update, and secure the operating system and applications on your EC2 instances\. You can use [AWS Systems Manager Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-patch.html) to automate the process of installing security\-related updates for both the operating system and applications\. Alternatively, you can use any automatic update services or recommended processes for installing updates that are provided by the application vendor\.

@@ -1,4 +1,4 @@
-# Deployment Options<a name="launch-wizard-deployment-options"></a>
+# Deployment options<a name="launch-wizard-deployment-options"></a>
 
 AWS Launch Wizard provides the following four deployment paths:
 

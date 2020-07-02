@@ -9,6 +9,7 @@
 + [Always On Availability Groups \(SQL Server\)](#launch-wizard-features-allways-on)
 + [Early input validation](#launch-wizard-features-input-validation)
 + [Application resource groups for easy discoverability](#launch-wizard-features-resource-groups)
++ [One\-click monitoring](#launch-wizard-features-application-insights)
 
 ## Simple application deployment<a name="launch-wizard-features-app-deployment"></a>
 
@@ -55,3 +56,7 @@ Some validations, for example for valid Active Directory credentials, require Ap
 ## Application resource groups for easy discoverability<a name="launch-wizard-features-resource-groups"></a>
 
 Launch Wizard creates a resource group for all of the AWS resources created for your SQL Server Always On application\. You can manage the resources through the EC2 console or with Systems Manager\. When you access Systems Manager through Launch Wizard, the resources are automatically filtered for you based on your resource group\. You can manage, patch, and maintain your SQL Server Always On applications in Systems Manager\.
+
+## One\-click monitoring<a name="launch-wizard-features-application-insights"></a>
+
+Launch Wizard integrates with [CloudWatch Application Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-application-insights.html) to provide a one\-click monitoring setup experience for deploying SQL Server HA workloads on AWS\. When you select the option to set up monitoring and insights with Application Insights on the Launch Wizard console, Application Insights automatically sets up relevant metrics, logs, and alarms on CloudWatch, and starts monitoring newly deployed workloads\. You can view automated insights and detected problems, along with the health of your SQL Server HA workloads, on the CloudWatch console\.

@@ -18,7 +18,7 @@ After you have deployed an SAP application, you can manage and update it by foll
 
 1. To delete a deployment, select the application that you want to delete, and select **Delete**\. You are prompted to confirm the deletion\.
 **Important**  
-When you delete a deployment, all specification settings are removed from the application\. Launch Wizard attempts to delete only the AWS resources it created in your account as part of the deployment\. If you create resources outside of AWS Launch Wizard, for example, which reside in a Amazon VPC that Launch Wizard created, then the deletion may fail\. If you created security groups with Launch Wizard, they are not deleted when you delete a deployment\.
+When you delete a deployment, Launch Wizard attempts to delete only the AWS resources it created in your account as part of the deployment\. Launch Wizard considers certain resources, such as security groups, infrastructure configuration templates created during a deployment, and EFS file systems created for a transport directory, as shared resources between multiple deployments\. Shared resources are not deleted when you delete a deployment\.
 
 1. For more information about your application resources, choose the **Application name**\. You can then view the **Deployment events** and **Summary** details for your application using the tabs at the top of the page\.
 
