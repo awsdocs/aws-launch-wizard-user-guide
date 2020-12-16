@@ -1,12 +1,16 @@
-# Accessing and deploying an SAP application with AWS Launch Wizard<a name="launch-wizard-sap-deploying"></a>
+# Deploy an SAP application with AWS Launch Wizard<a name="launch-wizard-sap-deploying"></a>
 
-## Accessing AWS Launch Wizard<a name="accessing-launch-wizard-sap"></a>
+This section contains steps for deploying an SAP application with Launch Wizard\. It includes steps for various deployment paths for NetWeaver stack on SAP HANA database and SAP HANA database\.
 
-You can launch AWS Launch Wizard from the following locations\.
-+ **AWS Console\.** From the [AWS Management Console](https://console.aws.amazon.com) under **Management and Governance**\.
-+ **AWS Launch Wizard landing page\.** From the AWS Launch Wizard page, located at [https://aws\.amazon\.com/launchwizard/](https://aws.amazon.com/launchwizard/)\.
+**Topics**
++ [Access AWS Launch Wizard](#accessing-launch-wizard-sap)
++ [Deploy an SAP application with AWS Launch Wizard](#deploy-console-launch-wizard-sap)
 
-## Deploying an SAP application with AWS Launch Wizard<a name="deploy-console-launch-wizard-sap"></a>
+## Access AWS Launch Wizard<a name="accessing-launch-wizard-sap"></a>
+
+You can launch AWS Launch Wizard from the AWS Launch Wizard console located at [https://console\.aws\.amazon\.com/launchwizard](https://console.aws.amazon.com/launchwizard)\.
+
+## Deploy an SAP application with AWS Launch Wizard<a name="deploy-console-launch-wizard-sap"></a>
 
 The following steps guide you through deploying an SAP application with AWS Launch Wizard after you have launched it from the console\.
 
@@ -51,7 +55,7 @@ This is the only time that you can save the private key file, so download and sa
 
      Return to the Launch Wizard console, and choose the refresh button next to the **Key Pair name** dropdown list\. The new key pair appears in the dropdown list\. For more information about key pairs, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)\.
    + **Virtual Private Cloud**\. Choose a VPC from the dropdown list or select the **Create VPC** link\. If you select **Create VPC**, you are redirected to the VPC console to create a VPC\.
-   + **Availability Zone \(AZ\) and private subnets**\. You can deploy into one or two Availability Zones \(AZs\) with up to two private subnets per Availability Zone\. Different requirements are needed for different systems in the landscape\. You must select two Availability Zones with a required primary and optional secondary subnet for each Availability Zone\. These selections are used for each deployment according to the deployment model that you selected\. 
+   + **Availability Zone and private subnets**\. You can deploy into one or two Availability Zones with up to two private subnets per Availability Zone\. Different requirements are needed for different systems in the landscape\. You must select two Availability Zones with a required primary and optional secondary subnet for each Availability Zone\. These selections are used for each deployment according to the deployment model that you selected\. 
 
      From the dropdown lists, choose the **Availability Zones ** within which you want to deploy your SAP systems and choose the private subnets\. The private subnets must have outbound connectivity to the internet and to other AWS services, such as Amazon S3, AWS CloudFormation, and CloudWatch Logs\. They must also be able to access the Linux repositories required for instance configuration\. 
 
@@ -97,56 +101,49 @@ This is the only time that you can save the private key file, so download and sa
      + **\{VPC\_CIDR\_RANGE\}**—CIDR block of the VPC, for example, 10\.0\.0/24
    + **Time zone**\. Choose the time zone settings to configure the timezone on the instances from the dropdown list\.
    + **EBS encryption**\. From the dropdown list, choose whether or not to enable EBS encryption for all of the EBS volumes that are created for the SAP systems\. For more information, see [Amazon EBS Encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)\.
-   + **Domain name \(DNS\) settings \(Optional\)**\. Select **Domain Name** or **Route 53** from the **DNS type** dropdown list\. 
+   + **Domain name \(DNS\) settings \(Optional\)**\. Select **Domain Name** or **Route 53** from the **DNS type** dropdown list\. 
      + If you select **Domain Name**, you have the option to enter a domain name to maintain a Fully Qualified Domain Name \(FQDN\) in the `/etc/hosts` file for each instance that is launched and configured by Launch Wizard\.
-     + If you select **Route 53**, select a Route 53 hosted zone from the dropdown list\. Launch Wizard will create a DNS entry for each EC2 instance launched\.
+     + If you select **Route 53**, select a Route 53 hosted zone from the dropdown list\. Launch Wizard will create a DNS entry for each EC2 instance launched\.
 **Note**  
-Before you use a Route 53 hosted zone, verify that the hosted zone is [integrated with the VPC](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html), and that the [VPC DHCP options](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) are correctly set up\.
+Before you use a Route 53 hosted zone, verify that the hosted zone is [integrated with the VPC](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html), and that the [VPC DHCP options](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) are correctly set up\.
    + **SAP landscape settings**\. Enter the system settings for your SAP landscape\.
      + **SAP System Admin User ID**\. Enter the user ID for the SAP system administrator\.
      + **SAP System Admin Group ID**\. Enter the group ID for SAPSYS\. We recommend that you replicate this number across all of your SAP systems because SAPSYS GID must be the same between systems that are part of the transport domain\.
      + **SAPINST Group ID**\. Enter the group ID for the SAPINST\.
    + **Simple Notification Service \(SNS\) topic ARN \(Optional\)**\. Specify an SNS topic where Launch Wizard can send notifications and alerts\. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\. You can also choose **Create SNS topic** and then create one in the Amazon SNS console\. After you create an SNS topic, you can enter it in the Launch Wizard SNS field\.
-   + After you specify the infrastructure settings, choose **Next**\. You are then prompted to save your infrastructure configuration\. If you choose **Save as new configuration**, enter the configuration name\. The configuration is added to the saved list and can be modified when selected\.
+   + After you specify the infrastructure settings, choose **Next**\. 
 
 ------
 
-1. Choose **Next**\. You are then prompted to save your infrastructure configuration to apply to future deployments\. Choose **Save as a new configuration**, or **Do not save changes\. Continue without saving**\. If you save as a new configuration, enter the **Configuration name** and choose **Ok**\.
-
 ### Application and deployment settings<a name="launch-wizard-sap-application-settings"></a>
 
-The following steps show the deployment paths for **Netweaver stack on SAP HANA database** and **SAP HANA database**\. Please follow the deployment steps for your deployment path\.
+The following steps show the deployment paths for **NetWeaver stack on SAP HANA database** and **SAP HANA database**\. Please follow the deployment steps for your deployment path\.
 
 **Topics**
-+ [Netweaver stack on SAP HANA database](#netweaver-on-hana)
++ [NetWeaver stack on SAP HANA database](#netweaver-on-hana)
 + [SAP HANA database](#launch-wizard-hana)
 
-#### Netweaver stack on SAP HANA database<a name="netweaver-on-hana"></a>
+#### NetWeaver stack on SAP HANA database<a name="netweaver-on-hana"></a>
 
 ------
 #### [ Application settings  ]
 
-On the **Configure application settings** page, enter your Netweaver stack on SAP HANA database application settings\.
+On the **Configure application settings** page, enter your NetWeaver stack on SAP HANA database application settings\.
 
-1. **Application type**\. Select **Netweaver stack on SAP HANA database**\. This configuration includes:
-   + Netweaver stack for a single instance , distributed instance, or multi\-AZ for high availability \(HA\) deployment\.
-   + EC2 instances for the Netweaver application tier
+1. **Application type**\. Select **NetWeaver stack on SAP HANA database**\. This configuration includes:
+   + NetWeaver stack for a single instance , distributed instance, or multi\-AZ for high availability \(HA\) deployment\.
+   + EC2 instances for the NetWeaver application tier
    + EC2 instances for SAP HANA database and optional SAP HANA database install
 
 1. **General settings – SAP system**\. Enter the settings for your SAP system\.
    + **SAP System ID \(SAPSID\)**\. An identifier for your system\. The ID must be a three character, alphanumeric string\.
-   + **EBS Volume Type for Netweaver application stack instances**\. Choose which volume type to use for the NW application file system `/usr/sap/SAPSID` from the dropdown list\.
+   + **EBS Volume Type for NetWeaver application stack instances**\. Choose which volume type to use for the NW application file system `/usr/sap/SAPSID` from the dropdown list\.
    + **Transport Domain Controller**\. Specify whether the SAP system will be the domain controller for the SAP landscape\. If not, select the transport file system of the domain controller to be mounted\.
 
 1. **General Settings – SAP HANA**\. Enter the settings for your SAP HANA installation\.
    + **SAP HANA System ID\.** Enter the identifier for your SAP HANA database\. The ID must be a three character, alphanumeric string\.
    + **SAP HANA Instance number\.** Enter the instance number to be used for the SAP HANA installation and setup\. The ID must be a two\-digit number\.
    + **EBS Volume Type for SAP HANA**\. Select the EBS volume types to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
-   + **SAP HANA software install**\. Choose whether to download the SAP HANA software\.
-     + If you choose **Yes**, enter the Amazon S3 location to store the SAP software files\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Making SAP HANA software available for AWS Launch Wizard to deploy HANA databaseMaking SAP HANA software available for Launch Wizard ](launch-wizard-sap-structure.md)\.
-     + If you choose **No**, only AWS infrastructure is provisioned\.
-   + **S3 location for SAP HANA media \- *optional*\.** Enter the path for the S3 bucket in which you want to store SAP HANA media\. 
-   + **SAP HANA password**\. Enter a password for your SAP HANA installation\.
 
 1. After you enter your application settings, choose **Next**\. 
 
@@ -162,23 +159,36 @@ On the **Configure deployment model** page, enter the deployment details for a s
 1. **ASCS, PAS, and DB on one EC2 instance**\. Enter the deployment settings for your instance\.
    + **Instance details**\.
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-     + **Operating System**\. Select a supported operating system version for the ASCS instance\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-ascs-support-os.md)\.
+     + **Operating System**\. Select a supported operating system version for the ASCS instance\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
      + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
-   + 
-     + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose instance**\.
-       + **Use AWS recommended resources**\.
-         + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
-           + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
-           + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
-       + **Choose your instance**\.
-         + **Instance type**\. Choose the instance type from the dropdown list\.
-       + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections and the EBS volumes that will be created and attached to the launched instances\. This is an estimate of AWS costs to deploy additional resources and does not include any image costs, EC2 reservations, applicable taxes, or discounts\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose instance**\.
+     + **Use AWS recommended resources**\.
+       + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
+         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+         + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
+     + **Choose your instance**\.
+       + **Instance type**\. Choose the instance type from the dropdown list\.
+     + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections and the EBS volumes that will be created and attached to the launched instances\. This is an estimate of AWS costs to deploy additional resources and does not include any image costs, EC2 reservations, applicable taxes, or discounts\.
+
+1. 
+
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
 
 1. After you have entered your deployment settings, choose **Next**\.
 
-\(See the **Review** tab\)
+\(See the **SAP software installation settings** tab\.\)
 
 ------
 #### [ Distributed instance deployment ]
@@ -187,13 +197,13 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 
 1. **Deployment details**\. Launch Wizard supports single instance deployments, distributed instance deployments, and high availability deployments\. Select **Distributed instance deployment**\. 
 
-1. **ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS**\. Enter the deployment settings for your instance\.
+1. **ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\)**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-ascs-support-os.md)\.
+       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Host name**\. Enter the host name for the EC2 instances\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
    + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
@@ -206,7 +216,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 1. **Settings for Database \(DB\) Server**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-ascs-support-os.md)\.
+       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Scale up and Scale out**\. Select an upgrade strategy for your system hardware to upgrade for increased data and workload\. 
        + **Scale\-up deployment**\.If you choose this deployment upgrade model, enter the host name for the database
@@ -217,14 +227,14 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
          + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
          + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
      + **Instance type**\. Choose the instance type from the dropdown list\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
      + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
 
 1. **Settings for Additional App Servers \(AAS\) \- *optional***\. Enter the deployment settings for your AAS instances\.
    + **Instance details**\. 
      + **Number of Additional App Servers \(AAS\)**\. Enter the number of additional application servers\. 
      + **Naming convention for host name**\. Enter the naming convention for the host name\.
-     +  **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+     +  **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
    + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Define requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
@@ -234,9 +244,29 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
        + **Instance type**\. Choose the instance type from the dropdown list\.
      + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
 
-   After you have entered your deployment settings, choose **Next**\.
+1. 
 
-\(See the **Review** tab\)
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, choose whether to proceed with the deployment\. If you do not select this option, then when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. You can add one or more configuration scripts depending on the number of servers you select to run scripts during the launch phase\. 
+     + For each pre\-deployment configuration script that you want to run, choose to use a script located in Amazon S3 and enter the URL path of the script, or upload a script file\.
+     + Select the servers to run the pre\-deployment configuration scripts during the launch phase\. You can choose to run pre\-deployment scripts on **ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\)**, **Database \(DB\) Server**, and **Additional App Servers \(AAS\)**\. You can add a script for each server selected\.
+     + To remove a configuration script, choose **Remove script**\. To add more configuration scripts, choose **Add another script**\.
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure, choose whether to proceed with the deployment\. If you do not select this option, then when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. You can add one or more configuration scripts depending on the number of servers you select to run scripts during the post\-deployment phase\. 
+     + For each post\-deployment configuration script that you want to run, choose to use a script located in Amazon S3 and enter the URL path of the script, or upload a script file\.
+     + Select the servers to run the post\-deployment configuration scripts when an EC2 instance has been configured for use\. You can choose to run the post\-deployment scripts on **ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\)**, **Database \(DB\) Server**, and **Additional App Servers \(AAS\)**\. You can add a script for each server selected\.
+     + To remove a configuration script, choose **Remove script**\. To add more configuration scripts, choose **Add another script**\.
+
+1. After you have entered your additional settings, choose **Next**\.
+
+\(See the **SAP software installation settings** tab\.\)
 
 ------
 #### [ High availability deployment ]
@@ -248,26 +278,26 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 1. **Settings for ABAP System Central Services \(ASCS\) server**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Image type**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-ascs-support-os.md)\.
-       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
+       + **Operating System**\. Select a supported operating system version for the ASCS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
+       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown list\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
      + **ASCS instance number**\. Enter the instance number for the SAP installation and setup, and to open up ports for security groups\. 
-   + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
-       + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+       + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2 supports up to 448 logical processors\. If the amount of memory required exceeds 4 TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
        + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance type\.
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
-   + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
+   + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources\. It does not include any applicable taxes or discounts\.
 
 1. **Settings for Enqueue Replication Server \(ERS\)**\. Enter the deployment settings for your ERS\.
    + **Instance details**\. 
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
        + **Operating System**\. Select a supported operating system version for the ERS instance\. 
-       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
+       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown list\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
      + **ERS instance number**\. Enter the instance number for the SAP installation and setup, and to open up ports for security groups\. 
-   + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
        + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance type\.
@@ -279,51 +309,138 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
    + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
      + **Instance details\.**
        + **Operating System**\. Select a supported operating system version for the ERS instance\. 
-       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
+       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown list\. 
    + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
      + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
      + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
    + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
    + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
-   + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
-       + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+       + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2 supports up to 448 logical processors\. If the amount of memory required exceeds 4 TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
        + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance type\.
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
-   + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
+   + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources\. It does not include any applicable taxes or discounts\.
 
 1. **Primary Application Server \(PAS\)**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Image type**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
        + **Operating System**\. Select a supported operating system version for the ERS instance\. 
-       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
+       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown list\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
-   + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable Amazon EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Define requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
-         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2 supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
          + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
-     + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
+     + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources\. It does not include any applicable taxes or discounts\.
 
 1. **Settings for Additional App Servers \(AAS\) \- *optional***\. Enter the deployment settings for your AAS instances\. 
    + **Instance details**
      + **Number of Additional App Servers \(AAS\)**\. Enter the number of additional application servers\. 
      + **Naming convention for host name**\. Enter the naming convention for the host name\.
-     +  **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
-   + Under **Instance sizing**, choose whether to Use **AWS recommended resources** or **Choose your instance**\.
+     +  **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable Amazon EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
+   + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
-         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2 supports up to 448 logical processors\. If the amount of memory required exceeds 4 TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
          + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
-     + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
+     + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources\. It does not include any applicable taxes or discounts\.
 
-   After you have entered all of your deployment settings, choose **Next**\.
+1. 
+
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. Choose whether to proceed with the deployment if a configuration script fails or times out\. If you do not select this option, if the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. You can add one or more configuration scripts depending on the number of servers that you select to run scripts during the launch phase\. 
+     + For each pre\-deployment configuration script that you want to run, choose to use a script located in Amazon S3 and enter the URL path of the script, or upload a script file\.
+     + Select the servers to run the pre\-deployment configuration scripts during the launch phase\. You can choose to run pre\-deployment scripts on **Primary Application Server \(PAS\)**, **ABAP System Central Services \(ASCS\) Server**, **Database \(DB\) Server**, **Additional App Servers \(AAS\)**, and **Enqueue Replication Server \(ERS\)**\. You can add a script for each server selected\.
+     + To remove a configuration script, choose **Remove script**\. To add more configuration scripts, choose **Add another script**\.
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. Choose whether to proceed with the deployment if a configuration script fails\. If you do not select this option, if the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. You can add one or more configuration scripts depending on the number of servers that you select to run scripts during the post\-deployment phase\. 
+     + For each post\-deployment configuration script that you want to run, choose to use a script located in Amazon S3 and enter the URL path of the script, or upload a script file\.
+     + Select the servers to run the post\-deployment configuration scripts when an EC2 instance has been configured for use\. You can choose to run the post\-deployment scripts on **Primary Application Server \(PAS\)**, **ABAP System Central Services \(ASCS\) Server**, **Database \(DB\) Server**, **Additional App Servers \(AAS\)**, and **Enqueue Replication Server \(ERS\)**\. You can add a script for each server selected\.
+     + To remove a configuration script, choose **Remove script**\. To add more configuration scripts, choose **Add another script**\.
+
+1. After you have entered all of your deployment settings, choose **Next**\.
+
+\(See the **SAP software installation settings** tab\.\)
+
+------
+#### [ SAP software installation settings ]
+
+On the **Configure SAP application software installation** page, enter the software installation details for a single instance, distributed instance, or high availability deployment\.
+
+1. **SAP application software**\. Choose whether to install the SAP installation software\.
+   + If you choose **No**, choose whether to install HANA software\. If you want to install HANA software, enter the **S3 location for HANA media** and the **HANA password**\. Then, proceed to **Step 6**\. If you don't want to install HANA software, proceed to **Step 9**\.
+   + If you choose **Yes**, provide the information listed in the following steps\.
+
+1. **Application** and **Version**\. If you choose to install the SAP application software, select the supported application and version of the software you want to install\. The following configuration fields will change based on your application software and version selections\. For supported application versions, see [Supported application versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application)\.
+
+1. **SAP application software location**\. In order to install the SAP application software, Launch Wizard requires access to the relevant software and files\. For instructions to provide Launch Wizard access to the application software and associated files, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
+   + **SAPCAR location**\. Enter the Amazon S3 path where the SAPCAR is located\.
+   + **Software Provisioning Manager \(SWPM\) location**\. Enter the Amazon S3 path where the SWPM is located\.
+   + **Kernel software location**\. Enter the Amazon S3 path where the unextracted kernel with media label is located\.
+   + **Installation export location**\. Enter the Amazon S3 path where the installation export is located\.
+   + **HANA database software location**\. Enter the Amazon S3 path where the SAP HANA database software is located\.
+   + **SAP HANA client software location**\. Enter the Amazon S3 path where the SAP HANA client software is located\.
+
+1. 
+
+**Installation details**
+
+   The following fields may vary according to the application selected\.
+   + **Schema name** and **Master password**\. Enter the schema name and password to use for the HANA database\.
+   + **PAS instance number**\. Enter the PAS instance number\.
+   + **ASCS virtual host name**\. Enter the ASCS virtual host name used to set up high availability\.
+   + **ASCS virtual IP address**\. Enter the ASCS virtual IP address\.
+   + **Enqueue Replication Server \(ERS\) instance number**\. Enter the instance number to use for the ERS instance\.
+   + **Enqueue Replication Server \(ERS\) virtual IP address**\. Enter the virtual IP address used to set up high availability\.
+   + **Enqueue Replication Server \(ERS\) virtual host name**\. Enter the virtual host name used to set up high availability\.
+   + **ASCS instance number**\. Enter the ASCS instance number\.
+   + **Database installation**\. Choose whether or not to install the HANA database\.
+   + **Database virtual host name**\. Enter the database virtual host name used to set up high availability\.
+   + **Software**\. Select the software type that you want to install\. You can install SQL or SAP software\.
+   + **Host name**\. Enter the Central Instance, ASCS, ASCS virtual IP, or Enqueue Replication Server \(ERS\) host name\.
+
+1. **Additional installation details**\. Select the parameter name and values to use for your software installation\. The following fields may vary according to the application selected\.
+   + **Number of batch processes**\. Enter the maximum number of batch processes\. 
+   + **Number of dialog processes**\. Enter the maximum number of dialog processes\.
+   + **UID for SAP host agent**\. Enter the UID for the SAP host agent\.
+   + **Create a DBA Cockpit user**\. Choose whether to create a DBA Cockpit user\.
+
+1. **AWS Backint Agent**\. Select the check box to install AWS Backint Agent\. For more information, see [AWS Backint Agent for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-sap-hana.html)\.
+
+   1. **S3 file path**\. Select or enter the Amazon S3 location to store the SAP HANA backup files\.
+
+   1. **KMS customer master key \(CMK\) ARN**\. Select the ARN of the CMK that can be used by AWS Backint Agent to encrypt the backup files\. For more information, see the [AWS Backint Agent for SAP documentation](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-prerequisites.html#aws-backint-agent-s3)\.
+
+   1. **Agent version**\. Select the AWS Backint Agent version you want to install\.
+
+1. 
+
+****Additional preferences**\.**
+
+   1. When you use AWS Backint Agent, the HANA backup files are stored in Amazon S3, which eliminates the requirement for local EBS backup volumes\. If you want Launch Wizard to provision local EBS backup volumes for file\-based backups that can be configured manually after deployments, select the check box\. 
+
+   1. By default, a Launch Wizard deployment rolls back when the AWS Backint Agent installation fails\. If you want to continue with a Launch Wizard deployment when the AWS Backint Agent installation fails, select the check box\. This option does not apply to high availability deployments\. 
+
+1. **IAM permissions**\. To deploy an application successfully, Launch Wizard must be allowed to perform operations in other AWS services on your behalf\. To do this, the Launch Wizard IAM role, `AmazonEC2RoleForLaunchWizard`, must have permissions attached to perform these operations, which include AWS Backint Agent operations, running pre\- and post\-deployment configuration scripts, and downloading the SAP installation media from Amazon S3\. If the required policy is not attached to the Launch Wizard role, the Launch Wizard deployment can fail\. Select the check box to verify that you have attached the required permissions before deploying\. 
+
+   For steps to attach the required permissions to `AmazonEC2RoleForLaunchWizard`, see [AWS Identity and Access Management \(IAM\)](launch-wizard-sap-setting-up.md#launch-wizard-sap-iam) in this guide\.
+
+1. Choose **Deploy**
 
 \(See the **Review** tab\)
 
@@ -350,7 +467,15 @@ On the **Configure application settings** page, enter your SAP HANA database app
    + **SAP HANA Instance number**\. Enter the instance number to use for your SAP HANA system\. This must be a two\-digit number from 00 through 99\.
    + **EBS Volume Type for SAP HANA**\. Select the EBS volume types that you want to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
    + **SAP HANA software install**\. Select whether you want to download the SAP HANA software\.
-     + If you select **Yes**, enter the Amazon S3 location where the SAP HANA software is located\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Making SAP HANA software available for AWS Launch Wizard to deploy HANA databaseMaking SAP HANA software available for Launch Wizard ](launch-wizard-sap-structure.md)\. Enter a password to use for your SAP HANA installation\.
+     + If you select **Yes**, enter the Amazon S3 location where the SAP HANA software is located\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Make SAP HANA software available for AWS Launch Wizard to deploy a HANA database](launch-wizard-sap-structure.md)\. Enter a password to use for your SAP HANA installation\.
+       + **AWS Backint Agent\.** Select the check box if you want to deploy AWS Backint Agent for backup and recover along with the application\. For more information about AWS Backint Agent, see [AWS Backint Agent for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-sap-hana.html)\.
+         + **S3 URI\.** Enter the URI of the S3 bucket where you want to store your SAP HANA backup files\. For example, `s3://<bucket-name>`\.
+         + **S3 Encryption \(KMS key ARN\)\.** Select the ARN of the KMS key that AWS Backint Agent can use to encrypt the backup files stored in your Amazon S3 bucket\.
+         + **Agent version\.** Select the version number of the agent that you want to install\. If you do not enter a version number, the latest published version of the agent is installed\.
+         + **Additional Backint preferences\.** 
+           + If you selected to use AWS Backint agent, the agent backs up files to S3, which removes the requirement for EBS backup volumes\. Select this check box to provision local EBS backup volumes for file\-level backups\.
+           + By default, Launch Wizard rolls back a deployment when the AWS Backint Agent installation fails\. Select the check box if you want Launch Wizard to continue with non\-HA application deployments when the Backint installation fails\. 
+         + **Verify that you have attached the required policy for Backint operations to the following role\.** Select this check box after you have attached the required policy to the `AmazonEC2RoleForLaunchWizard`\. This policy allows Launch Wizard to perform Backint Agent operations on your behalf\. The policy and instructions to attach the policy to the role are provided by Launch Wizard during deployment\. This information can also be found in [ Step 2 of the Backint Agent IAM documentation](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-prerequisites.html#aws-backint-agent-iam)\.
      + If you select **No**, only the AWS infrastructure is provisioned so you can manually deploy an SAP HANA database post deployment \.
 
 1. After you enter your application settings, choose **Next**\.
@@ -370,7 +495,7 @@ On the **Configure deployment model** page, enter the deployment details for the
        + **Operating System**\. Select a supported operating system version for the ERS instance\. 
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\.
      + **Host name**\. Enter the host name for the EC2 instance\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see Recover Your Instance in the Amazon EC2 User Guide\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see Recover Your Instance in the Amazon EC2 User Guide\.
    + Under **Instance sizing**, choose **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Define requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
@@ -379,7 +504,22 @@ On the **Configure deployment model** page, enter the deployment details for the
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
      + **Recommended Resources**\. Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include applicable taxes or discounts\.
-   + After you enter your deployment settings, choose **Next**\.
+
+1. 
+
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+1. After you enter your deployment settings, choose Next\.
 
 \(See the **Review** tab\)
 
@@ -407,9 +547,24 @@ On the **Configure deployment model** page, enter the deployment details for the
      + **Host Name for SAP system**\. Enter the host name for the EC2 instance\.
      + **Number of worker nodes**\. Enter the number of EC2 instances to be configured as worker nodes for this SAP HANA system\. 
      + **Worker node hostname prefix**\. Enter the hostname prefix for the worker nodes\.
-     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the checkbox to enable EC2 automatic recovery for the instance\. For more information, see Recover Your Instance in the Amazon EC2 User Guide\.
+     + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see Recover Your Instance in the Amazon EC2 User Guide\.
      + **Recommended Resources**\. Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include applicable taxes or discounts\.
-   + After you enter your deployment settings, choose **Next**\.
+
+1. 
+
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+1. After you enter your deployment settings, choose **Next**\.
 
 \(See **Review** tab\)
 
@@ -420,16 +575,15 @@ On the **Configure deployment model** page, enter the deployment details for the
 
 1. **Deployment model**\. Launch Wizard supports single instance deployments, multiple instance deployments, and high availability deployments\. Select **High availability deployment**\. 
 
-1. 
-   + **Instance details\.**
-     + Under **Instance details**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the SAP HANA servers\. 
-       + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\.
-     + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
-       + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
-       + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
-     + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
-     + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
+1. **Instance details\.**
+   + Under **Instance details**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
+     + **Operating System**\. Select a supported operating system version for the SAP HANA servers\. 
+     + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\.
+   + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
+     + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
+     + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
+   + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
+   + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
    + Under **Instance sizing**, choose **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
@@ -438,7 +592,22 @@ On the **Configure deployment model** page, enter the deployment details for the
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
      + **Recommended Resources**\. Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include applicable taxes or discounts\.
-   + After you enter your deployment settings, choose **Next**\.
+
+1. 
+
+**Pre\- and post\-deployment configuration scripts — optional**
+
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+
+**Pre\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+**Post\-deployment configuration script — optional**
+   + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Post\-deployment configuration scripts must finish running in 2 hours or less\.
+   + **Configuration script**\. Choose to use a script located in Amazon S3 and enter the URL path of the script, or enter a script manually by uploading a script file\. To remove the configuration script, choose **Remove script**\. 
+
+1. After you enter your deployment settings, choose **Next**\.
 
 \(See **Review** tab\)
 
