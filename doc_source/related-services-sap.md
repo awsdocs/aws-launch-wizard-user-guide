@@ -8,7 +8,9 @@ The following AWS services are used when you deploy an SAP application with AWS 
 + [Amazon Elastic File System](#launch-wizard-sap-related-services-efs)
 + [Amazon EC2 Systems Manager](#launch-wizard-sap-related-services-SSM)
 + [Amazon Simple Notification Service \(SNS\)](#launch-wizard-related-services-sns)
-+ [Amazon Route 53](#launch-wizard-related-services-route53)
++ [Amazon Route 53](#launch-wizard-related-services-route53)
++ [AWS Backint Agent for SAP HANA](#launch-wizard-related-services-backint)
++ [AWSTOE](#launch-wizard-related-services-awstoe)
 
 ## AWS CloudFormation<a name="launch-wizard-sap-related-services-cloudformation"></a>
 
@@ -30,6 +32,14 @@ The following AWS services are used when you deploy an SAP application with AWS 
 
 [Amazon Simple Notification Service \(SNS\)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) is a highly available, durable, secure, fully managed pub/sub messaging service that provides topics for high\-throughput, push\-based, many\-to\-many messaging\. Using Amazon SNS topics, your publisher systems can fan out messages to a large number of subscriber endpoints and send notifications to end users using mobile push, SMS, and email\. You can use SNS topics for your Launch Wizard deployments to stay up\-to\-date on deployment progress\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
 
-## Amazon Route 53<a name="launch-wizard-related-services-route53"></a>
+## Amazon Route 53<a name="launch-wizard-related-services-route53"></a>
 
-[Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) is a highly available and scalable Domain Name System \(DNS\) web service\. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking\. Launch Wizard integrates with Route 53 hosted zones, which are containers for records\. The records contain information about how you want to route traffic for a specific domain, such as example\.com, and its subdomains \(acme\.example\.com, zenith\.example\.com\)\. There are two types of hosted zones: public and private hosted zones\. We recommend that you use private hosted zones for SAP applications unless an application must be directly accessible from the internet\. 
+[Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) is a highly available and scalable Domain Name System \(DNS\) web service\. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking\. Launch Wizard integrates with Route 53 hosted zones, which are containers for records\. The records contain information about how you want to route traffic for a specific domain, such as example\.com, and its subdomains \(acme\.example\.com, zenith\.example\.com\)\. There are two types of hosted zones: public and private hosted zones\. We recommend that you use private hosted zones for SAP applications unless an application must be directly accessible from the internet\. 
+
+## AWS Backint Agent for SAP HANA<a name="launch-wizard-related-services-backint"></a>
+
+[AWS Backint Agent for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-what-is.html) is an SAP\-certified backup and restore application for SAP HANA workloads running on Amazon EC2 instances in the cloud\. AWS Backint Agent runs as a standalone application that integrates with your existing workflows to back up your SAP HANA database to Amazon S3 and to restore it using SAP HANA Cockpit, SAP HANA Studio, and SQL commands\. AWS Backint Agent supports full, incremental, and differential backup of SAP HANA databases\. Additionally, you can back up log files and catalogs to Amazon S3\. AWS Backint Agent runs on an SAP HANA database server, where backups and catalogs are transferred from the SAP HANA database to the AWS Backint Agent\. The AWS Backint Agent stores your files in the S3 bucket that is specified in the agent configuration file\. To restore your SAP HANA database server, SAP HANA reads the catalog files stored in your S3 bucket using the AWS Backint Agent\. It then initiates a request to restore the required files from S3\.
+
+## AWSTOE<a name="launch-wizard-related-services-awstoe"></a>
+
+[AWSTOE](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-component-manager.html) is component management application used to orchestrate complex workflows, modify system configurations, and test your systems without writing code\. This application uses a declarative document schema\. As a standalone application it does not require additional server setup\. It can run on any cloud infrastructure and on premises\. AWS Launch Wizard uses this application to orchestrate the download of the pre\- and post\-configuration scripts, and to run them\. 
