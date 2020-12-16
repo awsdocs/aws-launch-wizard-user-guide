@@ -1,7 +1,7 @@
 # Supported deployments and features of AWS Launch Wizard<a name="launch-wizard-sap-deployments"></a>
 
 **Supported deployments**  
-AWS Launch Wizard currently supports the deployment of AWS resources for the following SAP systems and patterns\. SAP HANA database software is optionally installed and customer provided\. 
+AWS Launch Wizard currently supports the deployment of AWS resources for the following SAP systems and patterns\. SAP HANA database software and supported SAP application software are optionally installed and provided by the customer\. 
 + **SAP HANA database on a single Amazon EC2 instance\.** Deploy SAP HANA in a single\-node, scale\-up architecture, with up to 24TB of memory\.
 + **SAP Netweaver on SAP HANA system on a single Amazon EC2 instance\.** Deploy an SAP application on the same Amazon EC2 instance as your SAP HANA Database\. 
 + **SAP HANA database on multiple EC2 instances\.** Deploy SAP HANA in a multi\-node, scale\-out architecture\.
@@ -19,6 +19,9 @@ AWS Launch Wizard provides the following features:
 + [SNS notification](#launch-wizard-sap-features-sns)
 + [Application resource groups](#launch-wizard-sap-features-resource-groups)
 + [AWS Data Provider for SAP](#launch-wizard-sap-features-data-provider)
++ [AWS Backint Agent for SAP HANA](#launch-wizard-sap-features-backint)
++ [Custom deployment configuration scripts](#launch-wizard-sap-features-scripts)
++ [Application software installation](#launch-wizard-sap-features-software-install)
 
 ## Instance selection and configuration<a name="launch-wizard-sap-features-app-deployment"></a>
 
@@ -30,7 +33,7 @@ Launch Wizard considers CPU/Memory or SAPS requirements that you provide to dete
 
 ## Cost estimation<a name="launch-wizard-sap-features-cost"></a>
 
-Launch Wizard provides a cost estimate for the complete deployment that is itemized for each individual resource being deployed\. The estimated cost automatically updates each time you change a resource type configuration in the wizard\. The provided estimates are only for general comparisons\. They are based on On\-Demand instance costs\. Actual costs may be lower\.
+Launch Wizard provides a cost estimate for the complete deployment that is itemized for each individual resource being deployed\. The estimated cost automatically updates each time you change a resource type configuration in the wizard\. The provided estimates are only for general comparisons\. They are based on On\-Demand Instance costs\. Actual costs may be lower\.
 
 ## Reusable infrastructure settings<a name="launch-wizard-sap-features-code-templates"></a>
 
@@ -53,3 +56,15 @@ Launch Wizard creates a resource group for all of the AWS resources created for 
 ## AWS Data Provider for SAP<a name="launch-wizard-sap-features-data-provider"></a>
 
 Deploying and running the Amazon Web Services \(AWS\) Data Provider for SAP is a prerequisite for running SAP systems on AWS\. Launch Wizard automatically deploys AWS Data Provider for SAP on every EC2 instance that it launches\. AWS Data Provider for SAP is a tool that collects performance\-related data from AWS services\. It makes this data available to SAP applications to help monitor and improve the performance of business transactions\. AWS Data Provider for SAP uses operating system, network, and storage data that is most relevant to the operation of the SAP infrastructure\. Its data sources include Amazon EC2 and Amazon CloudWatch\. 
+
+## AWS Backint Agent for SAP HANA<a name="launch-wizard-sap-features-backint"></a>
+
+Launch Wizard deploys and configures AWS Backint Agent for SAP HANA, an SAP\-certified backup and restore application for SAP HANA workloads running on Amazon EC2 instances in the cloud\. Launch Wizard supports the deployment and configuration of Backint Agent for single\-node, multi\-node, and high availability deployments for supported HANA and Netweaver on HANA applications\.
+
+## Custom deployment configuration scripts<a name="launch-wizard-sap-features-scripts"></a>
+
+You can provide custom pre\-deployment and post\-deployment configuration scripts that can run on various instance tiers, such as SAP HANA Database, Primary Application Server, and Enqueue Replication Server during the pre\-deployment and post\-deployment configuration phases\. Launch Wizard uses a standalone component manager application \(AWSTOE\) to run the scripts\. For more information, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\.
+
+## Application software installation<a name="launch-wizard-sap-features-software-install"></a>
+
+Launch Wizard can install SAP application software that you have made available on Amazon S3, including SAP NetWeaver on HANA, SAP S/4HANA, and SAP BW/4HANA\. For more details about which operating systems and database versions are supported for each deployment pattern, see [Supported application software installation versions and deployment patterns](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application-install)\. For supported software versions and installation details, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
