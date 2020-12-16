@@ -1,17 +1,19 @@
-# Troubleshooting AWS Launch Wizard for SQL Server<a name="launch-wizard-troubleshooting"></a>
+# Troubleshoot AWS Launch Wizard for SQL Server<a name="launch-wizard-troubleshooting"></a>
 
 Each application in your account in the same AWS Region can be uniquely identified by the application name specified at the time of a deployment\. The application name can be used to view the details related to the application launch\.
 
+For SQL Server deployments on Linux, you must use an instance type built on the [Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. EBS volumes are exposed as NVMe block devices on instances built with the Nitro System\. Device names that are specified for NVMe EBS volumes in a block device mapping are renamed using NVMe device names \(`/dev/nvme[[0-26]n1`\)\. Launch Wizard deployments on Linux do not support block devices on Xen\-virtualized instances\. 
+
 **Topics**
-+ [Active Directory objects and DNS record clean up](#launch-wizard-ad-dns-clean)
++ [Active Directory objects and DNS record clean up \(deployment on Windows\)](#launch-wizard-ad-dns-clean)
 + [Launch Wizard provisioning events](#launch-wizard-provisioning)
 + [CloudWatch Logs](#launch-wizard-logs)
 + [SSM Automation execution](#launch-wizard-ssm-automation)
 + [AWS CloudFormation stack](#launch-wizard-cloudformation)
-+ [Application launch limits](#launch-wizard-limits)
++ [Pacemaker on Ubuntu \(deployment on Linux\)](#launch-wizard-pacemaker)
 + [Errors](#launch-wizard-errors)
 
-## Active Directory objects and DNS record clean up<a name="launch-wizard-ad-dns-clean"></a>
+## Active Directory objects and DNS record clean up \(deployment on Windows\)<a name="launch-wizard-ad-dns-clean"></a>
 
 When you delete a deployment, you lose all specification settings for the SQL Server Always On application\. Launch Wizard attempts to delete only the AWS resources that it created in your account as part of the deployment\. If you created resources outside of Launch Wizard, for example, resources in a VPC created by Launch Wizard, the deletion can fail\. Launch Wizard does not delete Active Directory objects in your Active Directory, nor does it delete any of the records in your DNS server\. Launch Wizard has no control over your Active Directory domain user password over time, which is required to clean up Active Directory objects or DNS records\. We recommend that you remove these entries from your Active Directory after Launch Wizard deletes the deployment\.
 
@@ -77,9 +79,19 @@ Launch Wizard uses AWS CloudFormation to provision the infrastructure resources 
 
 You can view the status of these CloudFormation stacks\. If any of them fail, you can view the cause of failure\.
 
-## Application launch limits<a name="launch-wizard-limits"></a>
+## Pacemaker on Ubuntu \(deployment on Linux\)<a name="launch-wizard-pacemaker"></a>
 
-Launch Wizard allows for a maximum of 50 active applications \(with status `in progress` or `completed`\) for any given application type\. If you want to increase this limit, contact [AWS Support](https://aws.amazon.com/contact-us)\. Launch Wizard supports 3 paralell in\-progress deployment per account\. 
+To troubleshoot Pacemaker cluster resource issues, take the following actions as an administrator\.
++ Inspect the system log files for operating system errors and address the errors, as needed\.
++ Inspect the cluster log files for errors, including for errors that relate to Pacemaker, Corosync, or SQL Server\. Check the log files carefully because the related services may provide only one or two related log entries\. 
++ Verify resource configuration, and configuration of cluster\-related functions\.
+  + The following commands display the configuration details:
+    + To display all resources, use:`pcs resource show -full`
+    + Or, you can use:`pcs resource show <resource name>`
+  + The following command will display the cluster constraints:`pcs constraints –full`
+  + The following command displays the cluster properties:`pcs property list –all`
++ Manually start the resource with `debug-start`\.
++ Clear failed actions with the following command: `pcs resource cleanup <resource <resource name`
 
 ## Errors<a name="launch-wizard-errors"></a>
 
@@ -97,8 +109,8 @@ This failure can occur for multiple reasons\. The following list shows known cau
 + 
 
 **VPC or subnet configuration does not meet prerequisites**
-  + **Cause:** This failure occurs when your VPC or subnet configuration does not meet the prerequisites documented in the VPC Connectivity Section under [Accessing and deploying an application with AWS Launch Wizard for SQL Server](launch-wizard-deploying.md)\. If the failure message points to your selected public subnet, then the public subnet is not configured for outbound internet access\. If the failure message points to one of your selected private subnets, then the specified private subnet does not have outbound connectivity\. 
-  + **Solution:** Check that your VPC includes one public subnet and, at least, two private subnets\. Your VPC must be associated with a DHCP Options Set to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, and Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. Note that, in the console, when you select a private subnet for the public subnet dropdown or you select a public subnet for the private subnet dropdown, you will encounter the same error\. Please refer to the VPC Connectivity section under [Accessing and deploying an application with AWS Launch Wizard for SQL Server](launch-wizard-deploying.md) for more information about how to configure your VPC\.
+  + **Cause:** This failure occurs when your VPC or subnet configuration does not meet the prerequisites documented in the VPC Connectivity Section under [Access and deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md)\. If the failure message points to your selected public subnet, then the public subnet is not configured for outbound internet access\. If the failure message points to one of your selected private subnets, then the specified private subnet does not have outbound connectivity\. 
+  + **Solution:** Check that your VPC includes one public subnet and, at least, two private subnets\. Your VPC must be associated with a DHCP Options Set to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, and Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. Note that, in the console, when you select a private subnet for the public subnet dropdown or you select a public subnet for the private subnet dropdown, you will encounter the same error\. Please refer to the VPC Connectivity section under [Access and deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md) for more information about how to configure your VPC\.
 + 
 
 **EC2 instance stabilization error**
