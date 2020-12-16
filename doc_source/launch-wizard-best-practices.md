@@ -5,7 +5,7 @@ The application architecture created by AWS Launch Wizard supports AWS best prac
 **Topics**
 + [High availability](#launch-wizard-ha)
 + [Automatic failover](#launch-wizard-failover)
-+ [Security groups and firewalls](#launch-wizard-security)
++ [Security groups and firewalls](#launch-wizard-sql-security)
 
 ## High availability<a name="launch-wizard-ha"></a>
 
@@ -26,7 +26,7 @@ Launch Wizard implementation supports the following scenarios:
 
 The default implementation of Launch Wizard does not provide automatic failover in every case\. For example, the failure of Availability Zone 1, which contains the primary node and file share witness, would prevent automatic failover to Availability Zone 2 because the cluster would fail as it loses quorum\. In this scenario, you could follow manual disaster recovery steps that include restarting the cluster service and forcing quorum on the second cluster node \(for example, WSFCNode2\) to restore application availability\. Launch Wizard also provides an option to deploy to three Availability Zones\. This deployment option can mitigate the loss of quorum if a single node fails\. However, you can select this option only in AWS Regions that include three or more Availability Zones\. For a current list of supported Regions, see [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)\.
 
-## Security groups and firewalls<a name="launch-wizard-security"></a>
+## Security groups and firewalls<a name="launch-wizard-sql-security"></a>
 
 Launch Wizard creates a number of security groups and rules for you\. When Amazon EC2 instances are launched, they must be associated with a security group, which acts as a stateful firewall\. You have complete control over the network traffic entering or leaving the security group\. You can also build granular rules that are scoped by protocol, port number, and source or destination IP address or subnet\. By default, all outbound traffic from a security group is permitted\. Inbound traffic, on the other hand, must be configured to allow the appropriate traffic to reach your instances\. 
 
