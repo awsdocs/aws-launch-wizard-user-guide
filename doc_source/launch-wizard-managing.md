@@ -1,4 +1,4 @@
-# Managing application resources with AWS Launch Wizard for SQL Server<a name="launch-wizard-managing"></a>
+# Manage application resources with AWS Launch Wizard for SQL Server<a name="launch-wizard-managing"></a>
 
 After your SQL Server Always On application is deployed, you can manage it by following these steps\.
 
@@ -6,15 +6,15 @@ After your SQL Server Always On application is deployed, you can manage it by fo
 
 1. From the **Deployments** page, select **Actions**\. You can select to do the following:
 
-   1. **Manage resources on the EC2 console**\. You are taken to the Amazon EC2 console, where you can view and manage your SQL Server Always On application resources\. For example, you can view and manage EC2, Amazon EBS, Active Directory, Amazon VPC, Subnets, NAT Gateways, and Elastic IPs\. 
+   1. **Manage resources on the EC2 console**\. You are taken to the Amazon EC2 console, where you can view and manage your SQL Server Always On application resources\. For example, you can view and manage EC2, Amazon EBS, Active Directory, Amazon VPC, Subnets, NAT Gateways, and Elastic IPs\. For SQL Server on Linux deployments, you can use AWS Systems Manager Session Manager to manage your deployed EC2 instances\. For more information about SSM Session Manager, see [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)\.
 
-   1. **Access SQL Server using RDGW instance**\. Connect to SQL Server via Remote Desktop Protocol\. For more information, see [Connecting to your Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.htm) in the *User Guide for Windows Instances*\.
+   1. **Access SQL Server using RDGW instance \(Windows deployments\)**\. Connect to SQL Server via Remote Desktop Protocol\. For more information, see [Connecting to your Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.htm) in the *User Guide for Windows Instances*\.
 
    1. **View resource group with SSM**\. You are taken to the Systems Manager console to view your resource groups\.
 
-   1. **View SSM deployment template**\. You are taken to the Systems Manager console to view your documents\.
+   1. **View SSM deployment template \(Windows deployments\)**\. You are taken to the Systems Manager console to view your documents\.
 
-   1. **View CloudWatch application Logs**\. You are taken to CloudWatch Logs, where you can monitor, store, and access your SQL Server Always On application log files\. 
+   1. **View CloudWatch application logs**\. You are taken to CloudWatch Logs, where you can monitor, store, and access your SQL Server Always On application log files\. 
 
    1. **View your CloudFormation template**\. This is the CloudFormation template created by your most recent deployment, and it can be accessed through the CloudFormation console\. For help with finding and using your CloudFormation template, see [Viewing AWS CloudFormation Stack Data and Resources on the AWS Management Console](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-view-stack-data-resources.html)\.
 
