@@ -25,6 +25,7 @@ AWS Launch Wizard implements SAP deployments as follows\.
 + [Amazon Elastic File System setup for SAP Central Services instances configured for high availability](#launch-wizard-sap-efs-ha)
 + [Bring your own image \(BYOI\)](#launch-wizard-sap-byoi)
 + [Configuration settings](#launch-wizard-sap-config)
++ [Custom deployment configuration scripts](#launch-wizard-sap-how-it-works-scripts)
 + [Manual cleanup activities](#launch-wizard-sap-manual-cleanup)
 + [Default Quotas](#launch-wizard-sap-default-quotas)
 + [AWS Regions and Endpoints](#launch-wizard-sap-regions-endpoints)
@@ -85,18 +86,34 @@ The following configuration settings are applied when deploying an SAP applicati
 | Setting | Applies to | 
 | --- | --- | 
 | SSM Agent |  All SAP systems and patterns  | 
-| EBS Volumes for SAP application tier |  All SAP systems and patterns  | 
-| EBS Volumes for SAP HANA database, log and backup file systems |  All SAP systems and patterns  | 
+| EBS volumes for SAP application tier |  All SAP systems and patterns  | 
+| EBS volumes for SAP HANA database, log and backup file systems |  All SAP systems and patterns  | 
+| EFS volumes for /hana/shared and /backup |  | 
 | EFS volumes for SAP transport file systems | All SAP systems and patterns | 
-| EFS volumes for SAP central services: sapmnt, /usr/sap/<SID>/ASCS<XX> and /usr/sap/<SID>/ERS<XX | ASCS and ERS systems | 
+| EFS volumes for SAP central services: sapmnt, /usr/sap/<SID>/ASCS<XX>, and /usr/sap/<SID>/ERS<XX | ASCS and ERS systems | 
 |  OS parameters required based on the operating system chosen for SAP HANA  |  All SAP systems and patterns  | 
 | Security groups created and assigned for accessing the SAP system |  All SAP systems and patterns  | 
 |  SSM Session Manager to remotely access the server for administrator activities  |  All SAP systems and patterns  | 
 |  Time zone settings at the OS level  |  All SAP systems and patterns  | 
 
+### Custom deployment configuration scripts<a name="launch-wizard-sap-how-it-works-scripts"></a>
+
+You can use custom shell scripts during the pre\-deployment and post\-deployment configuration phases\. You provide the scripts stored on Amazon S3 or locally\. During provisioning, Launch Wizard installs the AWSTOE application\. When there are custom scripts to run, Launch Wizard creates an AWSTOE document that downloads the scripts from the location specified and then runs the scripts\. The success of the custom scripts is a customer responsibility\. Check the CloudWatch log streams for detailed execution logs or failure information after the scripts are deployed\.
+
+The number of configuration scripts you can use depends on the deployment model\. For SAP HANA deployments, you can use one script, which runs on all of the HANA instances \(both primary and worker nodes\)\. For Netweaver stack on SAP HANA database, the following script limits apply:
++ *Netweaver stack on SAP HANA single\-instance deployment *— Because all tiers are installed on the same database instance, you can use only one script\.
++ *Netweaver stack on SAP HANA distributed\-instance deployment* — You can use one script per each instance tier selected, including for ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\), Database \(DB\) Server, and Additional App Servers \(AAS\)\.
++ *Netweaver stack on SAP HANA high availability deployment* — You can use one script per each instance tier selected, including for Primary Application Server \(PAS\), ABAP System Central Services \(ASCS\) Server, Database \(DB\) Server, Additional App Servers \(AAS\), and Enqueue Replication Server \(ERS\)\.
+
+**Pre\-deployment configuration scripts**  
+Pre\-deployment configuration scripts run after the instances are launched and the baseline Launch Wizard configuration tasks, such as deploying Amazon CloudWatch, Amazon EC2 Systems Manager agents, and the AWS CLI, are complete\. If you want to run multiple pre\-deployment configuration scripts, Launch Wizard runs them in parallel on each EC2 instance in the order in which they are specified\. Pre\-deployment configuration scripts can be used to perform tasks such as OS hardening or deploying security and logging software\. The maximum runtime for all pre\-deployment configuration scripts on a single EC2 instance is 45 minutes\.
+
+**Post\-deployment configuration scripts**  
+Post\-deployment configuration scripts run when Launch Wizard completes configuration tasks specific to the application on all of the instances in a deployment\. Before the provisioning process completes, post\-configuration scripts run on all of the specified instance tiers\. Launch Wizard uses SSM and AWS Lambda to trigger running post\-deployment scripts on all selected SAP instances in the order in which they are specified\. They can be used to perform tasks such as installing monitoring and management software, and for updating your DNS with entries for the newly deployed SAP servers and the domains joining them\. The maximum runtime for all post\-deployment configuration scripts on a single instance is 2 hours\.
+
 ### Manual cleanup activities<a name="launch-wizard-sap-manual-cleanup"></a>
 
-If you choose to delete a deployment, or a deployment fails during the deployment phase and rolls back, Launch Wizard deletes the Amazon EC2 and Amazon EBS volumes that it launches as part of the deployment\. The following resources are considered shared resources and are created without the deletion flag\.
+If you choose to delete a deployment, or a deployment fails during the deployment phase and rolls back, Launch Wizard deletes the Amazon EC2 and Amazon EBS volumes that it launches as part of the deployment\. It also removes the AWSTOE application\. The following resources are considered shared resources and are created without the deletion flag\.
 + The Amazon Elastic File System file system that is created for the SAP transport files system `/usr/sap/trans`
 + Security groups that you create 
 
