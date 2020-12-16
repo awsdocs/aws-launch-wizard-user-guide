@@ -1,19 +1,19 @@
-# Setting up for AWS Launch Wizard for SQL Server<a name="launch-wizard-setting-up"></a>
+# Set up for AWS Launch Wizard for SQL Server<a name="launch-wizard-setting-up"></a>
 
 The following prerequisites must be verified in order to deploy a SQL Server Always On application with AWS Launch Wizard\.
 
 **Topics**
-+ [Active Directory](#launch-wizard-ad)
++ [Active Directory \(Windows deployment\)](#launch-wizard-ad)
 + [AWS Identity and Access Management \(IAM\)](#launch-wizard-iam)
-+ [Using custom AMIs](#launch-wizard-custom-ami)
-+ [Requirements](#launch-wizard-requirements)
-+ [Configuration settings](#launch-wizard-config)
++ [Requirements for using custom AMIs \(deployment on Windows\)](#launch-wizard-custom-ami)
++ [Requirements for using custom AMIs \(deployment on Linux\)](#launch-wizard-custom-ami-linux)
++ [Configuration settings \(deployment on Windows\)](#launch-wizard-config)
 
-## Active Directory<a name="launch-wizard-ad"></a>
+## Active Directory \(Windows deployment\)<a name="launch-wizard-ad"></a>
 
 ### AWS Managed Active Directory<a name="launch-wizard-ad-managed"></a>
 
-If you are [deploying SQL Server into an existing VPC with an existing Active Directory](launch-wizard-deployment-options.md#option-3), Launch Wizard uses your Managed Active Directory \(AD\) domain user credentials to set up a fully functional SQL Server Always On Availability Group in the Active Directory\. Currently, Launch Wizard only supports this deployment option for an AWS Managed Active Directory\. Your Managed Active Directory does not have to be in the same VPC as the one in which SQL Server Always On is deployed\. If it is in a different VPC than the one in which SQL Server Always On is deployed, ensure that you set up connectivity between the two VPCs\.The domain user requires the following permissions in the [Active Directory Default organizational unit \(OU\)](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/creating-an-organizational-unit-design) to enable Launch Wizard to perform the deployment successfully\.
+If you are [deploying SQL Server into an existing VPC with an existing Active Directory](launch-wizard-deployment-options.md#option-3), Launch Wizard uses your Managed Active Directory \(AD\) domain user credentials to set up a fully functional SQL Server Always On Availability Group in the Active Directory\. Currently, Launch Wizard only supports this deployment option for an AWS Managed Active Directory\. Your Managed Active Directory does not have to be in the same VPC as the one in which SQL Server Always On is deployed\. If it is in a different VPC than the one in which SQL Server Always On is deployed, ensure that you set up connectivity between the two VPCs\. The domain user requires the following permissions in the [Active Directory Default organizational unit \(OU\)](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/creating-an-organizational-unit-design) to enable Launch Wizard to perform the deployment successfully\.
 + Join machines to the domain
 + Create user accounts
 + Create computer objects
@@ -43,7 +43,7 @@ The following steps for establishing the AWS Identity and Access Management \(IA
 
 ### One\-time creation of IAM Role<a name="launch-wizard-iam-role"></a>
 
-On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM role required for the Amazon EC2 service to access other AWS services on your behalf\. When you select **Next**, Launch Wizard attempts to discover the IAM role in your account\. If the role exists, the role is attached to the instance profile for the EC2 instances that Launch Wizard will launch into your account\. If the role does not exist, Launch Wizard attempts to create the role with the same name, `AmazonEC2RoleForLaunchWizard`\. This role is comprised of two IAM managed policies: `AmazonSSMManagedInstanceCore` and `AmazonEC2RolePolicyForLaunchWizard`\. After the role is created, the IAM Administrator can delegate the application deployment process to another IAM user who, in turn, must have the Launch Wizard IAM managed policy described in the following section\.
+On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM role required for the Amazon EC2 instances that have been created by Launch Wizard to access other AWS services on your behalf\. When you select **Next**, Launch Wizard attempts to discover the IAM role in your account\. If the role exists, the role is attached to the instance profile for the EC2 instances that Launch Wizard will launch into your account\. If the role does not exist, Launch Wizard attempts to create the role with the same name, `AmazonEC2RoleForLaunchWizard`\. This role is comprised of two IAM managed policies: `AmazonSSMManagedInstanceCore` and `AmazonEC2RolePolicyForLaunchWizard`\. After the role is created, the IAM Administrator can delegate the application deployment process to another IAM user who, in turn, must have the Launch Wizard IAM managed policy described in the following section\.
 
 ### IAM user setup<a name="launch-wizard-iam-user-setup"></a>
 
@@ -61,7 +61,7 @@ When you have an IAM user in your account, create an IAM policy\.
 
 1. Select **Attach existing policies directly**\. 
 
-1. Search for the policy named `AmazonLaunchWizardFullaccess` and select the check box to the left of the policy name\.
+1. Search for the policy named **AmazonLaunchWizard\_Fullaccess** and select the check box to the left of the policy name\.
 
 1. Select **Next: Review**\. 
 
@@ -70,17 +70,15 @@ When you have an IAM user in your account, create an IAM policy\.
 **Important**  
 Make sure that you log in with the user associated with the above policy when you use Launch Wizard\. 
 
-## Using custom AMIs<a name="launch-wizard-custom-ami"></a>
+## Requirements for using custom AMIs \(deployment on Windows\)<a name="launch-wizard-custom-ami"></a>
 
-We recommend that you use Amazon Windows license\-included AMIs whenever possible\. There are occasions when you may want to use a custom AMI\. For example, you may have existing licenses \(BYOL\) or you may have made changes to one of our public images and re\-imaged it\.
+We recommend that you use Amazon Windows license\-included AMIs whenever possible\. There are scenarios for which you may want to use a custom Windows AMI\. For example, you may have existing licenses \(BYOL\) or you may have made changes to one of our public images and re\-imaged it\.
 
 If you use Amazon Windows license\-included AMIs, you are not required to perform any pre\-checks on the AMI to ensure that it meets Launch Wizard requirements\.
 
-Launch Wizard relies on user data to begin the process of configuring SQL Server or RGW instances the service launches in your accounts\. For more information, see [User Data Scripts](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. By default, all AWS Windows AMIs have user data execution enabled for the initial launch\. To ensure that your custom AMIs are set up to run the User Data script at launch, follow the AWS recommended method to prepare your AMIs using either EC2Launch \(Windows Server 2016 and later\) or the EC2Config service \(Windows 2012 R2 and earlier\)\. For more information about how to prepare your custom AMI using the options to Shutdown with Sysprep or Shutdown without Sysprep, see [Create a Standard Amazon Machine Image Using Sysprep](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ami-create-standard.html)\. For Windows Server 2016 and later, see [Using Sysprep with EC2Launch ](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html#ec2launch-sysprep)\. If you want to directly enable user data as part of the custom AMI creation process, follow the steps for Subsequent Reboots or Starts under [Running Commands on Your Windows Instance at Launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. 
+Launch Wizard relies on user data to begin the process of configuring SQL Server or RGW instances that the service launches in your account\. For more information, see [User Data Scripts](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. By default, all AWS Windows AMIs have user data execution enabled for the initial launch\. To ensure that your custom AMIs are set up to run the User Data script at launch, follow the AWS recommended method to prepare your AMIs using [EC2Launch v2](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch-v2.html)\. For more information about how to prepare your custom AMI using the options to Shutdown with Sysprep or Shutdown without Sysprep, see [Create a Standard Amazon Machine Image Using Sysprep](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Creating_EBSbacked_WinAMI.html#ami-create-standard) or [EC2Launch v2 and Sysprep](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html#ec2launch-v2-sysprep)\. If you want to directly enable user data as part of the custom AMI creation process, follow the steps for Subsequent Reboots or Starts under [Running Commands on Your Windows Instance at Launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. 
 
-If you use a custom AMI, the volume drive letter for the root partition should be `C:`, because EC2Launch and EC2Config rely on this configuration to install the components\. 
-
-## Requirements<a name="launch-wizard-requirements"></a>
+If you use a custom AMI, the volume drive letter for the root partition should be `C:`, because EC2Launch v2 and EC2Config rely on this configuration to install the components\. 
 
 While not exhaustive, the following requirements cover most of the configurations whose alteration might impact the successful deployment of a SQL Server Always On application using Launch Wizard\.
 
@@ -91,7 +89,7 @@ While not exhaustive, the following requirements cover most of the configuration
 |  SQL Server 2017  |  YES  |  YES  |  YES  | 
 | SQL Server 2019 | Currently not supported\.  | YES | YES | 
 
-**OS and SQL Requirements**
+**OS and SQL requirements**
 + Microsoft Windows Server 2012 R2 \(Datacenter\) \(64\-bit only\)
 + Microsoft Windows Server 2016 \(Datacenter\) \(64\-bit only\)
 + Microsoft Windows Server 2019 \(Datacenter\) \(64\-bit only\)
@@ -101,7 +99,7 @@ While not exhaustive, the following requirements cover most of the configuration
 + The root volume drive for the custom AMI should be `C:`
 + SQL Server is installed in the root drive
 
-**AWS Software and Drivers**
+**AWS software and drivers**
 + EC2Config service \(Windows Server 2012 R2\)
 + EC2Launch \(Windows Server 2016\)
 + AWS Systems Manager \([SSM agent must be installed](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html)\)
@@ -109,7 +107,18 @@ While not exhaustive, the following requirements cover most of the configuration
 + Network drivers \(SRIOV, ENA\)
 + Storage drivers \(NVMe, AWS PV\)
 
-## Configuration settings<a name="launch-wizard-config"></a>
+## Requirements for using custom AMIs \(deployment on Linux\)<a name="launch-wizard-custom-ami-linux"></a>
+
+There are occasions when you may want to use a custom Linux AMI\. For example, you may have existing licenses \(BYOL\) or you may have made changes to one of our public images and re\-imaged it\.
+
+If you use a custom AMI, you must adhere to the following requirements\.
++ The operating system must be Ubuntu version 18\.04 LTS\.
++ The system installer and administrator must be a sudo user and be able to log in to the cluster nodes using SSH\.
++ SQL Server for Linux must be a default installation\.
++ The SQL Server for Linux version must be 2019\.
++ The latest Microsoft SQL tools must be installed\.
+
+## Configuration settings \(deployment on Windows\)<a name="launch-wizard-config"></a>
 
 The following configuration settings are applied when deploying a SQL Server Always On application with Launch Wizard\.
 
@@ -143,3 +152,9 @@ In most cases, Launch Wizard configures the correct protocols and ports\. Howeve
 **Network Interface**  
 **DHCP Service Startup**\. DHCP service should be enabled\.  
 **DHCP on Ethernet**\. DHCP should be enabled\.
+
+**Microsoft SQL Server**  
+**TCPIP**\. Must be enabled for protocols in SQL Configuration Manager\.
+
+**PowerShell**  
+**Execution Policy**\. The execution policy in all AWS license\-included AMIs is set to `Unrestricted`\. We recommend that you set this policy to `Unrestricted` when you set up SQL Server Always On Availability Groups using Launch Wizard\. You can change the policy when setup is complete\. 
