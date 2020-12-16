@@ -1,32 +1,35 @@
-# Accessing and deploying an application with AWS Launch Wizard for SQL Server<a name="launch-wizard-deploying"></a>
+# Access and deploy an application with AWS Launch Wizard for SQL Server on Windows<a name="launch-wizard-deploying"></a>
 
-## Accessing AWS Launch Wizard<a name="accessing-launch-wizard"></a>
+## Access AWS Launch Wizard<a name="accessing-launch-wizard"></a>
 
 You can launch AWS Launch Wizard from the following locations\.
 + **AWS Console\.** From the [AWS Management Console](https://console.aws.amazon.com) under **Management and Governance**\.
 + **AMI launch page in EC2 console\.** From the Launch Wizard banner that appears when you select **AMIs**, under **Images**, in the EC2 console\. The banner appears when you search for SQL AMIs\. 
 + **AWS Launch Wizard landing page\.** From the AWS Launch Wizard page, located at [https://aws\.amazon\.com/launchwizard/](https://aws.amazon.com/launchwizard/)\.
 
-## Deploying AWS Launch Wizard<a name="deploy-console-launch-wizard"></a>
+## Deploy AWS Launch Wizard on Windows<a name="deploy-console-launch-wizard"></a>
 
 The following steps guide you through a SQL Server Always On application deployment with AWS Launch Wizard after you have launched it from the console\.
 
 1. When you select **Create deployment** from the AWS Launch Wizard landing page, you are directed to the **Choose application** page where you are prompted to select the type of application that you want to deploy\. Select **Microsoft SQL Server Always On**\.
 
-1. After you select an application type, under **Permissions**, Launch Wizard displays the AWS Identity and Access Management \(IAM\) policy required for Launch Wizard to access other AWS services on your behalf\. For more information about setting up IAM for Launch Wizard, see [AWS Identity and Access Management \(IAM\)](launch-wizard-setting-up.md#launch-wizard-iam)\. Select **Next** \.
+1. Select the operating system on which you want to install the SQL Server Always On application — in this case, **Windows**\.
+
+1. After you select the operating system, under **Permissions**, Launch Wizard displays the AWS Identity and Access Management \(IAM\) role required for Launch Wizard to access other AWS services on your behalf\. For more information about setting up IAM for Launch Wizard, see [AWS Identity and Access Management \(IAM\)](launch-wizard-setting-up.md#launch-wizard-iam)\. Choose **Next** \.
 
 1. After selecting the type of application to deploy, you are prompted to enter specifications for the new deployment on the **Configure application settings** page\. The following tabs provide information about the specification fields\.
 
 ------
 #### [ General ]
+   + **Deployment model**\. Choose **High availability deployment** to deploy your SQL Server Always On application across multiple Availability Zones or **Single instance deployment** to deploy your SQL Server application on a single node\.
    + **Deployment name**\. Enter a unique application name for your deployment\.
-   + **Simple Notification Service \(SNS\) topic ARN \(Optional\)**\. Specify an SNS topic where AWS Launch Wizard can send notifications and alerts\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
-   + **CloudWatch application monitoring \(Optional\)**\. Select the checkbox to set up monitors and automated insights for your deployment using CloudWatch Application Insights\. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-application-insights.html)\.
+   + **Simple Notification Service \(SNS\) topic ARN — optional**\. Specify an SNS topic where AWS Launch Wizard can send notifications and alerts\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
+   + **CloudWatch application monitoring \(Optional for HA deployments\)**\. Select the checkbox to set up monitors and automated insights for your deployment using CloudWatch Application Insights\. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-application-insights.html)\.
 
 ------
 #### [ Connectivity ]
 
-   Enter specifications for how you want to connect to your application instance and what kind of Virtual Private Cloud \(VPC\) you want to set up\. 
+   Enter specifications for how you want to connect to your instance and configure your Virtual Private Cloud \(VPC\)\. 
 
    **Key pair name**
    + Select an existing key pair from the dropdown list or create a new one\. If you select **Create new key pair name** to create a new key pair, you are directed to the Amazon EC2 console\. From there, under **Network and Security**, choose **Key Pairs**\. Choose **Create a new key pair**, enter a name for the key pair, and then choose **Download Key Pair**\.
@@ -35,9 +38,14 @@ This is the only chance for you to save the private key file, so be sure to down
 
      Return to the Launch Wizard console and choose the refresh button next to the **Key Pairs** dropdown list\. The newly created key pair appears in the dropdown list\. For more information about key pairs, see [Amazon EC2 Key Pairs and Windows Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)\.
 
+   **Tenancy \(HA deployments only\)**
+
+   Select your preferred tenancy\. Each instance that you launch into a VPC has a tenancy attribute\. The **Shared** tenancy option means that the instance runs on shared hardware\. The **Dedicated Host \(HA deployments\)** tenancy option means that the instance runs on a Dedicated Host, which is an isolated server with configurations that you can control\. For more information, see [Dedicated Hosts](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/dedicated-hosts-overview.html)\. 
+
    **Virtual Private Cloud \(VPC\)**\. Choose whether you want to use an existing VPC or create a new VPC\.
-   + **Select Virtual Private Cloud \(VPC\)**\. Choose the VPC that you want to use from the dropdown list\. Your VPC must contain one public subnet and, at least, two private subnets\. Your VPC must be associated with a [DHCP Options Set](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. For more information about NAT Gateways, see [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide\.
-     + **Public Subnet**\. Your VPC must contain one public subnet and, at least, two private subnets\. Choose a public subnet for your VPC from the dropdown list\. To continue, you must select the check box that indicates that the Public subnet has been set up and each of the selected private subnets have outbound connectivity enabled\. 
+   + **Select Virtual Private Cloud \(VPC\)** option\. Choose the VPC that you want to use from the dropdown list\. If you choose to enable Remote Desktop Gateway access on single\-node deployments, then your VPC must include one public subnet and one private subnet\. It must include at least two private subnets for HA deployments \. Your VPC must be associated with a [DHCP Options Set](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. For more information about NAT Gateways, see [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide\.
+     + **Remote Desktop Gateway preferences \(single\-node deployments only\)**\. When you select **Yes**, enter the public subnet into which to deploy the RDGW instance, and the Remote Desktop Gateway CIDR block\.
+     + **Public Subnet**\. If you choose to enable Remote Desktop Gateway access on single\-node deployments, then your VPC must include one public subnet and one private subnet\. It must include at least two private subnets for HA deployments\. Choose a public subnet for your VPC from the dropdown list\. To continue, you must select the check box that indicates that the public subnet has been set up and the private subnets have outbound connectivity enabled\. 
 
 **To add a new public subnet**
 
@@ -46,26 +54,29 @@ This is the only chance for you to save the private key file, so be sure to down
        + To add an internet gateway to your VPC, follow the steps in [Attaching an Internet Gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html#Add_IGW_Attach_Gateway) in the Amazon VPC User Guide\.
        + To configure your subnets to route internet traffic through the internet gateway, follow the steps in [Creating a Custom Route Table](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html#Add_IGW_Routing) in the Amazon VPC User Guide\. Use IPv4 format \(0\.0\.0\.0/0\) for Destination\.
        + The public subnet should have the “auto\-assign public IPv4 address” setting enabled\. To enable this setting, follow the steps in [Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) in the Amazon VPC User Guide\.
-     + **Availability Zone \(AZ\) and private subnets**\. You must choose at least two Availability Zones, with one private subnet for each zone that you select\. From the dropdown lists, select the **Availability Zones \(AZ\)** within which you want to deploy your **primary** and **secondary** SQL nodes\. Depending on the number of secondary nodes that you plan to use to set up a SQL Server Always On deployment, you may have to specify private subnets for each of them\. Cross\-Region replication is not supported\. 
+     + **Availability Zone \(AZ\) configuration**\. You must choose at least two Availability Zones for High Availability \(HA\) deployments and one Availability Zone for single\-node deployments, with one private subnet for each zone that you select\. For HA deployments, select the **Availability Zones** within which you want to deploy your **primary** and **secondary** SQL nodes\. Depending on the number of secondary nodes that you plan to use to set up a SQL Server Always On deployment, you may have to specify a ** private subnet** for each of them\. Cross\-Region replication is not supported\. 
 
 **To create a private subnet**
 
        If a subnet doesn't have a route to an internet gateway, the subnet is known as a private subnet\. To create a private subnet, you can use the following steps\. We recommend that you enable the outbound connectivity for each of your selected private subnets using a NAT Gateway\. To enable outbound connectivity from private subnets with public subnet, see the steps in [Creating a NAT Gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating) to create a NAT Gateway in your chosen public subnet\. Then, follow the steps in [Updating Your Route Table ](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-create-route)for each of your chosen private subnets\.
        + Follow the steps in [Creating a Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#AddaSubnet) in the Amazon VPC User Guide using the existing VPC you will use in AWS Launch Wizard\. 
        + When you create a VPC, it includes a main route table by default\. On the **Route Tables** page in the Amazon VPC console, you can view the main route table for a VPC by looking for Yes in the Main column\. The main route table controls the routing for all subnets that are not explicitly associated with any other route table\. If the main route table for your VPC has an outbound route to an internet gateway, then any subnet created using the previous step, by default, becomes a public subnet\. To ensure the subnets are private, you may need to create separate route table\(s\) for your private subnets\. These route tables must not contain any routes to an internet gateway\. Alternatively, you can create a custom route table for your public subnet and remove the internet gateway entry from the main route table\.
-     + **Remote Desktop Gateway CIDR**\. Select **Custom IP** from the dropdown list\. Enter the CIDR block\. If you do not specify any value for the Custom IP parameter, Launch Wizard does not set the inbound RDP access \(Port 3389\) from any IP\. You can choose to do this later by modifying the security group settings via the Amazon EC2 console\. See [Adding a Rule for Inbound RDP Traffic to a Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html#add-rule-authorize-access) for instructions on adding a rule that allows inbound RDP traffic to your RDGW instance\. 
-   + **New VPC**\. Launch Wizard creates your VPC\. You can optionally enter a VPC name tag\.
-     + **Remote Desktop Gateway CIDR**\. Select **Custom IP** from the dropdown list\. Enter the CIDR block\. If you do not specify any value for the Custom IP parameter, Launch Wizard does not set the inbound RDP access \(Port 3389\) from any IP\. You can choose to do this later by modifying the security group settings via the Amazon EC2 Console\. See [Adding a Rule for Inbound RDP Traffic to a Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html#add-rule-authorize-access) for instructions on adding a rule that allows inbound RDP traffic to your RDGW instance\. 
+
+       If you selected **Dedicated host** tenancy, you must select a Dedicated Host for each Availability Zone\. If you have not allocated any dedicated hosts to your account, you can choose **Create new dedicated host** to do so from the EC2 console\.
+     + **Remote Desktop Gateway access — Optional**\. Select **Custom IP** from the dropdown list\. Enter the CIDR block\. If you do not specify any value for the Custom IP parameter, Launch Wizard does not set the inbound RDP access \(Port 3389\) from any IP\. You can choose to do this later by modifying the security group settings via the Amazon EC2 console\. See [Adding a Rule for Inbound RDP Traffic to a Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html#add-rule-authorize-access) for instructions on adding a rule that allows inbound RDP traffic to your RDGW instance\. 
+   + **Create new Virtual Private Cloud \(VPC\)** option\. Launch Wizard creates your VPC\. You can optionally enter a VPC name tag\. If you selected **Dedicated Host** tenancy for high availability deployments, select a primary and secondary Dedicated Host\. If you haven't allocated any Dedicated Hosts to your account, select **Create a new dedicated host** to be directed to the EC2 console to do so\.
+     + **Remote Desktop Gateway preferences**\. When you select **Yes**, only the Remote Desktop Gateway access information will be taken from the VPC\.
+     + **Remote Desktop Gateway access — Optional**\. Select **Custom IP** from the dropdown list\. Enter the CIDR block\. If you do not specify any value for the Custom IP parameter, Launch Wizard does not set the inbound RDP access \(Port 3389\) from any IP\. You can choose to do this later by modifying the security group settings via the Amazon EC2 Console\. See [Adding a Rule for Inbound RDP Traffic to a Windows Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html#add-rule-authorize-access) for instructions on adding a rule that allows inbound RDP traffic to your RDGW instance\. 
 
 ------
 #### [ Active Directory ]
 
-   You can connect to an existing Active Directory or create a new one\. If you selected the **Create new Virtual Private Cloud \(VPC\)** option, you must select **Create a new Active Directory**\.
+   You can connect to an existing Active Directory or, for high availability deployments, you can create a new one\. If you selected the **Create new Virtual Private Cloud \(VPC\)** option for high availability deployments, you must select **Create a new Active Directory**\.
 
 **Connecting to existing AWS Managed Active Directory**
 
    Follow the steps for granting permissions in the Managed Active Directory Default Organizational Unit \(OU\)\. 
-   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
+   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory \(Windows deployment\)Active Directory \(Windows\)](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
    + **DNS address**\. Enter the IP address of the DNS servers to which you are connecting\. These servers must be reachable from within the VPC that you selected\. 
    + **Optional DNS address**\. If you would like to use a backup DNS server, enter the IP address of the DNS server that you want to use as backup\. These servers must be reachable from within the VPC that you selected\. 
    + **Domain DNS name**\. Enter the Fully Qualified Domain Name \(FQDN\) of the [ forest root domain ](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/selecting-the-forest-root-domain) used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
@@ -84,9 +95,9 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
    + **User name and password**\. If you are using an existing SQL Server service account, provide your user name and password\. This SQL Server service account should be part of the Managed Active Directory in which you are deploying\. If you are creating a new SQL Server service account through Launch Wizard, enter a user name for the SQL Server service account\. Create a complex Password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
    + **SQL Server install type**\. Select the version of SQL Server Enterprise that you want to deploy\. You can select an AMI from either the License\-included AMI or Custom AMI dropdown lists\.
    + **Additional SQL Server settings \(Optional\)**\. You can optionally specify additional nodes and their subnets\.
-     + **Nodes**\. Enter a **Primary SQL node name** and a **Secondary SQL node name**\. 
-     + **Additional secondary SQL node \(maximum of 5\)**\. Enter a secondary **Node name**, select the **Access type** from the dropdown list, and select the **Private subnet** for the additional secondary SQL node from the dropdown list\. You can add more secondary nodes by selecting **Add an additional secondary node**\. 
-     + Additional naming\. Enter a **Database name**, **Availability group name**, a **Listener name**, or a **Cluster name**\. 
+     + **Nodes**\. Enter a **Primary SQL node name** and a **Secondary SQL node name \(HA deployments only\)**\. 
+     + **Additional secondary SQL node \(HA deployments only, maximum of 5\)**\. Enter a secondary **Node name**, and select the **Access type**, the **Private subnet**, and the **Dedicated host** for the additional secondary SQL node from the dropdown lists\. You can add more secondary nodes by selecting **Add an additional secondary node**\. 
+     + **Additional naming**\. Enter a **Database name**\. For HA deployments, enter an **Availability group name**, a **Listener name**, or a **Cluster name**\. 
 
 ------
 
