@@ -1,4 +1,6 @@
-# Making SAP HANA software available for AWS Launch Wizard to deploy HANA database<a name="launch-wizard-sap-structure"></a>
+# Make SAP HANA software available for AWS Launch Wizard to deploy a HANA database<a name="launch-wizard-sap-structure"></a>
+
+This section describes steps to download the SAP HANA software and upload it to Amazon S3 to make it available for Launch Wizard to deploy a HANA database\.
 
 **Topics**
 + [Download SAP HANA software](#launch-wizard-sap-install)
@@ -8,7 +10,7 @@
 
 To download the SAP HANA software, go to the **SAP Software Downloads** page and download the installation files directly to your local drive\.
 
-1. Navigate to the [http://support.sap.com/swdc](http://support.sap.com/swdc) page and log in to your account\.
+1. Navigate to the [SAP Software Downloads](http://support.sap.com/swdc) page and log in to your account\.
 
 1. Under **Installation and Upgrades**, choose **Access Downloads**>**A\-Z index**\.
 
