@@ -1,20 +1,24 @@
 # How AWS Launch Wizard works<a name="how-launch-wizard-works"></a>
 
-AWS Launch Wizard provides a complete solution to provision popular third\-party applications on AWS\. Currently, Launch Wizard supports Microsoft SQL Server Always On applications\. You select Microsoft SQL Server Always On and provide the specifications, such as for performance, throughput, and networking requirements\. Based on the application requirements that you enter, Launch Wizard automatically provisions the right AWS resources in the cloud\. For example, Launch Wizard determines the best instance type and EBS volume for your CPU, memory, and bandwidth specifications, then deploys and configures them\. 
+AWS Launch Wizard provides a complete solution to provision popular third\-party applications on AWS\. Currently, Launch Wizard supports Microsoft SQL Server application deployments across multiple Availability Zones or on a single instance\. You provide the specifications, such as for performance, throughput, and networking requirements\. Based on the application requirements that you enter, Launch Wizard automatically provisions the right AWS resources in the cloud\. For example, Launch Wizard determines the best instance type and EBS volume for your CPU, memory, and bandwidth specifications, then deploys and configures them\. 
 
-Launch Wizard provides an estimated cost of deployment\. You can modify your resources and instantly view an updated cost assessment\. Once you approve, AWS Launch Wizard validates the inputs and flags inconsistencies\. After you resolve the inconsistencies, AWS Launch Wizard provisions the resources and configures them\. The result is a ready\-to\-use SQL Server Always On application\.
+Launch Wizard provides an estimated cost of deployment\. You can modify your resources and instantly view an updated cost assessment\. Once you approve, Launch Wizard validates the inputs and flags inconsistencies\. After you resolve the inconsistencies, Launch Wizard provisions the resources and configures them\. The result is a ready\-to\-use SQL Server Always On application\.
 
 Launch Wizard creates a CloudFormation stack according to your infrastructure needs\. You can reuse this template as a baseline for future infrastructure provisioning\. 
 
-Launch Wizard supports AWS Managed Microsoft Active Directory \(AD\) as well as connecting to Active Directory on\-premises through AWS Direct Connect\.
+For deployments on Windows, Launch Wizard supports AWS Managed Microsoft Active Directory \(AD\) as well as connecting to Active Directory on\-premises through AWS Direct Connect\.
 
-## Implementation details<a name="launch-wizard-implementation"></a>
+**Topics**
++ [Implementation details for deployment on Windows](#launch-wizard-implementation)
++ [Implementation details for deployment on Linux](#launch-wizard-implementation-linux)
 
-AWS Launch Wizard implements SQL Server Always On deployments as follows\.
+## Implementation details for deployment on Windows<a name="launch-wizard-implementation"></a>
+
+AWS Launch Wizard implements SQL Server deployments on Windows as follows\.
 
 ### SQL Server Enterprise Edition<a name="launch-wizard-sql"></a>
 
- Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through License Included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a custom AMI, ensure that your AMI meets the requirements listed in [Using custom AMIs](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
+ Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through License Included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a custom AMI, ensure that your AMI meets the requirements listed in [Requirements for using custom AMIs \(deployment on Windows\)](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
 
 ### Storage on WSFC nodes<a name="launch-wizard-storage"></a>
 
@@ -74,3 +78,32 @@ Launch Wizard runs this command on each node, and the proper server name is prov
 When the deployment is complete, Launch Wizard creates your databases and make them highly available by creating an Always On Availability Group\.
 
 When you create an availability group, you provide a network share that is used to perform an initial data synchronization\. As you progress through the New Availability Group wizard, a full backup for each selected database is taken and placed in the share\. The secondary node connects to the share and restores the database backups before joining the availability group\.
+
+## Implementation details for deployment on Linux<a name="launch-wizard-implementation-linux"></a>
+
+AWS Launch Wizard implements SQL Server deployments on Linux as follows\.
+
+### Always On availability group configuration<a name="launch-wizard-alwayson"></a>
++ **Availability group enablement**\. Launch Wizard enables availability groups using the following commands\.
+
+  ```
+  sudo /opt/mssql/bin/mssql-conf set hadr.hadrenabled 1
+  ```
+
+  ```
+  sudo systemctl restart mssql-server
+  ```
++ **Authentication of TCP endpoints**\. An availability group uses TCP endpoints for communication\. Launch Wizard uses certificate\-based authentication to support endpoints for availability groups\. All nodes create a self\-signed certificate and upload their certificates to an Amazon S3 location that you specify\. Each node will then locally sync the certificates from all of the other nodes\.
++ **Creation of availability group endpoints**\. Launch Wizard performs the backup, create, and restore of the authentication certificates with Transact\-SQL on Linux\. Transact\-SQL on Linux is also used to create the availability group endpoints and availability groups with automatic seeding\. The listener and read\-only routing are configured after an availability group is created\. 
++ ****Creation of availability group resources in Pacemaker cluster****\. After an availability group is created in SQL Server, the corresponding resources must be created in Pacemaker\. There are two resources associated with an availability group: the availability group and a floating IP address\. The created availability group resource is a unique resource called a clone\. The availability group resource contains copies on each node, with one controlling resource\. The controlling resource is associated with the server that hosts the primary replicas\. The secondary replicas \(except for configuration\-only replicas\) can be promoted to controlling resource during failover\. 
+
+  The floating IP address is an unused IP address in the VPC that is not part of any of the subnet CIDR ranges that are part of this cluster\. Launch Wizard creates a DNS entry in the host files to map AGListenerName to a floating IP Address\. Launch Wizard also creates a route for Floating IP/32 to the Primary Node Network Interface so that all internal VPC network traffic is routed to the primary node when any traffic reaches the floating IP\. In case of failover, the resource agent will update the routing table to point the floating IP to the new primary node\.
++ **Creation of availability group listener**\. The creation of the availability group listener is performed using the following Transact\-SQL commands:
+
+  ```
+  ALTER AVAILABILITY GROUP MyAg2
+  ```
+
+  ```
+  ADD LISTENER ...
+  ```
