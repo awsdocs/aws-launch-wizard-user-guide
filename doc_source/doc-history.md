@@ -4,6 +4,8 @@ The following table describes the documentation for this release of AWS Launch W
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS Launch Wizard for Remote Desktop Gateway ](what-is-launch-wizard-remote-desktop-gateway.md) | You can set up a new Remote Desktop Gateway infrastructure to an existing AWS infrastructure using AWS Launch Wizard for Remote Desktop Gateway\. | December 8, 2021 | 
+| [AWS Launch Wizard for Amazon Elastic Kubernetes Service](launch-wizard-eks-getting-started.md) | Get started setting up a new Amazon EKS application to an existing AWS infrastructure using AWS Launch Wizard\. | December 8, 2021 | 
 | [AWS Launch Wizard for SAP integration with AWS Service Catalog\.](what-is-launch-wizard-sap.md) | You can create AWS Service Catalog products from successful deployments with AWS Launch Wizard\. | August 30, 2021 | 
 | [AWS Launch Wizard for SAP support for no rollback on failure](launch-wizard-sap-getting-started.md) | When you select "No rollback on failure" for your AWS Launch Wizard deployments, if a deployment fails, Launch Wizard does not delete the AWS resources that were created for the deployment\. | March 5, 2021 | 
 | [AWS Launch Wizard for Active Directory support for no rollback on failure](launch-wizard-ad-getting-started.md) | When you select "No rollback on failure" for your AWS Launch Wizard deployments, if a deployment fails, Launch Wizard does not delete the AWS resources that were created for the deployment\. | March 5, 2021 | 
