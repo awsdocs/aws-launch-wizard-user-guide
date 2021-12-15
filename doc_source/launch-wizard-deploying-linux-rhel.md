@@ -1,25 +1,25 @@
-# Deploy an application with AWS Launch Wizard for SQL Server on Ubuntu<a name="launch-wizard-deploying-linux"></a>
+# Deploy an application with AWS Launch Wizard for SQL Server on RHEL<a name="launch-wizard-deploying-linux-rhel"></a>
 
 **Topics**
 + [Access AWS Launch Wizard](#accessing-launch-wizard-linux)
-+ [Deploy AWS Launch Wizard on Ubuntu](#deploy-console-launch-wizard-linux)
++ [Deploy AWS Launch Wizard on RHEL](#deploy-console-launch-wizard-linux-rhel)
 + [Post\-deployment cluster tasks](#launch-wizard-linux-post-deployment)
 
 ## Access AWS Launch Wizard<a name="accessing-launch-wizard-linux"></a>
 
 You can launch AWS Launch Wizard from the [AWS Launch Wizard console](https://console.aws.amazon.com/launchwizard)\.
 
-## Deploy AWS Launch Wizard on Ubuntu<a name="deploy-console-launch-wizard-linux"></a>
+## Deploy AWS Launch Wizard on RHEL<a name="deploy-console-launch-wizard-linux-rhel"></a>
 
-The following steps guide you through a SQL Server application deployment with AWS Launch Wizard on the Ubuntu platform after you have launched it from the console\. For SQL Server deployments on Ubuntu, you must use an instance type built on the [Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. EBS volumes are exposed as NVMe block devices on instances built with the Nitro System\. Device names that are specified for NVMe EBS volumes in a block device mapping are renamed using NVMe device names \(`/dev/nvme[[0-26]n1`\)\. Launch Wizard deployments on Ubuntu do not support block devices on Xen\-virtualized instances\. 
+The following steps guide you through a SQL Server application deployment with AWS Launch Wizard on the Red Hat Enterprise Linux \(RHEL\) platform after you have launched it from the console\. For SQL Server deployments on RHEL, you must use an instance type built on the [Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. EBS volumes are exposed as NVMe block devices on instances built with the Nitro System\. Device names that are specified for NVMe EBS volumes in a block device mapping are renamed using NVMe device names \(`/dev/nvme[[0-26]n1`\)\. Launch Wizard deployments on RHEL do not support block devices on Xen\-virtualized instances\. 
 
 1. When you select **Choose application** from the AWS Launch Wizard landing page, you are directed to the **Choose application** wizard, where you are prompted to select the type of application that you want to deploy\. Select **Microsoft SQL Server**, then **Create deployment**\.
 
 1. Under ** Review Permissions**, Launch Wizard displays the AWS Identity and Access Management \(IAM\) role required for Launch Wizard to access other AWS services on your behalf\. For more information about setting up IAM for Launch Wizard, see [AWS Identity and Access Management \(IAM\)](launch-wizard-setting-up.md#launch-wizard-iam)\. Choose **Next** \.
 
-1. On the **Configure application settings** page, select the **Operating System** on which you want to install SQL Server — in this case, **Ubuntu**\.
+1. On the **Configure application settings** page, select the **Operating System** on which you want to install SQL Server — in this case, **Red Hat Enterprise Linux**\.
 
-1. **Deployment model**\. Choose **High availability deployment** to deploy your SQL Server Always On application across multiple Availability Zones or **Single instance deployment** to deploy your SQL Server application on a single node\.
+1. **Deployment model**\. Choose **High availability deployment** to deploy your SQL Server Always On application across multiple Availability Zones\.
 
 1. You are prompted to enter specifications for the new deployment\. The following tabs provide information about the input fields\.
 
@@ -67,7 +67,8 @@ This is your only opportunity to save the private key file\. Download it and sav
 **SQL Server configuration**
    + **User name and password**\. By default, Launch Wizard applies the user name `sa` \. This system administrator account is used for SQL Server management\. Create a complex password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
    + **Floating IP Address \(HA and existing VPC deployments only\)**\. This field is available when you select a Virtual Private Cloud \(VPC\)\. The IP address that you enter is used as the endpoint for your SQL Server Availability Group listener\. Launch Wizard creates a route from this IP address to the SQL primary node in your route table\. Verify that the IP address is not already in use within your VPC and is outside of all of the provided subnet CIDRs\.
-   + **Amazon Machine Image \(AMI\)**\. Select the version of Microsoft SQL Server Enterprise to deploy\. You can select an AMI from the lists of either license\-included or custom AMIs\.
+   + **Amazon Machine Image \(AMI\)**\. Select the version of Microsoft SQL Server Enterprise to deploy from the list of AMIs\. 
+   + **SQL Server Edition**\. This field is available when you select a custom AMI\. Choose the edition of SQL Server for the custom AMI: **SQL Enterprise** or **SQL Standard**\. 
 
 **Pacemaker cluster configuration \(HA deployments only\)**
 
@@ -112,7 +113,7 @@ This is your only opportunity to save the private key file\. Download it and sav
    + **Volume type**\. Choose your preferred EBS volume type\. For more information about volume types, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
 
 **Volume sizes**
-   + **Volume size**\. Select the size of the SQL Server data volume in Gb for **Temporary database**, **Logs**, **Data**, and **Backup** volumes\. SQL Server logs and data will be staged on the same data volume for this deployment\. Make sure that you select an adequate size for the data volume\.
+   + **Volume size**\. Select the size of the SQL Server data volume in Gb for **Temporary database**, **Data**, and **Backup** volumes\. SQL Server logs and data will be staged on the same data volume for this deployment\. Make sure that you select an adequate size for the data volume\.
 
 ------
 #### [ Tags\-Optional ]
@@ -140,7 +141,7 @@ This is your only opportunity to save the private key file\. Download it and sav
 
 ## Post\-deployment cluster tasks<a name="launch-wizard-linux-post-deployment"></a>
 
-The Launch Wizard Pacemaker implementation includes three cluster nodes: primary, secondary, and configuration only\. The primary node provides the Microsoft SQL Server for Ubuntu resource and the floating IP address\. To ensure that the cluster operates correctly, some administrative tasks must be performed in a specific way\. If these tasks are performed incorrectly, then Pacemaker may identify the activity as a resource failure and attempt to fail over the resources to the secondary node\. If the resources are failed over to the secondary node, the cluster can remain in an unknown state, which can impact user access\. 
+The Launch Wizard Pacemaker implementation includes three cluster nodes: primary, secondary, and configuration only\. The primary node provides the Microsoft SQL Server for RHEL resource and the floating IP address\. To ensure that the cluster operates correctly, some administrative tasks must be performed in a specific way\. If these tasks are performed incorrectly, then Pacemaker may identify the activity as a resource failure and attempt to fail over the resources to the secondary node\. If the resources are failed over to the secondary node, the cluster can remain in an unknown state, which can impact user access\. 
 
 There are four primary tasks: **Start Cluster**, **Stop Cluster**, **Move Resources**, and **Recovery**\. These tasks must be carried out by a sudo user with an SSH connection to any of the cluster nodes\. Before performing any of these tasks, verify the cluster status using `pcs resource status --all`\. This command returns all cluster issues\. All issues must be addressed prior to performing any administrative tasks\.
 

@@ -14,6 +14,7 @@ The following steps guide you through a domain controller deployment with AWS La
 **General settings**
    + **Deployment name**\. Enter a unique application name for your deployment\.
    + **Simple Notification Service \(SNS\) topic ARN \(Optional\)**\. Specify an Amazon SNS topic where AWS Launch Wizard can send notifications and alerts\. For more information, see the [https://docs.aws.amazon.com/sns/latest/dg/welcome.html](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
+   + **Enable rollback on failed deployment**\. By default, if a deployment fails, your provisioned resources will not be rolled back/deleted\. This default configuration helps you to troubleshoot errors at the resource level as you debug deployment issues\. If you want your provisioned resources to be immediately deleted if a deployment fails, select the check box\.
 
 **Installation type**  
 Choose whether you want to deploy Active Directory on Amazon EC2 instances or on premises\. When you deploy Active Directory on Amazon EC2, it is deployed in a VPC configured for high availability\.
@@ -135,4 +136,4 @@ This is the only chance for you to save the private key file, so be sure to down
 
 1. When your deployment is ready, you see notification that your domain controllers are successfully deployed\. If you have set up SNS notification, you are also alerted through Amazon SNS\. You can manage and access all of the resources related to your domain controllers by selecting **Manage**\.
 
-1. When the domain controllers are deployed, you can access your Amazon EC2 instances through the Amazon EC2 console\. You can also use [AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) to manage your domain controllers for future updates and patches through built\-in integration through resource groups\.
+1. When the domain controllers are deployed, you can access your Amazon EC2 instances through the Amazon EC2 console\. You can also use [AWS SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) to manage your domain controllers for future updates and patches through built\-in integration through resource groups\.

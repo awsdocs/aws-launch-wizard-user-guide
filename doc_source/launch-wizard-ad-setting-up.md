@@ -65,11 +65,11 @@ If you are deploying domain controllers into an existing VPC and connecting to a
 + The firewall on the Active Directory domain controllers should allow the connections from the Amazon VPC from which you will create the Launch Wizard deployment\. At a minimum, your configuration should include the ports mentioned in [How to configure a firewall for Active Directory domains and trusts](https://support.microsoft.com/en-us/help/179442/how-to-configure-a-firewall-for-domains-and-trusts)\.
 
 You can optionally perform the following step\.
-+ Establish DNS resolution across your environments\. For options on how to set this up, see [ How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Amazon Route 53](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-amazon-route-53/) or [How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Microsoft Active Directory](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-microsoft-active-directory/)\.
++ Establish DNS resolution across your environments\. For options on how to set this up, see [ How to Set Up DNS Resolution Between On\-Premises Networks and AWS using AWS Directory Service and Amazon Route 53](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-amazon-route-53/) or [How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Microsoft Active Directory](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-microsoft-active-directory/)\.
 
 ### Trust relationships<a name="launch-wizard-ad-setup-trusts"></a>
 
-If you are creating a forest trust relationship, you must complete the [prerequisites for AWS Managed Active Directory](#launch-wizard-ad-setup-managed) before you set up the trust\. For more information about creating forest trust relationships, see [Configure forest trust relationships](launch-wizard-ad-create-trusts.md)\.
+If you are creating a forest trust relationship, you must complete the [prerequisites forAWS Managed Active Directory](#launch-wizard-ad-setup-managed) before you set up the trust\. For more information about creating forest trust relationships, see [Configure forest trust relationships](launch-wizard-ad-create-trusts.md)\.
 
 ## AWS Identity and Access Management \(IAM\)<a name="launch-wizard-ad-iam"></a>
 
@@ -132,7 +132,7 @@ While not exhaustive, the following requirements cover most of the configuration
 **AWS software and drivers**
 + AWS CloudFormation `cfn-init` script \(See [Bootstrapping AWS CloudFormation Windows stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-windows-stacks-bootstrapping.html)\.
 + EC2Launch \(Windows Server 2016\)
-+ AWS Systems Manager \([SSM agent must be installed](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html)\)
++ AWS SSM \([SSM agent must be installed](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html)\)
 + AWS Tools for Windows PowerShell
 + Network drivers \(SRIOV, ENA\)
 + Storage drivers \(NVMe, AWS PV\)

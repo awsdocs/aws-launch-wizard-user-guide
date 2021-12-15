@@ -4,12 +4,12 @@ AWS Systems Manager Application Manager, a capability of AWS Systems Manager, he
 
 Application Manager automatically imports application resources created by Launch Wizard\. From the Application Manager console, you can view operations details and perform operations tasks\. You can also use runbooks, or SSM Automation documents, provided by Launch Wizard from the Application Manager console to manage or remediate issues with application components or resources\. 
 
-For general information about AWS Systems Manager Application Manager, see [AWS Systems Manager Application Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/application-manager.html) in the AWS Systems Manager User Guide\.
+For general information about AWS Systems Manager Application Manager, see [AWS SSM Application Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/application-manager.html) in the AWS Systems Manager User Guide\.
 
 The following information is specific to the management of Launch Wizard application resources from the Application Manager console\.
 
 **Topics**
-+ [Use SSM Application Manager to run Automation workflows on your Launch Wizard applications](#launch-wizard-sql-app-manager-runbooks)
++ [Use runbooks](#launch-wizard-sql-app-manager-runbooks)
 + [Onboard existing applications](#launch-wizard-sql-app-manager-ops-metadata)
 + [Patch management](#launch-wizard-sql-app-manager-patch-manager)
 
@@ -35,13 +35,13 @@ To add your own runbooks, you must modify the service setting value for the supp
    + `AWS-SAP`
    + `AWS-SelfManagedActiveDirectory`
 
-   This command lists the service settings for `AWS-SQLServerWindows`\.
+   The following command lists the service settings for `AWS-SQLServerWindows`\.
 
    ```
    aws ssm get-service-setting --setting-id /launchwizard/AWS-SQLServerWindows
    ```
 
-   The following is example output for this command\.
+   The following is the example output\.
 
    ```
    {
@@ -71,7 +71,7 @@ To add your own runbooks, you must modify the service setting value for the supp
    aws ssm reset-service-setting --setting-id /launchwizard/AWS-SQLServerWindows
    ```
 
-   The following is example output for this command\.
+   The following is the example output\.
 
    ```
    {
@@ -86,7 +86,7 @@ To add your own runbooks, you must modify the service setting value for the supp
    }
    ```
 
-   The document lists correspond to the application type level, therefore, when you add a new `AWS-SQLServerWindows` document, it will show up in all `AWS-SQLServerWindows` deployments\. You can't add documents to a specific application\.
+   The document lists correspond to the application type level\. Therefore, when you add a new `AWS-SQLServerWindows` document, it will show up in all `AWS-SQLServerWindows` deployments\. You can't add documents to a specific application\.
 **Note**  
 Verify that you use the correct Region for the added document ARNs\. 
 

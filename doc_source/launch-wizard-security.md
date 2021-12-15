@@ -18,6 +18,7 @@ This section of the Launch Wizard User Guide provides security information that 
 + [Data protection in Launch Wizard](#data-protection)
 + [Identity and Access Management for AWS Launch Wizard](#identity-access-management)
 + [Update management in Launch Wizard](#update-management)
++ [AWS managed policies for AWS Launch Wizard](security-iam-awsmanpol.md)
 
 ## Infrastructure security in Launch Wizard<a name="infrastructure-security"></a>
 
@@ -43,7 +44,17 @@ For data protection purposes, we recommend that you protect AWS account credenti
 + Use advanced managed security services such as Amazon Macie, which assists in discovering and securing personal data that is stored in Amazon S3\.
 + If you require FIPS 140\-2 validated cryptographic modules when accessing AWS through a command line interface or an API, use a FIPS endpoint\. For more information about the available FIPS endpoints, see [Federal Information Processing Standard \(FIPS\) 140\-2](http://aws.amazon.com/compliance/fips/)\.
 
-We strongly recommend that you never put sensitive identifying information, such as your customers' account numbers, into free\-form fields such as a **Name** field\. This includes when you work with Launch Wizard or other AWS services using the console, API, AWS CLI, or AWS SDKs\. Any data that you enter into Launch Wizard or other services might get picked up for inclusion in diagnostic logs\. When you provide a URL to an external server, don't include credentials information in the URL to validate your request to that server\.
+We strongly recommend that you never put confidential or sensitive information, such as your customers' email addresses, into tags or free\-form fields such as a **Name** field\. This includes when you work with Launch Wizard or other AWS services using the console, API, AWS CLI, or AWS SDKs\. Any data that you enter into tags or free\-form fields used for names may be used for billing or diagnostic logs\. If you provide a URL to an external server, we strongly recommend that you do not include credentials information in the URL to validate your request to that server\.
+
+### Encryption with AWS managed keys and customer managed keys<a name="key-management"></a>
+
+AWS Launch Wizard for Active Directory, SQL Server, and SAP use the default AWS managed keys to encrypt Amazon EBS volumes\. Launch Wizard for SAP also supports the use of customer managed keys that you have already created\.
+
+If you don't specify a customer managed key, Launch Wizard for SAP automatically creates an AWS managed key in your AWS account\.
+
+If you want to use a customer managed key for Launch Wizard for SAP, see the steps for adding permissions to your KMS key policy for Launch Wizard to use your KMS key at [Add permissions to use AWS KMS keys](launch-wizard-sap-setting-up.md#launch-wizard-sap-iam-encryption) in the *Launch Wizard for SAP User Guide*\.
+
+Creating your own customer managed CMK gives you more flexibility and control\. For example, you can create, rotate, and disable customer managed keys\. You can also define access controls and audit the customer managed keys that you use to protect your data\. For more information about customer managed keys and AWS managed keys, see [AWS KMS concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html) in the AWS Key Management Service Developer Guide\.
 
 ## Identity and Access Management for AWS Launch Wizard<a name="identity-access-management"></a>
 
@@ -66,6 +77,9 @@ AWS Launch Wizard uses the following AWS managed policies to grant permissions t
 
   This policy provides minimum permissions to enable SAP provisioning scenarios on Launch Wizard\. It allows invocation of Lambda functions to be able to perform certain actions, such as validation of route tables and perform pre\-configuration and configuration tasks for HA mode enabling\.
 + To run custom pre\- and post\-configuration deployment scripts, you must manually add the permissions provided in [Add permissions to run custom pre\- and post\-deployment configuration scripts](launch-wizard-sap-setting-up.md#launch-wizard-sap-iam-scripts) to the `AmazonEC2RoleForLaunchWizard` role\.
++ To save generated artifacts from Launch Wizard for SAP to Amazon S3, and your S3 bucket name does not include the prefix `launchwizard`, you must attach the policy provided in [Add permissions to save deployment artifacts to Amazon S3](launch-wizard-sap-setting-up.md#launch-wizard-sap-iam-s3-artifacts) to the IAM user\. 
++ To grant permissions for users to launch AWS Service Catalog products created with Launch Wizard for SAP, follow the steps in [Set up to launch AWS Service Catalog products created with AWS Launch Wizard](launch-wizard-sap-service-catalog.md#launch-wizard-sap-service-catalog-setup)\.
++ To grant permissions to AWS Service Catalog to create a launch constraint for users who want to launch an AWS Service Catalog product created by Launch Wizard for SAP, follow the steps in [Create a launch constraint](launch-wizard-sap-service-catalog.md#launch-wizard-sap-service-catalog-constraint)\.
 
 If you deploy domain controllers into an existing VPC with an existing Active Directory, Launch Wizard for Active Directory requires domain administrator credentials to be added to Secrets Manager in order to join your domain controllers to Active Directory and promote them\. In addition, the following resource policy must be attached to the secret so that Launch Wizard can access the secret\. Launch Wizard guides you through the process of attaching the required policy to your secret\.
 

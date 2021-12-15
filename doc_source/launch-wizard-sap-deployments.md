@@ -3,13 +3,12 @@
 **Supported deployments**  
 AWS Launch Wizard currently supports the deployment of AWS resources for the following SAP systems and patterns\. SAP HANA database software and supported SAP application software are optionally installed and provided by the customer\. 
 + **SAP HANA database on a single Amazon EC2 instance\.** Deploy SAP HANA in a single\-node, scale\-up architecture, with up to 24TB of memory\.
-+ **SAP Netweaver on SAP HANA system on a single Amazon EC2 instance\.** Deploy an SAP application on the same Amazon EC2 instance as your SAP HANA Database\. 
++ **SAP NetWeaver on SAP HANA system on a single Amazon EC2 instance\.** Deploy an SAP application on the same Amazon EC2 instance as your SAP HANA Database\. 
 + **SAP HANA database on multiple EC2 instances\.** Deploy SAP HANA in a multi\-node, scale\-out architecture\.
-+ **SAP Netweaver system on multiple EC2 instances\.** Deploy an SAP Netweaver system using a distributed deployment model, which includes an ASCS/PAS server, single/multiple SAP HANA servers running SAP HANA databases, and multiple application servers\.
++ **SAP NetWeaver system on multiple EC2 instances\.** Deploy an SAP NetWeaver system using a distributed deployment model, which includes an ASCS/PAS server, single/multiple SAP HANA servers running SAP HANA databases, and multiple application servers\.
 + **Cross\-AZ SAP HANA database high availability setup\.** Deploy SAP HANA with high availability configured across two Availability Zones\. 
-+ **Cross\-AZ SAP Netweaver system setup\.** Deploy Amazon EC2 instances for ASCS/ERS and SAP HANA databases across two Availability Zones, and spread the deployment of application servers across them\.
-
-AWS Launch Wizard provides the following features:
++ **Cross\-AZ SAP NetWeaver system setup\.** Deploy Amazon EC2 instances for ASCS/ERS and SAP HANA databases across two Availability Zones, and spread the deployment of application servers across them\.
++ **SUSE/RHEL cluster setup** For SAP HANA and NetWeaver on HANA high availability deployments, Launch Wizard for SAP configures SUSE/RHEL clustering when you provide SAP software and specify the deployment of SAP database or application software\. For SAP HANA databases, clustering is enabled between the ASCS and ERS nodes\.
 
 **Topics**
 + [Instance selection and configuration](#launch-wizard-sap-features-app-deployment)
@@ -22,6 +21,7 @@ AWS Launch Wizard provides the following features:
 + [AWS Backint Agent for SAP HANA](#launch-wizard-sap-features-backint)
 + [Custom deployment configuration scripts](#launch-wizard-sap-features-scripts)
 + [Application software installation](#launch-wizard-sap-features-software-install)
++ [Creation of AWS Service Catalog products](#launch-wizard-features-service-catalog)
 
 ## Instance selection and configuration<a name="launch-wizard-sap-features-app-deployment"></a>
 
@@ -59,7 +59,7 @@ Deploying and running the Amazon Web Services \(AWS\) Data Provider for SAP is a
 
 ## AWS Backint Agent for SAP HANA<a name="launch-wizard-sap-features-backint"></a>
 
-Launch Wizard deploys and configures AWS Backint Agent for SAP HANA, an SAP\-certified backup and restore application for SAP HANA workloads running on Amazon EC2 instances in the cloud\. Launch Wizard supports the deployment and configuration of Backint Agent for single\-node, multi\-node, and high availability deployments for supported HANA and Netweaver on HANA applications\.
+Launch Wizard deploys and configures AWS Backint Agent for SAP HANA, an SAP\-certified backup and restore application for SAP HANA workloads running on Amazon EC2 instances in the cloud\. Launch Wizard supports the deployment and configuration of Backint Agent for single\-node, multi\-node, and high availability deployments for supported HANA and NetWeaver on HANA applications\.
 
 ## Custom deployment configuration scripts<a name="launch-wizard-sap-features-scripts"></a>
 
@@ -68,3 +68,9 @@ You can provide custom pre\-deployment and post\-deployment configuration script
 ## Application software installation<a name="launch-wizard-sap-features-software-install"></a>
 
 Launch Wizard can install SAP application software that you have made available on Amazon S3, including SAP NetWeaver on HANA, SAP S/4HANA, and SAP BW/4HANA\. For more details about which operating systems and database versions are supported for each deployment pattern, see [Supported application software installation versions and deployment patterns](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application-install)\. For supported software versions and installation details, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
+
+## Creation of AWS Service Catalog products<a name="launch-wizard-features-service-catalog"></a>
+
+AWS Launch Wizard can create AWS Service Catalog products from successful deployments\. The AWS Service Catalog products contain AWS CloudFormation templates and associated application configuration scripts, which are stored in Amazon S3\. You can use the AWS Service Catalog products, along with integrations offered by AWS Service Catalog, with third\-party products, such as ServiceNow, Jira, or Terraform\. Or, you can use the AWS CloudFormation templates and application configuration scripts saved in Amazon S3 to deploy SAP applications that meet the requirements of organizational deployment and governance policies\.
+
+In addition to supporting deployments using AWS CloudFormation templates, AWS Service Catalog, and multiple deployment tools supported by AWS Service Catalog, AWS Launch Wizard creates a point\-in\-time snapshot of the code used to deploy and configure SAP applications at the time of the deployment\. You can use the code in its current form for consistent repeated deployments, or you can use the code as a baseline and update it to meet specific application requirements\.

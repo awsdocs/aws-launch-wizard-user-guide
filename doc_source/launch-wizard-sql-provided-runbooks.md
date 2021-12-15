@@ -4,7 +4,7 @@ A Systems Manager Automation document defines the actions that Systems Manager p
 
 Launch Wizard provides predefined Automation documents that are maintained by AWS\. This topic describes each of the predefined Automation documents provided for AWS Launch Wizard\.
 
-For more information about SSM Automation documents, see [AWS Systems Manager Automation](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html) in the *AWS Systems Manager User Guide*\.
+For more information about SSM Automation documents, see [AWS SSM Automation](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html) in the *AWS Systems Manager User Guide*\.
 
 **Topics**
 + [AWSSQLServer\-DBCC](#launch-wizard-sql-runbooks-sqldbcc)

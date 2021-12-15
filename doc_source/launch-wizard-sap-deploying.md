@@ -34,6 +34,8 @@ On the **Define infrastructure** page, define your deployment name and infrastru
 1. Under the **General** subheading, define the following:
    + **Deployment name**\. Enter a unique application name for your deployment\.
    + **Description \(Optional\)**\. Provide an optional description of your deployment\.
+   + **Enable rollback on failed deployment**\. By default, if a deployment fails, your provisioned resources will not be rolled back/deleted\. This default configuration helps you to troubleshoot errors at the resource level as you debug deployment issues\. If you want your provisioned resources to be immediately deleted if a deployment fails, select the check box\.
+   + **Create an AWS Service Catalog product**\. Select the check box to package and export AWS CloudFormation templates and associated application configuration scripts to Amazon S3 and create an AWS Service Catalog product\. You use these scripts to deploy and configure AWS infrastructure resources for SAP applications\. If you select this option, the templates and scripts are saved to the specified Amazon S3 path\. You can use the saved AWS CloudFormation templates and AWS Service Catalog products for repeated deployments of the SAP applications using CloudFormation, AWS Service Catalog, and third\-party applications integrated with AWS Service Catalog\.
    + **Tags \(Optional\)**\. Enter a key and value to assign metadata to your deployment\. For help with tagging, see [Tagging Your Amazon EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)\.
 
 1. Under the **Infrastructure – SAP landscape** subheading, configure the following infrastructure settings for your SAP landscape\.
@@ -101,11 +103,11 @@ This is the only time that you can save the private key file, so download and sa
      + **\{VPC\_CIDR\_RANGE\}**—CIDR block of the VPC, for example, 10\.0\.0/24
    + **Time zone**\. Choose the time zone settings to configure the timezone on the instances from the dropdown list\.
    + **EBS encryption**\. From the dropdown list, choose whether or not to enable EBS encryption for all of the EBS volumes that are created for the SAP systems\. For more information, see [Amazon EBS Encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)\.
-   + **Domain name \(DNS\) settings \(Optional\)**\. Select **Domain Name** or **Route 53** from the **DNS type** dropdown list\. 
+   + **Domain name \(DNS\) settings \(Optional\)**\. Select **Domain Name** or **Route 53** from the **DNS type** dropdown list\. 
      + If you select **Domain Name**, you have the option to enter a domain name to maintain a Fully Qualified Domain Name \(FQDN\) in the `/etc/hosts` file for each instance that is launched and configured by Launch Wizard\.
-     + If you select **Route 53**, select a Route 53 hosted zone from the dropdown list\. Launch Wizard will create a DNS entry for each EC2 instance launched\.
+     + If you select **Route 53**, select a Route 53 hosted zone from the dropdown list\. Launch Wizard will create a DNS entry for each EC2 instance launched\.
 **Note**  
-Before you use a Route 53 hosted zone, verify that the hosted zone is [integrated with the VPC](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html), and that the [VPC DHCP options](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) are correctly set up\.
+Before you use a Route 53 hosted zone, verify that the hosted zone is [integrated with the VPC](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html), and that the [VPC DHCP options](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) are correctly set up\.
    + **SAP landscape settings**\. Enter the system settings for your SAP landscape\.
      + **SAP System Admin User ID**\. Enter the user ID for the SAP system administrator\.
      + **SAP System Admin Group ID**\. Enter the group ID for SAPSYS\. We recommend that you replicate this number across all of your SAP systems because SAPSYS GID must be the same between systems that are part of the transport domain\.
@@ -143,7 +145,9 @@ On the **Configure application settings** page, enter your NetWeaver stack on SA
 1. **General Settings – SAP HANA**\. Enter the settings for your SAP HANA installation\.
    + **SAP HANA System ID\.** Enter the identifier for your SAP HANA database\. The ID must be a three character, alphanumeric string\.
    + **SAP HANA Instance number\.** Enter the instance number to be used for the SAP HANA installation and setup\. The ID must be a two\-digit number\.
-   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
+   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types to use for **SAP HANA Data**, **SAP HANA Logs**, and **SAP Others** from the dropdown lists\.
+**Note**  
+gp3 volumes are not supported for HANA production databases running on Xen instances \(X1, X1e, R4, and R3\)\. When you deploy HANA databases with Xen instances after choosing **Production** as the **Deployment environment** under the **Configuration options**, gp2 volumes will be used to set up SAP HANA Data and Logs on the instances you selected for the HANA database\.
 
 1. After you enter your application settings, choose **Next**\. 
 
@@ -162,6 +166,9 @@ On the **Configure deployment model** page, enter the deployment details for a s
      + **Operating System**\. Select a supported operating system version for the ASCS instance\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
      + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
+     + **Private IP address**\. Choose whether to use an **Auto\-assigned \(default\)** IP address or a **Custom IP address**\.
+       + **Auto\-assign \(default\)**\. When you select this option, an IP addressed will be assigned for you\. This is the default option\.
+       + **Private IP address**\. When you select this option, you can enter a single IP address\. Verify that this IP address is within the subnet range of the instance you are launching\. 
      + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
    + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose instance**\.
      + **Use AWS recommended resources**\.
@@ -227,6 +234,9 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
          + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
          + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
      + **Instance type**\. Choose the instance type from the dropdown list\.
+     + **Private IP address**\. Choose whether to use an **Auto\-assigned \(default\)** IP address or a **Custom IP address**\.
+       + **Auto\-assign \(default\)**\. When you select this option, an IP addressed will be assigned for you\. This is the default option\.
+       + **Private IP address**\. When you select this option, you can enter a single IP address\. If you have selected multiple worker nodes, enter the IP addresses to assign to the instance for each selected node\. Separate more than one IP address with commas\. Verify that the IP addresses are within the subnet range of the instance you are launching\. You must enter the same number of IP addresses as the number of nodes selected\.
      + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
      + **Recommended Resources**\. AWS Launch Wizard displays the **Estimated monthly cost of operation** based on your instance sizing selections\. This is an estimate of AWS costs to deploy additional resources and does not include any applicable taxes or discounts\.
 
@@ -313,6 +323,18 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
    + **Primary and secondary instance details**\. Enter details for both the primary and secondary instances\.
      + **SAP HANA host name**\. Enter the host name for the SAP HANA primary and secondary instances\.
      + **Server site name**\. Enter the primary and secondary site name for the SAP HANA system replication\. 
+
+**Private IP address settings**
+     + **Primary instance details**
+
+       **Private IP address**\. Choose whether to use an **Auto\-assigned \(default\)** IP address or a **Custom IP address** for your primary instance\.
+       + **Auto\-assign \(default\)**\. When you select this option, an IP addressed will be assigned for you\. This is the default option\.
+       + **Private IP address**\. When you select this option, you can enter a single IP address\. Verify that this IP address is within the subnet range of the instance you are launching\. 
+     + **Secondary instance details**
+
+       **Private IP address**\. Choose whether to use an **Auto\-assigned \(default\)** IP address or a **Custom IP address** for your secondary instance\.
+       + **Auto\-assign \(default\)**\. When you select this option, an IP addressed will be assigned for you\. This is the default option\.
+       + **Private IP address**\. When you select this option, you can enter a single IP address\. Verify that this IP address is within the subnet range of the instance you are launching\. 
    + **Overlay IP address**\. Enter the overlay IP address to assign to the active node\. The IP address should be outside of the VPC CIDR and must not be used by any other HA cluster\. It is configured to always point to the active SAP HANA node\. 
    + **Pacemaker tag name**\. Enter the tag to assign to each EC2 instance\. This tag is used by the pacemaker component of SLES HAE and RHEL for SAP high availability solutions and must not be used by any other EC2 instance in your account\. 
    + Under **Instance sizing**, choose whether to **Use AWS recommended resources** or **Choose your instance**\.
@@ -424,7 +446,7 @@ On the **Configure SAP application software installation** page, enter the softw
 
    1. **S3 file path**\. Select or enter the Amazon S3 location to store the SAP HANA backup files\.
 
-   1. **KMS customer master key \(CMK\) ARN**\. Select the ARN of the CMK that can be used by AWS Backint Agent to encrypt the backup files\. For more information, see the [AWS Backint Agent for SAP documentation](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-prerequisites.html#aws-backint-agent-s3)\.
+   1. **AWS KMS key ARN**\. Select the ARN of the KMS key that can be used by AWS Backint Agent to encrypt the backup files\. For more information, see the [AWS Backint Agent for SAP documentation](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-prerequisites.html#aws-backint-agent-s3)\.
 
    1. **Agent version**\. Select the AWS Backint Agent version you want to install\.
 
@@ -465,12 +487,14 @@ On the **Configure application settings** page, enter your SAP HANA database app
 1. **General Settings – SAP HANA**\. Enter the settings for your SAP HANA database installation\.
    + **SAP HANA System ID \(SID\)**\. Enter the SAP HANA system ID for your system\. The HANASID must be different from SAPSID if you are configuring a single instance deployment\.
    + **SAP HANA Instance number**\. Enter the instance number to use for your SAP HANA system\. This must be a two\-digit number from 00 through 99\.
-   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types that you want to use for both **SAP HANA Data** and **SAP HANA Logs** from the dropdown lists\.
+   + **EBS Volume Type for SAP HANA**\. Select the EBS volume types that you want to use for **SAP HANA Data**, **SAP HANA Logs**, and **SAP Others** from the dropdown lists\.
+**Note**  
+gp3 volumes are not supported for HANA production databases running on Xen instances \(X1, X1e, R4, and R3\)\. When you deploy HANA databases with Xen instances after choosing **Production** as the **Deployment environment** under the **Configuration options**, gp2 volumes will be used to set up SAP HANA Data and Logs on the instances you selected for the HANA database\.
    + **SAP HANA software install**\. Select whether you want to download the SAP HANA software\.
      + If you select **Yes**, enter the Amazon S3 location where the SAP HANA software is located\. The S3 bucket must have the prefix “launchwizard” in the bucket name to ensure that the Launch Wizard IAM role policy for EC2 has read\-only access to the bucket\. For steps to set up the folder structure for your S3 bucket, see [Make SAP HANA software available for AWS Launch Wizard to deploy a HANA database](launch-wizard-sap-structure.md)\. Enter a password to use for your SAP HANA installation\.
        + **AWS Backint Agent\.** Select the check box if you want to deploy AWS Backint Agent for backup and recover along with the application\. For more information about AWS Backint Agent, see [AWS Backint Agent for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/aws-backint-agent-sap-hana.html)\.
          + **S3 URI\.** Enter the URI of the S3 bucket where you want to store your SAP HANA backup files\. For example, `s3://<bucket-name>`\.
-         + **S3 Encryption \(KMS key ARN\)\.** Select the ARN of the KMS key that AWS Backint Agent can use to encrypt the backup files stored in your Amazon S3 bucket\.
+         + **S3 Encryption \(AWS KMS key ARN\)\.** Select the ARN of the KMS key that AWS Backint Agent can use to encrypt the backup files stored in your Amazon S3 bucket\.
          + **Agent version\.** Select the version number of the agent that you want to install\. If you do not enter a version number, the latest published version of the agent is installed\.
          + **Additional Backint preferences\.** 
            + If you selected to use AWS Backint agent, the agent backs up files to S3, which removes the requirement for EBS backup volumes\. Select this check box to provision local EBS backup volumes for file\-level backups\.

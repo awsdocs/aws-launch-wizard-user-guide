@@ -40,7 +40,7 @@ You can view the status of these AWS CloudFormation stacks\. If any of them fail
 
 ## Application launch quotas<a name="launch-wizard-sap-quotas"></a>
 
-Launch Wizard allows for a maximum of 50 active applications \(with status `in progress` or `completed`\) for any given application type\. If you want to increase this limit, contact [AWS Support](https://aws.amazon.com/contact-us)\.
+Launch Wizard allows for a maximum of 50 active applications \(with status `in progress` or `completed`\) for any given application type\. If you want to increase this limit, contact [AWS Support ](https://aws.amazon.com/contact-us)\.
 
 ## Enable termination protection<a name="launch-wizard-sap-terminate-protection"></a>
 

@@ -21,6 +21,13 @@ Establishing the AWS Identity and Access Management \(IAM\) role and setting up 
 + A one\-time creation of IAM roles that Launch Wizard uses to deploy SAP systems on AWS\.
 + The creation of IAM users who can grant permission for Launch Wizard to deploy applications\.
 
+**Topics**
++ [One\-time creation of IAM role](#launch-wizard-sap-iam-role)
++ [Create and enable IAM users to use Launch Wizard](#launch-wizard-iam-user-setup)
++ [Add permissions to use AWS KMS keys](#launch-wizard-sap-iam-encryption)
++ [Add permissions to run custom pre\- and post\-deployment configuration scripts](#launch-wizard-sap-iam-scripts)
++ [Add permissions to save deployment artifacts to Amazon S3](#launch-wizard-sap-iam-s3-artifacts)
+
 ### One\-time creation of IAM role<a name="launch-wizard-sap-iam-role"></a>
 
 On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM roles required for Launch Wizard to access other AWS services on your behalf\. These roles are **AmazonEC2RoleForLaunchWizard** and **AmazonLambdaRoleForLaunchWizard**\. Select **Next**, and Launch Wizard attempts to discover the IAM roles in your account\. If either role does not exist in your account, Launch Wizard attempts to create the roles with the same names, **AmazonEC2RoleForLaunchWizard** and **AmazonLambdaRoleForLaunchWizard**\. 
@@ -57,6 +64,26 @@ To deploy an SAP system with Launch Wizard, the user must be assigned the **Amaz
 
 **Important**  
 You must log in with the user associated with this IAM policy when you use Launch Wizard\.
+
+### Add permissions to use AWS KMS keys<a name="launch-wizard-sap-iam-encryption"></a>
+
+AWS Launch Wizard uses AWS default encryption keys to encrypt Amazon EBS volumes\. In addition, Launch Wizard supports the use of KMS keys created and maintained in AWS KMS\. You can choose to either create new keys or use preexisting keys to encrypt your EBS volumes\. You must add permissions to the KMS key policy for your key so that Launch Wizard can use your KMS key for encryption\.
+
+**How to add permissions to your KMS key policy so that Launch Wizard can use your key for encryption**
+
+1. Sign in to the AWS Management Console and open the AWS Key Management Service \(AWS KMS\) console at [https://console\.aws\.amazon\.com/kms](https://console.aws.amazon.com/kms)\.
+
+1. To change the AWS Region, use the Region selector in the upper\-right corner of the page\.
+
+1. Choose **Customer managed keys** in the left navigation pane\.
+
+1. Select the alias of the KMS key that you want to use to encrypt your EBS volumes\.
+
+1. Under **Key users**, choose **Add**\.
+
+1. Select the check box next to `AmazonEC2RoleForLaunchWizard` and the IAM user with Launch Wizard full access permissions\.
+
+1. Choose **Add**\. Verify that `AmazonEC2RoleForLaunchWizard` and the IAM user with Launch Wizard full access permissions appear in the **Key users** list\.
 
 ### Add permissions to run custom pre\- and post\-deployment configuration scripts<a name="launch-wizard-sap-iam-scripts"></a>
 
@@ -112,3 +139,44 @@ To run custom pre\- and post\-configuration deployment scripts, you must add the
 You must log in with the user associated with this IAM policy when you use Launch Wizard\.
 
 If the pre\- or post\-deployment configuration deployment scripts are expected to run additional AWS services, the permissions to use the services must also be manually added as policy to the `AmazonEC2RoleForLaunchWizard`\.
+
+### Add permissions to save deployment artifacts to Amazon S3<a name="launch-wizard-sap-iam-s3-artifacts"></a>
+
+To create AWS Service Catalog products from successful deployments, which include AWS CloudFormation templates and application configuration scripts, you must provide access to an Amazon S3 location to save the generated artifacts\. 
+
+The following steps guide you through adding the required permissions for saving deployment artifacts to Amazon S3 to the `AmazonLaunchWizard_Fullaccess` role\. If the S3 bucket that you want to use to save deployment artifacts does not contain the prefix `launchwizard` in its name, you must perform the following steps to attach the required policy to the IAM user who will be performing the deployments\.
+
+1. Sign in to the AWS Management Console and open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam)\. \.
+
+1. In the left navigation pane, choose **Users**, and choose the IAM user to which you want to grant permissions\. By default, the following policy should be attached to the user: **AmazonLaunchWizard\_Fullaccess**
+
+1. Choose the **Permissions** tab\.
+
+1. Choose **Add inline policy**\.
+
+1. Copy and paste the following policy into the **JSON** tab, replacing the placeholder text\. Enter the Amazon S3 path where you want to store your artifacts in the policy\.
+
+   ```
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+         
+         {
+             "Sid": "SaveLaunchWizardDeploymentArtifacts",
+             "Effect": "Allow",
+             "Action": [
+               "s3:PutObject"
+             ],
+             "Resource": [
+                 "arn:aws:s3:::${bucketName}/${bucketFolder}*"
+             ]
+         }
+       ]
+     }
+   ```
+
+1. Choose **Review policy** and enter a **Name** for the policy\.
+
+1. Choose **Create Policy**\.
+
+1. Verify that the correct policy is listed for the user\.

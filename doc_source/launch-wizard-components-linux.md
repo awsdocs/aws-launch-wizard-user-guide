@@ -1,6 +1,6 @@
 # Components \(deployment on Linux\)<a name="launch-wizard-components-linux"></a>
 
-A SQL Server Always On application deployed on Linux with Launch Wizard includes the following components:
+A SQL Server application deployed on Linux with Launch Wizard includes the following components:
 + A **virtual private cloud \(VPC\)** configured with [public and private subnets](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html#what-is-vpc-subnet) across three Availability Zones\. A public subnet is a subnet whose traffic is routed to an internet gateway\. If a subnet does not have a route to the internet gateway, then it is a private subnet\. The VPC provides the network infrastructure for your SQL Server deployment\.
 + An **internet gateway** to provide access to the internet\.
 + In the public subnets, **network address translation \(NAT\)** for outbound internet access\. If you are deploying in your preexisting VPC, Launch Wizard uses the existing NAT gateway in your VPC\. For more information about NAT gateways, see [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\.
@@ -9,4 +9,4 @@ A SQL Server Always On application deployed on Linux with Launch Wizard includes
 
 The high\-level architecture of a SQL Server high availability solution on Linux is similar to the architecture for deployment on Windows\. The main differences are the low\-level components and technologies\. The architecture for Linux deployments provides redundant databases and a configuration\-only replica node to verify that a quorum can vote for the node to be promoted to the controlling resource\. The default architecture mirrors an on\-premises architecture of two SQL Server instances spanning two subnets placed in two different Availability Zones\. For more information about SQL Server Always On Availability Groups \(AG\), see [Overview of Always On Availability Groups \(SQL Server\)](https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server?view=sql-server-2017) in the Microsoft documentation\.
 
-![\[Deploy SQL Server Always On with Launch Wizard with three Availability Zones\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture-3az_linux.png)
+![\[Deploy SQL Server Always On with Launch Wizard with three Availability Zones\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture-3az_linux-2.png)

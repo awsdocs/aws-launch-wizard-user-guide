@@ -9,12 +9,14 @@ A SQL Server application deployed on Windows with Launch Wizard includes the fol
 + In the private subnets, **Windows Server\-based instances as Windows Server Failover Clustering \(WSFC\) nodes**\. For more information, see [Windows Server Failover Clustering with SQL Server](https://docs.microsoft.com/en-us/sql/sql-server/failover-clusters/windows/windows-server-failover-clustering-wsfc-with-sql-server?view=sql-server-2017)\.
 + **SQL Server Enterprise edition with SQL Server Always On Availability Groups on each WSFC node**\. This architecture provides redundant databases and a witness server to ensure that a quorum can vote for the node to be promoted to the controlling resource\. The default architecture mirrors an on\-premises architecture of two SQL Server instances spanning two subnets placed in two different Availability Zones\. For more information about SQL Server Always On Availability Groups, see [Overview of Always On Availability Groups \(SQL Server\)](https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server?view=sql-server-2017)\. 
 + **Security groups** to ensure the secure flow of traffic between the instances deployed in the VPC\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)\.
-
 **Note**  
-If you choose to deploy SQL Server Always On through Launch Wizard into your existing VPC, there is an additional mandatory check box on the console for you to indicate whether VPC and public/private subnet requirements have been met\. 
+If you choose to deploy SQL Server Always On through Launch Wizard into your existing VPC, there is an additional mandatory check box on the console to indicate whether VPC and public/private subnet requirements have been met\. 
++ **Amazon FSx** to provide highly available and redundant storage across Availability Zones for clustering\.
+**Note**  
+Launch Wizard uses two Availability Zones\.
 
-![\[Deploy SQL Server Always On with Launch Wizard\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture_mod.png)
+![\[Deploy SQL Server Always On with Launch Wizard\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture_mod-2.png)
 
 You can also choose to build an architecture with three Availability Zones, as shown in the following diagram\.
 
-![\[Deploy SQL Server Always On with Launch Wizard with three Availability Zones\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture-3az_mod.png)
+![\[Deploy SQL Server Always On with Launch Wizard with three Availability Zones\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture-3az_mod-2.png)

@@ -1,7 +1,7 @@
 # AWS Launch Wizard User Guide
 
 -----
-*****Copyright &copy; 2020 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -40,14 +40,21 @@ Amazon's trademarks and trade dress may not be used in
    + [Get started with AWS Launch Wizard for SAP](launch-wizard-sap-getting-started.md)
       + [Set up for AWS Launch Wizard for SAP](launch-wizard-sap-setting-up.md)
       + [Deploy an SAP application with AWS Launch Wizard](launch-wizard-sap-deploying.md)
+      + [AWS Launch Wizard for SAP tutorials](launch-wizard-sap-tutorials.md)
    + [Manage application resources with AWS Launch Wizard for SAP](launch-wizard-sap-managing.md)
    + [Make SAP HANA software available for AWS Launch Wizard to deploy a HANA database](launch-wizard-sap-structure.md)
    + [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)
+   + [Repeat SAP application deployments using deployment artifacts created with AWS Launch Wizard](launch-wizard-deployment-artifacts.md)
+      + [Launch AWS Service Catalog products created with AWS Launch Wizard](launch-wizard-sap-service-catalog.md)
+      + [Launch AWS Service Catalog products with ServiceNow](launch-wizard-sap-service-catalog-servicenow.md)
+      + [Launch AWS Service Catalog products with Jira](launch-wizard-sap-service-catalog-jira.md)
+      + [Launch AWS Service Catalog products with Terraform](launch-wizard-sap-service-catalog-terraform.md)
+      + [Launch AWS CloudFormation templates created in Launch Wizard](launch-wizard-sap-launch-artifacts-cloudformation.md)
    + [Supported versions for SAP deployments](launch-wizard-sap-versions.md)
    + [Security groups in AWS Launch Wizard for SAP](launch-wizard-sap-security-groups.md)
    + [Troubleshoot AWS Launch Wizard for SAP](launch-wizard-sap-troubleshooting.md)
 + [AWS Launch Wizard for SQL Server](launch-wizard-sql.md)
-   + [What is AWS Launch Wizard for SQL Server?](what-is-launch-wizard.md)
+   + [What Is AWS Launch Wizard for SQL Server?](what-is-launch-wizard.md)
       + [Features of AWS Launch Wizard](launch-wizard-features.md)
       + [Components (deployment on Windows)](launch-wizard-components.md)
       + [Components (deployment on Linux)](launch-wizard-components-linux.md)
@@ -56,8 +63,9 @@ Amazon's trademarks and trade dress may not be used in
       + [Deployment options](launch-wizard-deployment-options.md)
    + [Get started with AWS Launch Wizard for SQL Server](launch-wizard-getting-started.md)
       + [Set up for AWS Launch Wizard for SQL Server](launch-wizard-setting-up.md)
-      + [Access and deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md)
-      + [Access and deploy an application with AWS Launch Wizard for SQL Server on Linux](launch-wizard-deploying-linux.md)
+      + [Deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md)
+      + [Deploy an application with AWS Launch Wizard for SQL Server on Ubuntu](launch-wizard-deploying-linux.md)
+      + [Deploy an application with AWS Launch Wizard for SQL Server on RHEL](launch-wizard-deploying-linux-rhel.md)
    + [Manage application resources with AWS Launch Wizard for SQL Server](launch-wizard-managing.md)
    + [Manage Launch Wizard application resources with AWS Systems Manager Application Manager](launch-wizard-sql-app-manager.md)
    + [AWS Launch Wizard Systems Manager Automation documents](launch-wizard-sql-provided-runbooks.md)
@@ -65,4 +73,5 @@ Amazon's trademarks and trade dress may not be used in
    + [High availability and security best practices for AWS Launch Wizard for SQL Server](launch-wizard-best-practices.md)
    + [Troubleshoot AWS Launch Wizard for SQL Server](launch-wizard-troubleshooting.md)
 + [AWS Launch Wizard security](launch-wizard-security.md)
+   + [AWS managed policies for AWS Launch Wizard](security-iam-awsmanpol.md)
 + [AWS Launch Wizard documentation history](doc-history.md)

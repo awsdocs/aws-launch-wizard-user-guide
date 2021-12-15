@@ -11,13 +11,14 @@ For SQL Server deployments on Linux, you must use an instance type built on the 
 + [SSM Automation execution](#launch-wizard-ssm-automation)
 + [AWS CloudFormation stack](#launch-wizard-cloudformation)
 + [Pacemaker on Ubuntu \(deployment on Linux\)](#launch-wizard-pacemaker)
++ [SQL Server Management Studio](#launch-wizard-troubleshooting-ssms)
 + [Errors](#launch-wizard-errors)
 
 ## Active Directory objects and DNS record clean up \(deployment on Windows\)<a name="launch-wizard-ad-dns-clean"></a>
 
 When you delete a deployment, you lose all specification settings for the SQL Server Always On application\. Launch Wizard attempts to delete only the AWS resources that it created in your account as part of the deployment\. If you created resources outside of Launch Wizard, for example, resources in a VPC created by Launch Wizard, the deletion can fail\. Launch Wizard does not delete Active Directory objects in your Active Directory, nor does it delete any of the records in your DNS server\. Launch Wizard has no control over your Active Directory domain user password over time, which is required to clean up Active Directory objects or DNS records\. We recommend that you remove these entries from your Active Directory after Launch Wizard deletes the deployment\.
 
-If the initial Active Directory objects or DNS records are not cleaned up, then when you attempt to deploy Launch Wizard on an existing Active Directory using a deployment name that has already been used or Availability Group/Listener/Cluster name that has already been used, the deployment may fail with the following error\.
+If the initial Active Directory objects or DNS records are not cleaned up, when you attempt to deploy Launch Wizard on an existing Active Directory using a deployment name that has already been used or availability group/listener/cluster name that has already been used, the deployment may fail with the following error\.
 
 **Error message**
 
@@ -54,7 +55,7 @@ Launch Wizard streams provisioning logs from all of the AWS log sources, such as
 Launch Wizard uses SSM Automation to provision SQL Server Always On applications\. SSM Automation execution can be found in your account using the `ssm describe-automation-executions` API, and adding document name prefix filters\. Launch Wizard launches various automation documents in your account for validation and application provisioning\. The following are the relevant filters for the `ssm describe-automation-executions` API\.
 + **Validation: Validate VPC connectivity**
 
-  `LaunchWizard-Validate-VPC-Connectivity-APPLICATION_NAME-Subnet_id`, where `Subnet_id` is the subnet on which to perform the validation\.
+  `LaunchWizard-Validate-VPC-Connectivity-APPLICATION_NAME-subnet_id`, where `subnet_id` is the subnet on which to perform the validation\.
 + **Validation: Validate credentials**
 
   `LaunchWizard-Validate-Credentials-APPLICATION_NAME`
@@ -86,12 +87,28 @@ To troubleshoot Pacemaker cluster resource issues, take the following actions as
 + Inspect the cluster log files for errors, including for errors that relate to Pacemaker, Corosync, or SQL Server\. Check the log files carefully because the related services may provide only one or two related log entries\. 
 + Verify resource configuration, and configuration of cluster\-related functions\.
   + The following commands display the configuration details:
-    + To display all resources, use:`pcs resource show -full`
-    + Or, you can use:`pcs resource show <resource name>`
-  + The following command will display the cluster constraints:`pcs constraints –full`
-  + The following command displays the cluster properties:`pcs property list –all`
+    + To display all resources, use: `pcs resource show -full`\.
+    + Or, you can use: `pcs resource show <resource name>`\.
+  + The following command will display the cluster constraints: `pcs constraints –full`\.
+  + The following command displays the cluster properties: `pcs property list –all`\.
 + Manually start the resource with `debug-start`\.
-+ Clear failed actions with the following command: `pcs resource cleanup <resource <resource name`
++ Clear failed actions with the following command: `pcs resource cleanup <resource name>`\.
+
+## SQL Server Management Studio<a name="launch-wizard-troubleshooting-ssms"></a>
+
+If you encounter issues when you attempt to add databases with SQL Server Management Studio, perform the following to add databases to the availability group:
+
+1. Log in to the primary node using SQL Server Management Studio \(SSMS\) and record the name of the availability group\.
+
+1. Verify that the database that you want to add to the availability group is backed up\.
+
+1. Add the database to the availability group by running the following command in SSMS:
+
+   ```
+   ALTER AVAILABILITY GROUP ag-name ADD DATABASE db
+   ```
+
+1. Refresh the availability group and verify that the database was created\.
 
 ## Errors<a name="launch-wizard-errors"></a>
 
@@ -109,8 +126,8 @@ This failure can occur for multiple reasons\. The following list shows known cau
 + 
 
 **VPC or subnet configuration does not meet prerequisites**
-  + **Cause:** This failure occurs when your VPC or subnet configuration does not meet the prerequisites documented in the VPC Connectivity Section under [Access and deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md)\. If the failure message points to your selected public subnet, then the public subnet is not configured for outbound internet access\. If the failure message points to one of your selected private subnets, then the specified private subnet does not have outbound connectivity\. 
-  + **Solution:** Check that your VPC includes one public subnet and, at least, two private subnets\. Your VPC must be associated with a DHCP Options Set to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, and Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. Note that, in the console, when you select a private subnet for the public subnet dropdown or you select a public subnet for the private subnet dropdown, you will encounter the same error\. Please refer to the VPC Connectivity section under [Access and deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md) for more information about how to configure your VPC\.
+  + **Cause:** This failure occurs when your VPC or subnet configuration does not meet the prerequisites documented in the VPC Connectivity Section under [Deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md)\. If the failure message points to your selected public subnet, then the public subnet is not configured for outbound internet access\. If the failure message points to one of your selected private subnets, then the specified private subnet does not have outbound connectivity\. 
+  + **Solution:** Check that your VPC includes one public subnet and, at least, two private subnets\. Your VPC must be associated with a DHCP Options Set to enable DNS translations to work\. The private subnets must have outbound connectivity to the internet and other AWS services \(S3, CFN, SSM, and Logs\)\. We recommend that you enable this connectivity with a NAT Gateway\. Note that, in the console, when you select a private subnet for the public subnet dropdown or you select a public subnet for the private subnet dropdown, you will encounter the same error\. Please refer to the VPC Connectivity section under [Deploy an application with AWS Launch Wizard for SQL Server on Windows](launch-wizard-deploying.md) for more information about how to configure your VPC\.
 + 
 
 **EC2 instance stabilization error**

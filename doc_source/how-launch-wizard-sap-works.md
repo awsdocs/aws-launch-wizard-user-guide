@@ -1,6 +1,6 @@
 # How AWS Launch Wizard for SAP works<a name="how-launch-wizard-sap-works"></a>
 
-AWS Launch Wizard provisions and configures the infrastructure required to run SAP HANA database\- and Netweaver\-based SAP applications on AWS\. You select the SAP deployment pattern and provide the specifications, such as operating system, instance size, and vCPU/memory\. Or, Launch Wizard can make these selections for you according to [SAP Standard Application Benchmarks \(SAPS\)](https://www.sap.com/about/benchmark/measuring.html)\. You have the option to manually choose the instance\. Based on your selections, Launch Wizard automatically provisions the necessary AWS resources in the cloud\. 
+AWS Launch Wizard provisions and configures the infrastructure required to run SAP HANA database\- and NetWeaver\-based SAP applications on AWS\. You select the SAP deployment pattern and provide the specifications, such as operating system, instance size, and vCPU/memory\. Or, Launch Wizard can make these selections for you according to [SAP Standard Application Benchmarks \(SAPS\)](https://www.sap.com/about/benchmark/measuring.html)\. You have the option to manually choose the instance\. Based on your selections, Launch Wizard automatically provisions the necessary AWS resources in the cloud\. 
 
 Launch Wizard recommends Amazon EC2 instances by evaluating the [SAPS](https://www.sap.com/about/benchmark/measuring.html) or vCPU/memory requirements against the performance of Amazon EC2 instances supported by AWS\. When new EC2 instances are released and certified for SAP, the sizing feature of Launch Wizard will take them into consideration when proposing recommendations\.
 
@@ -24,6 +24,7 @@ AWS Launch Wizard implements SAP deployments as follows\.
 + [Amazon Elastic File System setup for transport directory](#launch-wizard-sap-efs)
 + [Amazon Elastic File System setup for SAP Central Services instances configured for high availability](#launch-wizard-sap-efs-ha)
 + [Bring your own image \(BYOI\)](#launch-wizard-sap-byoi)
++ [Specify private IP address](#launch-wizard-sap-private-ip)
 + [Configuration settings](#launch-wizard-sap-config)
 + [Custom deployment configuration scripts](#launch-wizard-sap-how-it-works-scripts)
 + [Manual cleanup activities](#launch-wizard-sap-manual-cleanup)
@@ -32,7 +33,7 @@ AWS Launch Wizard implements SAP deployments as follows\.
 
 ### Storage for SAP Systems<a name="launch-wizard-sap-storage"></a>
 
-Storage capacity and performance are key aspects of any SAP system installation\. Launch Wizard provides storage type options for the SAP Netweaver Application tier and the SAP HANA database tiers\.
+Storage capacity and performance are key aspects of any SAP system installation\. Launch Wizard provides storage type options for the SAP NetWeaver Application tier and the SAP HANA database tiers\.
 
 Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architecture to provide durable, high\-performance storage\. Amazon EBS volumes are network\-attached disk storage, which you can create and attach to EC2 instances\. When attached, you can create a file system on top of these volumes, run a database, or use them in any way that you would use a block device\. Amazon EBS volumes are placed in a specific Availability Zone, where they are automatically replicated to protect you from the failure of a single component\.
 
@@ -40,9 +41,9 @@ Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architectu
 
 [Provisioned IOPS Amazon EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops) offer storage with consistent and low\-latency performance\. They are backed by solid state drives \(SSDs\) and designed for applications with I/O intensive workloads, such as databases\. Amazon EBS\-optimized instances, such as the R4 instance type, deliver dedicated throughput between Amazon EC2 and Amazon EBS\.
 
-By default, Launch Wizard deploys Amazon EBS volumes for the SAP HANA database that meet the storage KPIs for SAP as listed in [Storage Configurations for SAP HANA](https://docs.aws.amazon.com/quickstart/latest/sap-hana/storage.html)\.
+By default, Launch Wizard deploys Amazon EBS volumes for the SAP HANA database that meet the storage KPIs for SAP as listed in [Storage Configuration for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/hana-ops-storage-config.html)\.
 
-For Netweaver database stacks, you can choose between a `gp2` or `io1` volume for the `usr/sap/SAPSID` file system, whereas other configurations are deployed with `gp2` volumes\.
+For NetWeaver database stacks, you can choose between a `gp2`, `io1`, or `io2` volume for the `usr/sap/SAPSID` and `/sapmnt` \(for non\-HA deployment architectures\) file systems, whereas other configurations are deployed with `gp2` volumes\.
 
 In an SAP landscape, development occurs in the development system and is then imported into the QA and follow\-on systems\. For this import to occur successfully, a shared file system is required for SAP systems in the landscape\. Amazon EFS is used to create the SAP Transport file system that is shared between multiple SAP systems in the landscape\. 
 
@@ -57,7 +58,7 @@ When a transport files system is created with Amazon Elastic File System, Launch
 
 ### Amazon Elastic File System setup for SAP Central Services instances configured for high availability<a name="launch-wizard-sap-efs-ha"></a>
 
-The SAP Central Services instances that make up a Netweaver high availability deployment, ABAP Central Server \(ASCS\) and Enqueue Replication Server \(ERS\) instances, must contain the following file systems to be highly available: `/sapmnt`, `/usr/sap<SAPSID>/ASCS<XX>`, and `/usr/sap/<SAPSID>/ERS<XX>`\. These file systems are built with Amazon EFS to avoid a single point of failure for the SAP system\. Launch Wizard creates these file systems for the Netweaver high availability pattern using a single Amazon Elastic File System\. 
+The SAP Central Services instances that make up a NetWeaver high availability deployment, ABAP Central Server \(ASCS\) and Enqueue Replication Server \(ERS\) instances, must contain the following file systems to be highly available: `/sapmnt`, `/usr/sap<SAPSID>/ASCS<XX>`, and `/usr/sap/<SAPSID>/ERS<XX>`\. These file systems are built with Amazon EFS to avoid a single point of failure for the SAP system\. Launch Wizard creates these file systems for the NetWeaver high availability pattern using a single Amazon Elastic File System\. 
 
 The following table contains information about how a single Amazon EFS is configured and mounted on an ASCS, ERS, Primary Application Server \(PAS\), and Additional Application Server \(AAS\)\. 
 
@@ -77,6 +78,14 @@ When building your own image,consider the following:
 + Refer to SAP installation documents to ensure that operating system prerequisites are in place so that Launch Wizard deployments do not fail\.
 + Launch Wizard accesses standard repositories provided by OS vendors\. Do not block access to them\. 
 + Deployments by Launch Wizard use OS utilities and programs, such as zipper, yum, grep, printf, awk, sed, autofs, python, saptune, and tuned\-profiles in the deployment script to configure SAP application and database servers\. We recommend that you do not delete standard utilities\. 
+
+### Specify private IP address<a name="launch-wizard-sap-private-ip"></a>
+
+You can specify available IP addresses that are already approved by your internal security and governance for each Amazon EC2 instance in your SAP deployment\. The SAP environment is accessible as soon as the deployment is successful\.
+
+Launch Wizard, by default, auto\-selects available IP addresses when a custom IP address is not provided\.
+
+When specifying a custom IP address, verify that it is within the range of the subnet of the instance that you are deploying\.
 
 ### Configuration settings<a name="launch-wizard-sap-config"></a>
 
@@ -100,10 +109,10 @@ The following configuration settings are applied when deploying an SAP applicati
 
 You can use custom shell scripts during the pre\-deployment and post\-deployment configuration phases\. You provide the scripts stored on Amazon S3 or locally\. During provisioning, Launch Wizard installs the AWSTOE application\. When there are custom scripts to run, Launch Wizard creates an AWSTOE document that downloads the scripts from the location specified and then runs the scripts\. The success of the custom scripts is a customer responsibility\. Check the CloudWatch log streams for detailed execution logs or failure information after the scripts are deployed\.
 
-The number of configuration scripts you can use depends on the deployment model\. For SAP HANA deployments, you can use one script, which runs on all of the HANA instances \(both primary and worker nodes\)\. For Netweaver stack on SAP HANA database, the following script limits apply:
-+ *Netweaver stack on SAP HANA single\-instance deployment *— Because all tiers are installed on the same database instance, you can use only one script\.
-+ *Netweaver stack on SAP HANA distributed\-instance deployment* — You can use one script per each instance tier selected, including for ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\), Database \(DB\) Server, and Additional App Servers \(AAS\)\.
-+ *Netweaver stack on SAP HANA high availability deployment* — You can use one script per each instance tier selected, including for Primary Application Server \(PAS\), ABAP System Central Services \(ASCS\) Server, Database \(DB\) Server, Additional App Servers \(AAS\), and Enqueue Replication Server \(ERS\)\.
+The number of configuration scripts you can use depends on the deployment model\. For SAP HANA deployments, you can use one script, which runs on all of the HANA instances \(both primary and worker nodes\)\. For NetWeaver stack on SAP HANA database, the following script limits apply:
++ *NetWeaver stack on SAP HANA single\-instance deployment *— Because all tiers are installed on the same database instance, you can use only one script\.
++ *NetWeaver stack on SAP HANA distributed\-instance deployment* — You can use one script per each instance tier selected, including for ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\), Database \(DB\) Server, and Additional App Servers \(AAS\)\.
++ *NetWeaver stack on SAP HANA high availability deployment* — You can use one script per each instance tier selected, including for Primary Application Server \(PAS\), ABAP System Central Services \(ASCS\) Server, Database \(DB\) Server, Additional App Servers \(AAS\), and Enqueue Replication Server \(ERS\)\.
 
 **Pre\-deployment configuration scripts**  
 Pre\-deployment configuration scripts run after the instances are launched and the baseline Launch Wizard configuration tasks, such as deploying Amazon CloudWatch, Amazon EC2 Systems Manager agents, and the AWS CLI, are complete\. If you want to run multiple pre\-deployment configuration scripts, Launch Wizard runs them in parallel on each EC2 instance in the order in which they are specified\. Pre\-deployment configuration scripts can be used to perform tasks such as OS hardening or deploying security and logging software\. The maximum runtime for all pre\-deployment configuration scripts on a single EC2 instance is 45 minutes\.
@@ -114,10 +123,11 @@ Post\-deployment configuration scripts run when Launch Wizard completes configur
 ### Manual cleanup activities<a name="launch-wizard-sap-manual-cleanup"></a>
 
 If you choose to delete a deployment, or a deployment fails during the deployment phase and rolls back, Launch Wizard deletes the Amazon EC2 and Amazon EBS volumes that it launches as part of the deployment\. It also removes the AWSTOE application\. The following resources are considered shared resources and are created without the deletion flag\.
-+ The Amazon Elastic File System file system that is created for the SAP transport files system `/usr/sap/trans`
-+ Security groups that you create 
++ The Amazon Elastic File System file system that is created for the SAP transport files system `/usr/sap/trans`\.
++ The Amazon Elastic File System that is created for storing SAP software and media\.
++ The security groups that you create\.
 
-These resources must be verified manually to ensure that they are not being used by other systems in the landscape\. They must then be manually deleted from either the Amazon Elastic File System or Amazon EC2 consoles, or using APIs\. 
+These resources must be manually verified to ensure that they are not being used by other systems in the landscape\. They must then be manually deleted from either the Amazon Elastic File System or Amazon EC2 consoles, or by using APIs\. 
 
 ### Default Quotas<a name="launch-wizard-sap-default-quotas"></a>
 

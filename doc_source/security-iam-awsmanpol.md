@@ -8,7 +8,7 @@ To add permissions to users, groups, and roles, it is easier to use AWS managed 
 
 AWS services maintain and update AWS managed policies\. You can't change the permissions in AWS managed policies\. Services occasionally add additional permissions to an AWS managed policy to support new features\. This type of update affects all identities \(users, groups, and roles\) where the policy is attached\. Services are most likely to update an AWS managed policy when a new feature is launched or when new operations become available\. Services do not remove permissions from an AWS managed policy, so policy updates won't break your existing permissions\.
 
-Additionally, AWS supports managed policies for job functions that span multiple services\. For example, the **ReadOnlyAccess** AWS managed policy provides read\-only access to all AWS services and resources\. When a service launches a new feature, AWS adds read\-only permissions for new operations and resources\. For a list and descriptions of job function policies, see [AWS managed policies for job functions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html) in the *IAM User Guide*\.
+Additionally, AWS supports managed policies for job functions that span multiple services\. For example, the **ViewOnlyAccess** AWS managed policy provides read\-only access to many AWS services and resources\. When a service launches a new feature, AWS adds read\-only permissions for new operations and resources\. For a list and descriptions of job function policies, see [AWS managed policies for job functions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html) in the *IAM User Guide*\.
 
 **Topics**
 + [AmazonLaunchWizard\_Fullaccess](#security-iam-awsmanpol-AmazonLaunchWizard_Fullaccess)
@@ -64,6 +64,7 @@ This policy includes the following permissions\.
 + `dynamodb` – Allows all tables with a name starting with "Launch Wizard" to be created, deleted, or described\. This is required so that Launch Wizard scripts for SAP can publish events and metadata from the events of the running threads into a Amazon DynamoDB table in a customer's account\.
 + `secretsmanager` – Allows all secrets with a name starting with "Launch Wizard" to be created, deleted, and retrieved, all resources to be tagged or untagged, all resource policies to be created and deleted, and secret version IDs to be listed\. Allows all random passwords to be generated and all secrets to be listed\. This is required so that secrets can be created in a customer's account to perform operations, such as decrypting a password in order to RDP into an instance from their deployment\.
 + `fsx` – Allows Amazon FSx file systems to be created by all resources\. Allows describing file system properties, listing all tags on the Amazon FSx file share, adding and removing tags, and deleting file systems where tags include `LaunchWizard` in the name\.
++ `servicecatalog` – Allows for the creation of an AWS Service Catalog portfolio and product\. Allows for the creation of a LaunchConstraint\. Allows for the association between product and portfolio, as well as for the association between the IAM principal of a user and a portfolio\.
 
 
 
@@ -192,14 +193,17 @@ This policy includes the following permissions\.
 				"ec2:DisassociateRouteTable",
 				"ec2:DisassociateSubnetCidrBlock",
 				"ec2:ModifyInstancePlacement",
-                "ec2:DeletePlacementGroup",
-                "ec2:CreatePlacementGroup",
+				"ec2:DeletePlacementGroup",
+				"ec2:CreatePlacementGroup",
 				"elasticfilesystem:DeleteFileSystem",
 				"elasticfilesystem:DeleteMountTarget",
 				"ds:AddIpRoutes",
 				"ds:CreateComputer",
 				"ds:CreateMicrosoftAD",
-				"ds:DeleteDirectory"
+				"ds:DeleteDirectory",
+				"servicecatalog:AssociateProductWithPortfolio",
+				"cloudformation:GetTemplateSummary",
+				"sts:GetCallerIdentity"
 			],
 			"Resource": "*",
 			"Condition": {
@@ -338,6 +342,7 @@ This policy includes the following permissions\.
 				"cloudformation:DescribeAccountLimits",
 				"cloudformation:DescribeStackDriftDetectionStatus",
 				"cloudformation:List*",
+				"cloudformation:ValidateTemplate",
 				"ds:Describe*",
 				"ds:ListAuthorizedApplications",
 				"ec2:Describe*",
@@ -513,7 +518,8 @@ This policy includes the following permissions\.
 				"secretsmanager:UntagResource",
 				"secretsmanager:PutResourcePolicy",
 				"secretsmanager:DeleteResourcePolicy",
-				"secretsmanager:ListSecretVersionIds"
+				"secretsmanager:ListSecretVersionIds",
+				"secretsmanager:GetSecretValue"
 			],
 			"Resource": "arn:aws:secretsmanager:*:*:secret:LaunchWizard*"
 		},
@@ -538,64 +544,71 @@ This policy includes the following permissions\.
 			"Resource": "arn:aws:ssm:*:*:opsmetadata/aws/ssm/LaunchWizard*"
 		},
 		{
-            "Effect": "Allow",
-            "Action": [
-                "sns:CreateTopic",
-                "sns:DeleteTopic",
-                "sns:Subscribe",
-                "sns:Unsubscribe"
-            ],
-            "Resource": "arn:aws:sns:*:*:LaunchWizard*"
+			"Effect": "Allow",
+			"Action": [
+				"sns:CreateTopic",
+				"sns:DeleteTopic",
+				"sns:Subscribe",
+				"sns:Unsubscribe"
+			],
+			"Resource": "arn:aws:sns:*:*:LaunchWizard*"
 		},
-        {
-            "Effect": "Allow",
-            "Action": [
-                "fsx:UntagResource",
-                "fsx:TagResource",
-                "fsx:DeleteFileSystem"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringLike": {
-                    "aws:ResourceTag/Name": "LaunchWizard*"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "fsx:CreateFileSystem"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "aws:RequestTag/Name": [
-                        "LaunchWizard*"
-                    ]
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "fsx:DescribeFileSystems",
-                "fsx:ListTagsForResource"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:CreateSecret",
-                "secretsmanager:DeleteSecret",
-                "secretsmanager:TagResource",
-                "secretsmanager:UntagResource",
-                "secretsmanager:PutResourcePolicy",
-                "secretsmanager:DeleteResourcePolicy",
-                "secretsmanager:ListSecretVersionIds",
-                "secretsmanager:GetSecretValue"
-            ],
-            "Resource": "arn:aws:secretsmanager:*:secret:LaunchWizard*"
+		{
+			"Effect": "Allow",
+			"Action": [
+				"fsx:UntagResource",
+				"fsx:TagResource",
+				"fsx:DeleteFileSystem",
+				"fsx:ListTagsForResource"
+			],
+			"Resource": "*",
+			"Condition": {
+				"StringLike": {
+					"aws:ResourceTag/Name": "LaunchWizard*"
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"fsx:CreateFileSystem"
+			],
+			"Resource": "*",
+			"Condition": {
+				"StringLike": {
+					"aws:RequestTag/Name": [
+						"LaunchWizard*"
+					]
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"fsx:DescribeFileSystems"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"servicecatalog:CreatePortfolio",
+				"servicecatalog:DescribePortfolio",
+				"servicecatalog:CreateConstraint",
+				"servicecatalog:CreateProduct",
+				"servicecatalog:AssociatePrincipalWithPortfolio",
+				"servicecatalog:CreateProvisioningArtifact"
+			],
+			"Resource": [
+				"arn:aws:servicecatalog:*:*:*/*",
+				"arn:aws:catalog:*:*:*/*"
+			],
+			"Condition": {
+				"ForAnyValue:StringEquals": {
+					"aws:CalledVia": "launchwizard.amazonaws.com"
+				}
+			}
+		}
 	]
 }
 ```
@@ -820,6 +833,7 @@ View details about updates to AWS managed policies for AWS Launch Wizard since t
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  [AmazonLaunchWizard\_Fullaccess](#security-iam-awsmanpol-AmazonLaunchWizard_Fullaccess) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | August 30, 2021 | 
 |  [AmazonEC2RolePolicyForLaunchWizard](#security-iam-awsmanpol-AmazonEC2RolePolicyForLaunchWizard) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | May 21 2021 | 
 |  [AmazonLaunchWizard\_Fullaccess](#security-iam-awsmanpol-AmazonLaunchWizard_Fullaccess) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | April 30, 2021 | 
-|  AWS Launch Wizard started tracking changes  |  AWS Launch Wizard started tracking changes for its AWS managed policies\.  | Aprill 30, 2021 | 
+|  AWS Launch Wizard started tracking changes  |  AWS Launch Wizard started tracking changes for its AWS managed policies\.  | April 30, 2021 | 

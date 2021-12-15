@@ -12,20 +12,24 @@ The following table provides details for the operating systems supported by Laun
 
 | Operating system version | Single\-node deployment | ASCS | ERS | PAS | SAP HANA database | SAP HANA database in HA cluster | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| Red\-Hat\-Enterprise\-Linux\-7\.6\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| Red\-Hat\-Enterprise\-Linux\-8\.2\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
 | Red\-Hat\-Enterprise\-Linux\-8\.1\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-15\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP4\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-12\-SP4\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP4\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP5\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-12\-SP5\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP5\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| Red\-Hat\-Enterprise\-Linux\-7\.6\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-15\-SP2\-HVM | ✓ |  |  | ✓ | ✓ |  | 
+| SuSE\-Linux\-15\-SP2\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-15\-SP2\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
 | SuSE\-Linux\-15\-SP1\-HVM | ✓ |  |  | ✓ | ✓ |  | 
 | SuSE\-Linux\-15\-SP1\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
 | SuSE\-Linux\-15\-SP1\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-15\-HVM | ✓ |  |  | ✓ | ✓ |  | 
+| SuSE\-Linux\-15\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-15\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-12\-SP5\-HVM | ✓ |  |  | ✓ | ✓ |  | 
+| SuSE\-Linux\-12\-SP5\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-12\-SP5\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-12\-SP4\-HVM | ✓ |  |  | ✓ | ✓ |  | 
+| SuSE\-Linux\-12\-SP4\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
+| SuSE\-Linux\-12\-SP4\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
 
 For Additional Application Server \(AAS\), the operating system is inherited from the operating system selected for the PAS server\. 
 
@@ -47,38 +51,47 @@ The following table provides details about the supported application software in
 
 | Application and software version | OS | HANA DB versions | Single instance deployment | Distributed instance deployment with HANA scale\-up | Distributed instance deployment with HANA scale\-out | High availability deployment\* | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| Netweaver 7\.5 SPS02 | SLES 15 SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  |  Yes  | Yes | No | No | 
-| Netweaver 7\.5 SPS02 | SLES 15 for SAP SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS02 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS02 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS02 | SLES 12 SP4 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS02 | SLES 12 for SAP SP4 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS02 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS02 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS02 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS0 | SLES 15 SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS0 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS0 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS0 | SLES 12 SP4 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS0 | SLES 12 for SAP SP4 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS0 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | No | 
-| Netweaver 7\.5 SPS0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| Netweaver 7\.5 SPS0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | No | Yes | 
-| S4HANA 2020 & 1909 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| S4HANA 2020 & 1909 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| S4HANA 2020 & 1909 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| S4HANA 2020 & 1909 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| S4HANA 2020 & 1909 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| S4HANA 2020 & 1909 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| S4HANA 2020 & 1909 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| BW4HANA 2\.0 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| BW4HANA 2\.0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| BW4HANA 2\.0 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| BW4HANA 2\.0 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| BW4HANA 2\.0 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | No | No | 
-| BW4HANA 2\.0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-| BW4HANA 2\.0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | No | Yes | 
-
-**Note**  
-\*If you choose to deploy SAP application software for high availability deployments, Launch Wizard deploys the software, but does not configure the SUSE/RHEL HA cluster\. You must configure the cluster after the deployment\.
+| NetWeaver 7\.5 SPS02 | SLES 15 SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS02 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | SLES 15 SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  |  Yes  | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS02 | SLES 15 for SAP SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS02 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS02 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS02 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | SLES 15 SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS0 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | SLES 15 SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS0 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
+| NetWeaver 7\.5 SPS0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| NetWeaver 7\.5 SPS0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | SLES 15 SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| S4HANA 2020 & 1909 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| S4HANA 2020 & 1909 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| S4HANA 2020 & 1909 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| S4HANA 2020 & 1909 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| S4HANA 2020 & 1909 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | SLES 15 SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| BW4HANA 2\.0 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| BW4HANA 2\.0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| BW4HANA 2\.0 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
+| BW4HANA 2\.0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+| BW4HANA 2\.0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 

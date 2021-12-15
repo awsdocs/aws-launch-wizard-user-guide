@@ -1,55 +1,12 @@
-# Launch AWS Service Catalog products created with AWS Launch Wizard<a name="launch-wizard-sap-service-catalog"></a>
+# Launch AWS CloudFormation templates created in Launch Wizard<a name="launch-wizard-sap-launch-artifacts-cloudformation"></a>
 
-This section contains information to help you set up for and access AWS Service Catalog products created with AWS Launch Wizard to launch those products\. It also contains information about how to create a launch constraint so that you don't have to use your own IAM credentials to launch and manage AWS Service Catalog products\.
-
-**Topics**
-+ [Set up to launch AWS Service Catalog products created with AWS Launch Wizard](#launch-wizard-sap-service-catalog-setup)
-+ [Create a launch constraint](#launch-wizard-sap-service-catalog-constraint)
-+ [Access AWS Service Catalog products created with AWS Launch Wizard](#launch-wizard-sap-service-catalog-access)
-
-## Set up to launch AWS Service Catalog products created with AWS Launch Wizard<a name="launch-wizard-sap-service-catalog-setup"></a>
-
-This section provides the required steps to grant permissions to the user group\. This requirement must be met to access AWS Service Catalog products created with Launch Wizard to launch those products\.
-
-**Grant AWS Service Catalog permissions to the user group**
-
-1. Navigate to the [AWS Identity and Access Management console](https://console.aws.amazon.com/iam)\.
-
-1. Choose **User groups** from the left navigation pane\.
-
-1. Choose **Create group\.**
-
-1. For **User group name**, enter `Endusers`\. 
-
-1. Enter `AWSServiceCatalog` in the search box to filter the policy list\.
-
-1. Select the check box next to the **AWSServiceCatalogEndUserFullAccess** policy\. You can optionally choose **AWSServiceCatalogEndUserReadOnlyAccess** if you prefer to grant the user only read\-only access\. Choose **Create group**
-
-1. To add a new user to the group, in the left navigation pane, choose **Users**\.
-
-1. Choose **Add user**\.
-
-1. Enter a **User name**\.
-
-1. Select **AWS Management Console access**\.
-
-1. Choose **Next: Permissions**\.
-
-1. Choose **Add user to group**\.
-
-1. Select the check box next to the **Endusers** group, then choose **Next:Tags**\.
-
-1. Choose **Next: Review**\. On the **Review** page, choose **Create user**\. Download or copy the credentials, then choose **Close**\.
-
-## Create a launch constraint<a name="launch-wizard-sap-service-catalog-constraint"></a>
-
-A launch constraint specifies the AWS Identity and Access Management role that AWS Service Catalog assumes when a user launches a product\. It is associated with products in the portfolio\. If you do not use launch constraints, you must launch and manage products using your own IAM credentials\. These credentials must have permissions to use AWS CloudFormation, AWS Service Catalog, and any other AWS services used by the products\. Using a launch constraint allows you to limit the permissions of a user to the minimum required for a product\.
+You can launch AWS CloudFormation stacks from the AWS CloudFormation templates that you saved from your successful Launch Wizard deployments\. Perform the following steps to find and launch your AWS CloudFormation templates created with Launch Wizard\.
 
 To create a launch constraint, complete the steps in the following procedure\. Perform Step 2 for each of the following listed policies\.
 
-**Create the launch role**
+**Attach required policies to IAM user**
 
-### AWS Service Catalog launch constraint policy 1<a name="launch-constraint-policy-1"></a>
+## Service Catalog launch constraint policy 1<a name="launch-constraint-policy-1"></a>
 
 ```
 {
@@ -191,7 +148,7 @@ To create a launch constraint, complete the steps in the following procedure\. P
 }
 ```
 
-### Service Catalog launch constraint policy 2<a name="launch-constraint-policy-2"></a>
+## Service Catalog launch constraint policy 2<a name="launch-constraint-policy-2"></a>
 
 ```
 {
@@ -441,7 +398,7 @@ To create a launch constraint, complete the steps in the following procedure\. P
 }
 ```
 
-### Service Catalog launch constraint policy 3<a name="launch-constraint-policy-3"></a>
+## Service Catalog launch constraint policy 3<a name="launch-constraint-policy-3"></a>
 
 ```
 {
@@ -593,13 +550,13 @@ To create a launch constraint, complete the steps in the following procedure\. P
 
 1. Sign in to the AWS Management Console and open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam)\.
 
-1. Perform the following substeps individually for each of the three policies previously listed\.
+1. Perform the following substeps for each of the three policies listed above\.
 
    1. In the left navigation pane, choose **Policies** > **Create policy**\.
 
    1. On the **Create policy** page, choose the **JSON** tab\.
 
-   1. Copy each of the previous policies and paste each into the **Policy Document** JSON text box, replacing the placeholder text\. 
+   1. Copy each policy above and paste it into the **Policy Document** JSON text field, replacing the placeholder text \(perform these substeps individually for each of the three policies listed above\)\.
 
    1. Choose **Next: Tags** > **Next: Review**\.
 
@@ -607,70 +564,18 @@ To create a launch constraint, complete the steps in the following procedure\. P
 
    1. Choose **Create policy**\.
 
-1. In the left navigation pane, choose **Roles**, then choose **Create role**\.
+1. Attach the three policies you just created to the IAM user you use to launch AWS CloudFormation templates\.
 
-1. Under **Select type of trusted entity**, choose **AWS service** > **Service Catalog**\.
+**Find and launch your templates**
 
-1. Select the **Service Catalog** use case, then choose **Next:Permissions**\.
+1. Navigate to the [Amazon S3 console](https://console.aws.amazon.com/s3)\.
 
-1. Search for the three policies that you added in Step 2 and select the check boxes next to them\.
+1. Locate the name of the location within the Amazon S3 bucket that you specified when you [defined the infrastructure for your Launch Wizard deployment](launch-wizard-sap-deploying.md#launch-wizard-sap-infrastructure)\. 
 
-1. Choose **Next: Tags**\.
+1. Under the folder that you specified, locate and choose a new folder named `<LaunchWizardDeploymentName>-<TimeStamp>`\. This is the folder to which the Launch Wizard service copies the AWS CloudFormation templates and deployment artifacts\.
 
-1. Choose **Next: Review**\.
+1. After you choose the new folder, you will see an `sap/` folder and a JSON file named `<LaunchWizardDeploymentName>-<DeploymentType>-template.json`\. This is the root AWS CloudFormation template file\. Select the check box next to this file and choose **Copy URL**\.
 
-1. Enter `LaunchWizardServiceCatalogProductsLaunchRole` for the **Role name**\.
+1. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) to create a stack with the URL that you copied\.
 
-1. Choose **Create role**\.
-
-**Create launch constraint**
-
-1. Navigate to the [AWS Service Catalog console](https://console.aws.amazon.com/servicecatalog)\.
-
-1. In the left navigation pane, under **Administration**, choose **Portfolios**\.
-
-1. Choose the portfolio named **Launch Wizard Service Catalog portfolio**, which is the default portfolio\.
-
-1. Under **Constraints**, choose **Create Constraints**\.
-
-1. Select the **Product** to which to apply the constraint\.
-
-1. Select **Launch** as the **Constraint type**\.
-
-1. Select the IAM role that you created in the procedure for creating a launch role\.
-
-1. Choose **Create**\.
-
-## Access AWS Service Catalog products created with AWS Launch Wizard<a name="launch-wizard-sap-service-catalog-access"></a>
-
-Perform the following steps to access AWS Service Catalog products created with AWS Launch Wizard\.
-
-In the AWS Service Catalog administrator console, the **Portfolio details** page lists the portfolio settings\. From this page, you can manage the products in a portfolio, grant users access to products, and apply `TagOptions` and constraints\. You can manage products from the **Products** page\.
-
-**Access Service Catalog products as a Service Catalog Admin user**
-
-1. Navigate to the [AWS Service Catalog console](https://console.aws.amazon.com/servicecatalog)\.
-
-1. In the left navigation pane, under **Administration**, choose **Portfolios**\.
-
-1. Choose the portfolio named **AWS Launch Wizard Products**, which is the default portfolio created by Launch Wizard\.
-
-1. Choose **AWS Launch Wizard products**\.
-
-1. The product created by Launch Wizard using AWS CloudFormation templates and user inputs is named **\[LW Deployment Name\]\-\[Deployment Type\]**\. You can create a new version by choosing **Create new version**\.
-
-1. You can associate tags or apply product\-specific tags as needed\.
-
-**Access Service Catalog products as an IAM user**
-
-1. Navigate to the [AWS Service Catalog console](https://console.aws.amazon.com/servicecatalog)\.
-
-1. In the left navigation pane\. under **Home**, choose **Products**\.
-
-1. Search for the Launch Wizard SAP product that you saved from the Launch Wizard deployment, and select it\. The product, won't be visible to any user who has not been granted access to it\. To grant access to the product, see [Granting Access to Users](https://docs.aws.amazon.com/ervicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the *AWS Service Catalog User Guide*\. 
-
-1. Choose **Launch product**\.
-
-1. You will be directed to the AWS Service Catalog **Launching** page, which resembles AWS CloudFormation\. Most of the parameters are specified using your defaults\. Enter or replace the default values as you require, including passwords and SAPSIDs\.
-
-1. After you verify the parameters, choose **Launch product** to start the creation of the AWS CloudFormation stack\.
+For more information about CloudFormation templates, see [Working with AWS CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-guide.html) in the *AWS CloudFormation User Guide*\.

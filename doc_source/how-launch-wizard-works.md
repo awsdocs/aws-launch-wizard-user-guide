@@ -1,34 +1,40 @@
 # How AWS Launch Wizard works<a name="how-launch-wizard-works"></a>
 
-AWS Launch Wizard provides a complete solution to provision popular third\-party applications on AWS\. Currently, Launch Wizard supports Microsoft SQL Server application deployments across multiple Availability Zones or on a single instance\. You provide the specifications, such as for performance, throughput, and networking requirements\. Based on the application requirements that you enter, Launch Wizard automatically provisions the right AWS resources in the cloud\. For example, Launch Wizard determines the best instance type and EBS volume for your CPU, memory, and bandwidth specifications, then deploys and configures them\. 
+AWS Launch Wizard provides a complete solution to provision popular third\-party applications on AWS\. Currently, Launch Wizard supports Microsoft SQL Server application deployments across multiple Availability Zones or on a single instance\. You provide the specifications, such as for performance, throughput, and networking\. Based on the application requirements that you enter, Launch Wizard automatically provisions the right AWS resources in the cloud\. For example, Launch Wizard determines the best instance type and EBS volume for your CPU, memory, and bandwidth specifications, then deploys and configures them\. 
 
-Launch Wizard provides an estimated cost of deployment\. You can modify your resources and instantly view an updated cost assessment\. Once you approve, Launch Wizard validates the inputs and flags inconsistencies\. After you resolve the inconsistencies, Launch Wizard provisions the resources and configures them\. The result is a ready\-to\-use SQL Server Always On application\.
+Launch Wizard provides an estimated cost of deployment\. You can modify your resources and instantly view an updated cost assessment\. Once you approve, Launch Wizard validates the inputs and flags inconsistencies\. When the inconsistencies are resolved, Launch Wizard provisions the resources and configures them\. The result is a ready\-to\-use SQL Server Always On application\.
 
-Launch Wizard creates a CloudFormation stack according to your infrastructure needs\. You can reuse this template as a baseline for future infrastructure provisioning\. 
+Launch Wizard creates a CloudFormation stack according to your infrastructure needs\. You can reuse the template created by CloudFormation as a baseline for future infrastructure provisioning\. 
 
-For deployments on Windows, Launch Wizard supports AWS Managed Microsoft Active Directory \(AD\) as well as connecting to Active Directory on\-premises through AWS Direct Connect\.
+For deployments on Windows, Launch Wizard supports [AWS Managed Microsoft Active Directory \(AD\)](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html)\. It also supports connecting to on\-premises Active Directory using [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\.
 
 **Topics**
-+ [Implementation details for deployment on Windows](#launch-wizard-implementation)
-+ [Implementation details for deployment on Linux](#launch-wizard-implementation-linux)
++ [Implementation details \(Windows\)](#launch-wizard-implementation)
++ [Implementation details \(Linux\)](#launch-wizard-implementation-linux)
 
 ## Implementation details for deployment on Windows<a name="launch-wizard-implementation"></a>
 
-AWS Launch Wizard implements SQL Server deployments on Windows as follows\.
+**Topics**
++ [SQL Server Enterprise Edition](#launch-wizard-sql)
++ [Storage on WSFC nodes](#launch-wizard-storage)
++ [IP Addressing on the Windows Server Failover Clustering \(WSFC\) nodes](#launch-wizard-ip-wsfc)
++ [Windows Server Failover Clustering \(WSFC\)](#launch-wizard-wsfc)
++ [Always On configuration](#launch-wizard-alwayson)
++ [Failover clustering](#launch-wizard-how-it-works-failover-clustering)
 
 ### SQL Server Enterprise Edition<a name="launch-wizard-sql"></a>
 
- Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through License Included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a custom AMI, ensure that your AMI meets the requirements listed in [Requirements for using custom AMIs \(deployment on Windows\)](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
+ Launch Wizard supports installation of SQL Server Enterprise and Standard Editions of 2016 and 2017 on Windows Server 2012 R2, 2016, and 2019 through license\-included Amazon Machine Images \(AMIs\)\. Launch Wizard allows you to bring your own SQL licenses through a custom AMI\. If you use a [custom AMI](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Creating_EBSbacked_WinAMI.html), ensure that your AMI meets the requirements listed in [Requirements for using custom AMIs \(deployment on Windows\)](launch-wizard-setting-up.md#launch-wizard-custom-ami)\.
 
 ### Storage on WSFC nodes<a name="launch-wizard-storage"></a>
 
-Storage capacity and performance are key aspects of any production SQL Server installation\. Launch Wizard lets you choose capacity and performance based on your deployment needs\. 
+Storage capacity and performance are key aspects of any production SQL Server installation\. Launch Wizard lets you choose capacity and performance based on your deployment requirements\. 
 
-Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architecture to provide durable, high\-performance storage\. EBS volumes are network\-attached disk storage, which you can create and attach to EC2 instances\. When attached, you can create a file system on top of these volumes, run a database, or use them in any way that you would use a block device\. EBS volumes are placed in a specific Availability Zone, where they are automatically replicated to protect you from the failure of a single component\. EBS volume type `io1` is not supported\. 
+Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architecture to provide durable, high\-performance storage\. EBS volumes are network\-attached disk storage, which you can create and attach to EC2 instances\. When attached to an instance, you can create a file system on top of the volumes, run a database, or use them in any way that you would use a block device\. EBS volumes are placed in a specific [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones), where they are automatically replicated to protect you from the failure of a single component\. EBS volume type `io1` is not supported\. 
 
 [Provisioned IOPS EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops) offer storage with consistent and low\-latency performance\. They are backed by solid state drives \(SSDs\) and designed for applications with I/O intensive workloads, such as databases\. Amazon EBS\-optimized instances, such as the R4 instance type, deliver dedicated throughput between Amazon EC2 and Amazon EBS\.
 
-By default, Launch Wizard deploys three 500 GiB general purpose SSD volumes to store databases, logs, tempdb, and backups on each WSFC node\. These general purpose SSD volumes are in addition to the root general purpose SSD volume used by the operating system, which delivers a consistent baseline of 3 IOPS/GiB and provides a total of 1,500 IOPS per volume for SQL Server database and log volumes\. You can customize the volume size and switch to using dedicated IOPS volumes with the volume you specify\. If you need more IOPS per volume, consider using Provisioned IOPS SSD volumes by changing the SQL Server Volume Type and SQL Server Volume IOPS parameters\.
+By default, Launch Wizard deploys three 500 GiB general purpose SSD volumes to store databases, logs, tempdb files, and backups on each WSFC node\. These general purpose SSD volumes are in addition to the root general purpose SSD volume used by the operating system, which delivers a consistent baseline of 3 IOPS/GiB and provides a total of 1,500 IOPS per volume for SQL Server database and log volumes\. You can customize the volume size and switch to using dedicated IOPS volumes with the volume you specify\. If you need more IOPS per volume, consider using Provisioned IOPS SSD volumes by changing the SQL Server Volume Type and SQL Server Volume IOPS parameters\.
 
  The default disk layout for SQL Server deployed by Launch Wizard is: 
 + One general purpose SSD volume \(100 GiB\) for the operating system \(C:\)
@@ -36,7 +42,7 @@ By default, Launch Wizard deploys three 500 GiB general purpose SSD volumes to s
 + One general purpose SSD volume \(500 GiB\) to host the SQL Server log files \(E:\)
 + One general purpose SSD volume \(500 GiB\) to host the SQL Server tempdb and backup files \(F:\)
 
-### IP Addressing on the Windows Server Failover Clustering \(WSFC\) Nodes<a name="launch-wizard-ip-wsfc"></a>
+### IP Addressing on the Windows Server Failover Clustering \(WSFC\) nodes<a name="launch-wizard-ip-wsfc"></a>
 
 In order to support WSFC and Always On Availability Group listeners, each node that hosts the SQL Server instances that participate in the cluster must have three IP addresses assigned, as follows:
 + One IP address as the primary IP address for the instance
@@ -77,7 +83,13 @@ Launch Wizard runs this command on each node, and the proper server name is prov
 
 When the deployment is complete, Launch Wizard creates your databases and make them highly available by creating an Always On Availability Group\.
 
-When you create an availability group, you provide a network share that is used to perform an initial data synchronization\. As you progress through the New Availability Group wizard, a full backup for each selected database is taken and placed in the share\. The secondary node connects to the share and restores the database backups before joining the availability group\.
+When you create an availability group, you provide a network share that is used to perform an initial data synchronization\. As you progress through the New Availability Group Wizard, a full backup for each selected database is created and placed in the share\. The secondary node connects to the share and restores the database backups before joining the availability group\.
+
+### Failover clustering<a name="launch-wizard-how-it-works-failover-clustering"></a>
+
+Launch Wizard sets up and installs SQL Server failover clustering on Windows on each of the nodes that uses PowerShell DSC modules, which is the first step it takes to configure the cluster\. Next, Launch Wizard adds the specified account as the domain account to the cluster group\. 
+
+You can use either license\-included AMIs or your own custom AMIs\. If you use license\-included AMIs, they must be Windows or SQL license\-included AMIs\. 
 
 ## Implementation details for deployment on Linux<a name="launch-wizard-implementation-linux"></a>
 
