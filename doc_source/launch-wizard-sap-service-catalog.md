@@ -6,6 +6,7 @@ This section contains information to help you set up for and access AWS Service 
 + [Set up to launch AWS Service Catalog products created with AWS Launch Wizard](#launch-wizard-sap-service-catalog-setup)
 + [Create a launch constraint](#launch-wizard-sap-service-catalog-constraint)
 + [Access AWS Service Catalog products created with AWS Launch Wizard](#launch-wizard-sap-service-catalog-access)
++ [AWS Service Catalog deployment errors](#launch-wizard-sap-service-catalog-errors)
 
 ## Set up to launch AWS Service Catalog products created with AWS Launch Wizard<a name="launch-wizard-sap-service-catalog-setup"></a>
 
@@ -674,3 +675,58 @@ In the AWS Service Catalog administrator console, the **Portfolio details** page
 1. You will be directed to the AWS Service Catalog **Launching** page, which resembles AWS CloudFormation\. Most of the parameters are specified using your defaults\. Enter or replace the default values as you require, including passwords and SAPSIDs\.
 
 1. After you verify the parameters, choose **Launch product** to start the creation of the AWS CloudFormation stack\.
+
+## AWS Service Catalog deployment errors<a name="launch-wizard-sap-service-catalog-errors"></a>
+
+For AWS Service Catalog deployments completed prior to February 7, 2022, perform the following steps to remove the `AmazonLambdaRolePolicyForLaunchWizardSAP` policy from the `AmazonLambdaRoleForLaunchWizard` role, and add a new inline policy\. Deployments completed after February 7, 2022 do not require you to perform these steps\.
+
+1. Sign in to the AWS Management Console and open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+
+1. Choose **Roles** from the left navigation pane\.
+
+1. Search for the `AmazonLambdaRoleForLaunchWizard`\. Select the policy to view the attached permissions\.
+
+1. Check whether the `AmazonLambdaRolePolicyForLaunchWizardSAP` policy is attached to this role\. If it is attached, remove the policy by selecting the check box next to it, and choose **Remove**\.
+
+1. Add the following inline policy by choosing **Add permissions**>**Create inline policy**, and entering the policy in the **JSON** tab of the **Create policy** wizard\.
+
+   ```
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": [
+           "ssm:GetParameter"
+         ],
+         "Resource": "arn:aws:ssm:::parameter/LaunchWizard*"
+       },
+       {
+         "Effect": "Allow",
+         "Action": [
+           "ssm:GetDocument",
+           "ssm:sendCommand"
+         ],
+         "Resource": [
+           "arn:aws:ssm:::document/AWS-RunShellScript"
+         ]
+       },
+       {
+         "Effect": "Allow",
+         "Action": [
+           "ssm:SendCommand"
+         ],
+         "Resource": [
+           "arn:aws:ec2:::instance/*"
+         ],
+         "Condition": {
+           "StringLike": {
+             "ssm:resourceTag/LaunchWizardApplicationType": "*"
+           }
+         }
+       }
+     ]
+   }
+   ```
+
+1. Choose **Review policy**, enter a name for the policy, and choose **Create policy**\.

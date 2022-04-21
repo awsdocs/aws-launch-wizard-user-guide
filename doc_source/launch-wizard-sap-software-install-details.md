@@ -46,6 +46,28 @@ Use the latest CDs for the version\.
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/launch-wizard-sap-software-install-details.html)
 
 ------
+#### [ BW/4HANA 2021 ]
+
+
+| CD name | Versions | CD number | Amazon S3 file path | 
+| --- | --- | --- | --- | 
+| SWPM | SWPM 2\.0 latest version  | SWPM20SP10\_3\-80003424\.SAR | S3://<Your SAP software bucket>/<Path representing NW version>/SWPM | 
+| SAPCAR | SAPCAR\_1010\-70006178\.exe |  N/A | S3://<Your SAP software bucket>/<Path representing NW version>/SAPCAR | 
+| Exports | BW4HANA300 | BW4HANA300\_INST\_EXPORT\_1\.zip through BW4HANA300\_INST\_EXPORT\_8\.zip  | S3://<Your SAP software bucket>/<Path representing NW version>/Exports | 
+| Kernel components | 785 or later |  `igsexe_0-70005417.sar` `igshelper_17-10010245.sar` `SAPEXE_50-80005374.SAR`  `SAPEXEDB_50-80005373.SAR` `SAPHOSTAGENT54_54-80004822.SAR`  | S3://<Your SAP software bucket>/<Path representing NW version>/Kernel | 
+| SAP HANA Client | 2\.11 | IMDB\_CLIENT20\_011\_14\-80002082\.SAR | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_Client\_Software | 
+
+The following HANA DB version is supported\.
+
+**Note**  
+\*Use the latest CDs for the version\.
+
+
+| CD name | Versions | CD number | Amazon S3 file path | 
+| --- | --- | --- | --- | 
+| SAP HANA database software | HANA 2\.0 SPS05 Rev54 or later |   | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_DB\_Software | 
+
+------
 #### [ BW/4HANA 2\.0 ]
 
 
@@ -66,6 +88,28 @@ The following HANA DB version is supported\.
 | CD name | Versions | CD number | Amazon S3 file path | 
 | --- | --- | --- | --- | 
 | SAP HANA database software | hana\-20\-sp05  | 51054623  | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_DB\_Software | 
+
+------
+#### [ S/4HANA 2021 ]
+
+
+| CD name | Versions | CD number | Amazon S3 file path | 
+| --- | --- | --- | --- | 
+| SWPM | SWPM 2\.0 latest version  | SWPM20SP10\_3\-80003424\.SAR | S3://<Your SAP software bucket>/<Path representing NW version>/SWPM | 
+| SAPCAR | SAPCAR\_1010\-70006178\.exe |  N/A | S3://<Your SAP software bucket>/<Path representing NW version>/SAPCAR | 
+| Exports | S4Core 106 |  S4CORE106\_INST\_EXPORT\_1\.zip through S4CORE106\_INST\_EXPORT\_28\.zip | S3://<Your SAP software bucket>/<Path representing NW version>/Exports | 
+| Kernel components | 785 or later |  `igsexe_0-70005417.sar` `igshelper_17-10010245.sar` `SAPEXE_50-80005374.SAR`  `SAPEXEDB_50-80005373.SAR` `SAPHOSTAGENT54_54-80004822.SAR`  | S3://<Your SAP software bucket>/<Path representing NW version>/Kernel | 
+| SAP HANA Client | 2\.11 | IMDB\_CLIENT20\_011\_14\-80002082\.SAR | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_Client\_Software | 
+
+The following HANA DB version is supported\.
+
+**Note**  
+\*Use the latest CDs for the version\.
+
+
+| CD name | Versions | CD number | Amazon S3 file path | 
+| --- | --- | --- | --- | 
+| SAP HANA Database software | HANA 2\.0 SPS05 Rev54 or later |  | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_DB\_Software | 
 
 ------
 #### [ S/4HANA 2020 ]

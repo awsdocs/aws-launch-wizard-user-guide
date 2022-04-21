@@ -4,7 +4,7 @@ The following steps guide you through a Remote Desktop Gateway deployment with A
 
 1. When you select **Choose application** from the AWS Launch Wizard landing page, you are directed to the Choose application wizard where you are prompted to select the type of application that you want to deploy\.
 
-1. Select **Microsoft Remote Desktop Gateway**, select the deployment type, then select **Create deployment\.**
+1. Select **Microsoft Remote Desktop Gateway**, select **Deploy into a new VPC**, then select **Create deployment\.**
 
 1. You are prompted to enter the specifications for the new deployment\. The following tabs provide information about the specification fields of the deployment model\.
 
@@ -12,8 +12,8 @@ The following steps guide you through a Remote Desktop Gateway deployment with A
 #### [ General ]
    + **Deployment name**\. Enter a unique application name for your deployment\.
    + **Amazon Simple Notification Service \(SNS\) topic ARN — optional**\. Specify an Amazon SNS topic where AWS Launch Wizard can send notifications and alerts\. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)\.
-   + **Enable rollback on failed deployment**\. By default, if a deployment fails, your provisioned resources will not be rolled back or deleted\. This default configuration helps you to troubleshoot errors at the resource level as you debug deployment issues\. If you want your provisioned resources to be immediately deleted if a deployment fails, select the check box\.
-   + **Tags \(Optional\)**\. Enter a key and value to assign metadata to your deployment\. For help with tagging, see [Tagging Your EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)\.
+   + **Deactivate rollback on failed deployment**\. By default, if a deployment fails, your provisioned resources will be deleted\. You can enable this setting during deployment to prevent this behavior\.
+   + **Tags \- optional**\. Enter a key and value to assign metadata to your deployment\. For help with tagging, see [Tagging Your EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)\.
 
 ------
 #### [ Network configuration ]

@@ -55,7 +55,10 @@ Launch Wizard creates a resource group for all of the AWS resources created for 
 
 ## AWS Data Provider for SAP<a name="launch-wizard-sap-features-data-provider"></a>
 
-Deploying and running the Amazon Web Services \(AWS\) Data Provider for SAP is a prerequisite for running SAP systems on AWS\. Launch Wizard automatically deploys AWS Data Provider for SAP on every EC2 instance that it launches\. AWS Data Provider for SAP is a tool that collects performance\-related data from AWS services\. It makes this data available to SAP applications to help monitor and improve the performance of business transactions\. AWS Data Provider for SAP uses operating system, network, and storage data that is most relevant to the operation of the SAP infrastructure\. Its data sources include Amazon EC2 and Amazon CloudWatch\. 
+Deploying and running the Amazon Web Services \(AWS\) Data Provider for SAP is a prerequisite for running SAP systems on AWS\. Launch Wizard automatically deploys AWS Data Provider for SAP on every Amazon EC2 instance that it launches\. AWS Data Provider for SAP is a tool that collects performance\-related data from AWS services\. It makes this data available to SAP applications to help monitor and improve the performance of business transactions\. AWS Data Provider for SAP uses operating system, network, and storage data that is most relevant to the operation of the SAP infrastructure\. Its data sources include Amazon EC2 and Amazon CloudWatch\. 
+
+**Note**  
+AWS Data Provider is installed using a downloadable installer, and is not automatically updated to the latest version\. You must manually check for and deploy updates, or manually set up an SSM distributor to install and update this service as described in [Installing DataProvider 4\.1](https://docs.aws.amazon.com/sap/latest/general/data-provider-installallation.html)\. 
 
 ## AWS Backint Agent for SAP HANA<a name="launch-wizard-sap-features-backint"></a>
 
@@ -63,7 +66,7 @@ Launch Wizard deploys and configures AWS Backint Agent for SAP HANA, an SAP\-cer
 
 ## Custom deployment configuration scripts<a name="launch-wizard-sap-features-scripts"></a>
 
-You can provide custom pre\-deployment and post\-deployment configuration scripts that can run on various instance tiers, such as SAP HANA Database, Primary Application Server, and Enqueue Replication Server during the pre\-deployment and post\-deployment configuration phases\. Launch Wizard uses a standalone component manager application \(AWSTOE\) to run the scripts\. For more information, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\.
+You can provide custom pre\-deployment and post\-deployment configuration scripts that can run on various instance tiers, such as SAP HANA Database, Primary Application Server, and Enqueue Replication Server during the pre\-deployment and post\-deployment configuration phases\. Launch Wizard uses a standalone component manager application \(AWSTOE\) to run the scripts\. For more information, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\.
 
 ## Application software installation<a name="launch-wizard-sap-features-software-install"></a>
 

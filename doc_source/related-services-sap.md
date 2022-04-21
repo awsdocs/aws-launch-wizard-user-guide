@@ -22,7 +22,7 @@ The following AWS services are used when you deploy an SAP application with AWS 
 
 ## Amazon Elastic File System<a name="launch-wizard-sap-related-services-efs"></a>
 
-[Amazon EFS](https://docs.aws.amazon.com//efs/latest/ug/whatisefs.htm) provides file storage in the AWS Cloud\. With Amazon EFS, you can create a file system, mount the file system on an Amazon EC2 instance, and then read and write data to and from your file system\. For more information, see [Amazon Elastic File System setup for transport directory](how-launch-wizard-sap-works.md#launch-wizard-sap-efs)\.
+[Amazon EFS](https://docs.aws.amazon.com//efs/latest/ug/whatisefs.htm) provides file storage in the AWS Cloud\. With Amazon EFS, you can create a file system, mount the file system on an Amazon EC2 instance, and then read and write data to and from your file system\. For more information, see [Amazon Elastic File System setup for transport directory](launch-wizard-sap-implementation.md#launch-wizard-sap-efs)\.
 
 ## Amazon EC2 Systems Manager<a name="launch-wizard-sap-related-services-SSM"></a>
 

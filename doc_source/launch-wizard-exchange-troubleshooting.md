@@ -1,32 +1,34 @@
-# Troubleshoot AWS Launch Wizard for Remote Desktop Gateway<a name="launch-wizard-remote-desktop-gateway-troubleshooting"></a>
+# Troubleshoot AWS Launch Wizard for Exchange Server<a name="launch-wizard-exchange-troubleshooting"></a>
 
-Each application in your account in the same AWS Region can be uniquely identified by the application name specified at the time of a deployment\. The application name can be used to view the details related to the application launch\.
+Each application in your account in the same AWS Region can be uniquely identified by the application name specified at the time of a deployment\. You can use the application name to view the details related to the application launch\.
+
+For information about issues encountered after a successful deployment, see the [Troubleshooting](https://aws-quickstart.github.io/quickstart-microsoft-exchange/#_troubleshooting) section of the Exchange Server on the AWS Cloud Quick Start deployment guide\.
 
 **Topics**
-+ [Launch Wizard provisioning events](#launch-wizard-remote-desktop-gateway-provisioning)
-+ [AWS CloudFormation stack](#launch-wizard-remote-desktop-gateway-cloudformation)
-+ [Application launch quotas](#launch-wizard-remote-desktop-gateway-quotas)
-+ [Enable termination protection](#launch-wizard-remote-desktop-gateway-terminate-protection)
-+ [Errors](#launch-wizard-remote-desktop-gateway-errors)
++ [Launch Wizard provisioning events](#launch-wizard-exchange-provisioning)
++ [AWS CloudFormation stack](#launch-wizard-exchange-cloudformation)
++ [Application launch quotas](#launch-wizard-exchange-quotas)
++ [Enable termination protection](#launch-wizard-exchange-terminate-protection)
++ [Errors](#launch-wizard-exchange-errors)
 
-## Launch Wizard provisioning events<a name="launch-wizard-remote-desktop-gateway-provisioning"></a>
+## Launch Wizard provisioning events<a name="launch-wizard-exchange-provisioning"></a>
 
-Launch Wizard captures events from AWS CloudFormation to track the status of an ongoing application deployment\. If an application deployment fails, you can access the AWS CloudFormation console to view the deployment events for this application by selecting **Deployments** from the navigation pane\. A failed event shows a status of **Failed** along with a failure message\. 
+Launch Wizard captures events from AWS CloudFormation to track the status of an ongoing application deployment\. If an application deployment fails, you can access the AWS Launch Wizard console to view the deployment events for this application by selecting **Deployments** from the navigation pane\. A failed event shows a status of **Failed** along with a failure message\. 
 
-## AWS CloudFormation stack<a name="launch-wizard-remote-desktop-gateway-cloudformation"></a>
+## AWS CloudFormation stack<a name="launch-wizard-exchange-cloudformation"></a>
 
 Launch Wizard uses AWS CloudFormation to provision the infrastructure resources of an application\. You can view the status of these AWS CloudFormation stacks, and if any of the stacks fail, you can view the cause of the failure\. AWS CloudFormation stacks can be found in your account using the AWS CloudFormation [describe\-stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html) API or by accessing the stack in the AWS CloudFormation console\. The following can be used with the `describe-stacks` API for the `--stack-name` argument:
 + **Application resources**
 
-  `LaunchWizard-APPLICATION_NAME`\. This stack also has nested stacks for VPC and the RDGW node\.
+  `LaunchWizard-APPLICATION_NAME`\. This stack also has nested stacks for VPC, load balancer, and bastion hosts, among other components\.
 
-## Application launch quotas<a name="launch-wizard-remote-desktop-gateway-quotas"></a>
+## Application launch quotas<a name="launch-wizard-exchange-quotas"></a>
 
 Launch Wizard allows three active applications with the status of `in progress` at one time\. The combined maximum amount of `in progress` and `completed` active applications is 25 for any given application type\. If you want to increase this limit, contact [AWS Support](https://aws.amazon.com/contact-us)\.
 
-## Enable termination protection<a name="launch-wizard-remote-desktop-gateway-terminate-protection"></a>
+## Enable termination protection<a name="launch-wizard-exchange-terminate-protection"></a>
 
-If you encounter errors when you deploy Remote Desktop Gateway with Launch Wizard, and the log information provided by Launch Wizard or AWS CloudFormation is not sufficient to determine your issue, you must [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html) within the Amazon EC2 Auto Scaling group to determine the cause of the failure\. When you connect to an instance to troubleshoot deployment failures, a common cause is the deployment scripts failing on the operating system\. The following error messages in AWS CloudFormation can indicate that the deployment scripts failed:
+If you encounter errors when you deploy Exchange with Launch Wizard, and the log information provided by Launch Wizard or AWS CloudFormation is not sufficient to determine your issue, you must [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html) within the Amazon EC2 Auto Scaling group to determine the cause of the failure\. When you connect to an instance to troubleshoot deployment failures, a common cause is the deployment scripts failing on the operating system\. The following error messages in AWS CloudFormation can indicate the deployment scripts failed:
 + 
 
   ```
@@ -48,7 +50,7 @@ If you encounter errors when you deploy Remote Desktop Gateway with Launch Wizar
   Unparsable WaitCondition data
   ```
 
- You can only connect to an EC2 instance if it is not terminated\. Launch Wizard terminates instances on stack creation failure by default\. You can enable the **Deactivate rollback on failed deployment** setting during deployment to prevent this behavior\. If the setting was not enabled, you can still prevent the instance from getting terminated by updating the termination settings of that instance from the EC2 console before the AWS CloudFormation stack gets rolled back\.
+ You can connect to an EC2 instance only if it is not terminated\. Launch Wizard terminates instances on stack creation failure by default\. You can enable the **Deactivate rollback on failed deployment** setting during deployment to prevent this behavior\. If the setting was not enabled, you can still prevent the instance from getting terminated by updating the termination settings of that instance from the EC2 console before the AWS CloudFormation stack gets rolled back\.
 
 **Note**  
 When you enable **Deactivate rollback on failed deployment**, you continue to incur AWS charges for the stack\. Ensure that you delete the stack when you finish troubleshooting\.
@@ -67,10 +69,10 @@ You can update the termination settings to disable termination of the instances 
 
 After you have determined the root cause, disable the termination protection before you delete the deployment in Launch Wizard\.
 
-## Errors<a name="launch-wizard-remote-desktop-gateway-errors"></a>
+## Errors<a name="launch-wizard-exchange-errors"></a>
 
 **Your requested instance type is not supported in your requested Availability Zone**
-+ **Cause:** This failure might occur during the launch of your RD Gateway instances\.
++ **Cause:** This failure might occur while launching instances for the Launch Wizard deployment\.
 + **Solution:** You must choose a different Availability Zone and retry the deployment from the initial page of the Launch Wizard console\.
 
 **EC2 instance stabilization error**
@@ -78,7 +80,7 @@ After you have determined the root cause, disable the termination protection bef
 + **Solution:** `WaitCondition` errors are often transient EC2 failures and retrying the deployment may succeed\. For additional assistance, contact [AWS Support](https://aws.amazon.com/contact-us)\.
 
 **Permission errors**
-+ **Cause:** Insufficient IAM permissions could be the cause of various failures in the RD Gateway deployment\. Errors caused by insufficient permissions may occur within the EC2 instances as scripts are run during the application deployment\. Other errors may return a verbose message indicating there are insufficient permissions similar to the following:
++ **Cause:** Insufficient AWS Identity and Access Management \(IAM\) permissions could be the cause of various failures in the Launch Wizard deployment\. Errors caused by insufficient permissions may occur within the EC2 instances as scripts are run during the application deployment\. Other errors may return a verbose message indicating there are insufficient permissions similar to the following:
 
   ```
   User: arn:aws:iam::123456789098:user/test-user is not authorized to perform: elasticloadbalancing:CreateTargetGroup on resource: arn:aws:elasticloadbalancing:us-east-1:123456789098:targetgroup/myTargetGroup/*)

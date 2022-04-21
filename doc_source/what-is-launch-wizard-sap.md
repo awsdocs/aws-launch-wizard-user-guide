@@ -8,6 +8,6 @@ After you deploy an SAP application, you can access it from the Amazon EC2 conso
 
 **Topics**
 + [Supported deployments and features of AWS Launch Wizard](launch-wizard-sap-deployments.md)
++ [Supported versions for SAP deployments](launch-wizard-sap-versions.md)
 + [Components](launch-wizard-sap-components.md)
 + [Related services](related-services-sap.md)
-+ [How AWS Launch Wizard for SAP works](how-launch-wizard-sap-works.md)

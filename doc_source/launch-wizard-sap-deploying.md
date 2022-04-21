@@ -183,7 +183,7 @@ On the **Configure deployment model** page, enter the deployment details for a s
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
@@ -258,7 +258,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. In the event of a configuration script failure or time out, choose whether to proceed with the deployment\. If you do not select this option, then when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
@@ -379,7 +379,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. Choose whether to proceed with the deployment if a configuration script fails or times out\. If you do not select this option, if the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
@@ -533,7 +533,7 @@ On the **Configure deployment model** page, enter the deployment details for the
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
@@ -578,7 +578,7 @@ On the **Configure deployment model** page, enter the deployment details for the
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.
@@ -621,7 +621,7 @@ On the **Configure deployment model** page, enter the deployment details for the
 
 **Pre\- and post\-deployment configuration scripts — optional**
 
-   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](how-launch-wizard-sap-works.md#launch-wizard-sap-how-it-works-scripts)\. 
+   You can run pre\- and post\-deployment configuration scripts during application provisioning\. For more information about how Launch Wizard accesses and deploys these scripts, see [Custom deployment configuration scripts](launch-wizard-sap-implementation.md#launch-wizard-sap-how-it-works-scripts)\. 
 
 **Pre\-deployment configuration script — optional**
    + **Deployment settings**\. In the event of a configuration script failure or time out, select whether to ignore all failures and proceed with the deployment\. If you do not select this option, when the configuration scripts fail or time out, Launch Wizard will roll back the workload and delete all of the AWS resources created by Launch Wizard\. Pre\-deployment configuration scripts must finish running in 45 minutes or less\.

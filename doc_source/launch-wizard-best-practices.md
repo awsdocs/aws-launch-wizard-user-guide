@@ -1,6 +1,6 @@
 # High availability and security best practices for AWS Launch Wizard for SQL Server<a name="launch-wizard-best-practices"></a>
 
-The application architecture created by AWS Launch Wizard supports AWS best practices for high availability and security as promoted by the [ AWS Well\-Architected Framework](https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf)\.
+The application architecture created by AWS Launch Wizard supports AWS best practices for high availability and security as promoted by the [AWS Well\-Architected Framework](https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf)\.
 
 **Topics**
 + [High availability](#launch-wizard-ha)
@@ -24,7 +24,7 @@ Launch Wizard implementation supports the following scenarios:
 + Automatic failover between the cluster nodes
 + Automatic failover between Availability Zones
 
-The default implementation of Launch Wizard does not provide automatic failover in every case\. For example, the failure of Availability Zone 1, which contains the primary node and file share witness, would prevent automatic failover to Availability Zone 2 because the cluster would fail as it loses quorum\. In this scenario, you could follow manual disaster recovery steps that include restarting the cluster service and forcing quorum on the second cluster node \(for example, WSFCNode2\) to restore application availability\. Launch Wizard also provides an option to deploy to three Availability Zones\. This deployment option can mitigate the loss of quorum if a single node fails\. However, you can select this option only in AWS Regions that include three or more Availability Zones\. For a current list of supported Regions, see [ AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)\.
+The default implementation of Launch Wizard does not provide automatic failover in every case\. For example, the failure of Availability Zone 1, which contains the primary node and file share witness, would prevent automatic failover to Availability Zone 2 because the cluster would fail as it loses quorum\. In this scenario, you could follow manual disaster recovery steps that include restarting the cluster service and forcing quorum on the second cluster node \(for example, WSFCNode2\) to restore application availability\. Launch Wizard also provides an option to deploy to three Availability Zones\. This deployment option can mitigate the loss of quorum if a single node fails\. However, you can select this option only in AWS Regions that include three or more Availability Zones\. For a current list of supported Regions, see [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)\.
 
 ## Security groups and firewalls<a name="launch-wizard-sql-security"></a>
 

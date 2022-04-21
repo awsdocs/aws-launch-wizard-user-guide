@@ -15,8 +15,10 @@ If you choose to deploy SQL Server Always On through Launch Wizard into your exi
 **Note**  
 Launch Wizard uses two Availability Zones\.
 
-![\[Deploy SQL Server Always On with Launch Wizard\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture_mod-2.png)
+You can build a SQL HA installation, as shown in the following diagram\.
 
-You can also choose to build an architecture with three Availability Zones, as shown in the following diagram\.
+![\[Deploy SQL Server HA with Launch Wizard\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture_mod-3.png)
 
-![\[Deploy SQL Server Always On with Launch Wizard with three Availability Zones\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/sql-server-on-aws-architecture-3az_mod-2.png)
+You can also choose to build an architecture with SQL Server Always On FCI, as shown in the following diagram\.
+
+![\[Deploy SQL Server Always On FCI\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/ms-sql-fci-fsx-architecture_diagram.png)

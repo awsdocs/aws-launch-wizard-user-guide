@@ -4,7 +4,10 @@ The following table describes the documentation for this release of AWS Launch W
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS Launch Wizard for Internet Information Services](what-is-launch-wizard-iis.md) | You can set up a new Internet Information Services \(IIS\) infrastructure using AWS Launch Wizard for Internet Information Services\. | April 21, 2022 | 
+| [AWS Launch Wizard for Exchange Server](what-is-launch-wizard-exchange.md) | You can set up a new Microsoft Exchange Server infrastructure using AWS Launch Wizard for Exchange Server\.  | April 21, 2022 | 
 | [AWS Launch Wizard for Remote Desktop Gateway ](what-is-launch-wizard-remote-desktop-gateway.md) | You can set up a new Remote Desktop Gateway infrastructure to an existing AWS infrastructure using AWS Launch Wizard for Remote Desktop Gateway\. | December 8, 2021 | 
+| [AWS Launch Wizard for Exchange Server](launch-wizard-exchange-getting-started.md) | Use AWS Launch Wizard to set up a new Exchange Server application to an existing AWS infrastructure\. | December 8, 2021 | 
 | [AWS Launch Wizard for Amazon Elastic Kubernetes Service](launch-wizard-eks-getting-started.md) | Get started setting up a new Amazon EKS application to an existing AWS infrastructure using AWS Launch Wizard\. | December 8, 2021 | 
 | [AWS Launch Wizard for SAP integration with AWS Service Catalog\.](what-is-launch-wizard-sap.md) | You can create AWS Service Catalog products from successful deployments with AWS Launch Wizard\. | August 30, 2021 | 
 | [AWS Launch Wizard for SAP support for no rollback on failure](launch-wizard-sap-getting-started.md) | When you select "No rollback on failure" for your AWS Launch Wizard deployments, if a deployment fails, Launch Wizard does not delete the AWS resources that were created for the deployment\. | March 5, 2021 | 
@@ -15,7 +18,7 @@ The following table describes the documentation for this release of AWS Launch W
 | [AWS Launch Wizard for SAP support for SAP application installation\.](what-is-launch-wizard-sap.md) | You can install supported SAP applications using customer\-provided SAP software\. | December 16, 2020 | 
 | [AWS Launch Wizard for SQL integration with AWS Systems Manager Application Manager\. ](launch-wizard-sql-app-manager.md) | You can manage resources created by Launch Wizard for SQL from the Systems Manager Application Manager console\. | December 15, 2020 | 
 | [AWS Launch Wizard for Active Directory](what-is-launch-wizard-active-directory.md) | You can set up a new Active Directory infrastructure or add domain controllers to an existing AWS infrastructure using AWS Launch Wizard for Active Directory\. | December 15, 2020 | 
-| [ AWS Launch Wizard for SAP support for custom pre\-deployment and post\-deployment scripts\.](what-is-launch-wizard-sap.md) | You can run custom pre\- and post\-deployment configuration scripts using AWS Launch Wizard for SAP\. | November 17, 2020 | 
+| [AWS Launch Wizard for SAP support for custom pre\-deployment and post\-deployment scripts\.](what-is-launch-wizard-sap.md) | You can run custom pre\- and post\-deployment configuration scripts using AWS Launch Wizard for SAP\. | November 17, 2020 | 
 | [AWS Launch Wizard support for SQL Server application single\-node deployments\. ](what-is-launch-wizard.md) | You can deploy your SQL Server application on a single instance\. | October 28, 2020 | 
 | [AWS Launch Wizard for SAP support for application single\-node deployments\. ](what-is-launch-wizard-sap.md) | You can deploy your SAP application on a single instance\. | October 15, 2020 | 
 | [Route 53/DNS association support](what-is-launch-wizard-sap.md) | You can provide your DNS domain name or Route53 hosted zone to enable DNS association for your deployed EC2 instances\.  | June 18, 2020 | 

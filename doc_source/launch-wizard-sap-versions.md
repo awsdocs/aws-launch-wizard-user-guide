@@ -41,8 +41,8 @@ The following table provides details for the application versions supported by L
 | Application name | Supported versions | 
 | --- | --- | 
 | SAP NetWeaver on HANA | 7\.5 SPS02 and 7\.5 SPS00 | 
-| SAP BW/4HANA | 2\.0 | 
-| SAP S/4HANA | 1909 and 2020 | 
+| SAP BW/4HANA | 2\.0 and 2021 | 
+| SAP S/4HANA | 1909, 2020, and 2021 | 
 
 ## Supported application software installation versions and deployment patterns<a name="launch-wizard-sap-versions-application-install"></a>
 

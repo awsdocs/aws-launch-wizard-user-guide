@@ -29,6 +29,14 @@ The following conditions must be met for the `AWSSQLServer-Backup` document to s
 + Backups must be staged to the local disk to run `AWSSQLServer-Backup`\. 
 + The maximum size of the backup file for uploading to Amazon S3 is 500 GB or less\.
 
+**Required IAM actions that must be added to your IAM policy to successfully run `AWSSQLServer-Backup`:**
++ `s3:UploadPart`
++ `s3:CompleteMultipartUpload`
++ `s3:CreateMultipartUpload`
++ `s3:GetBucketPolicyStatus`
++ `s3:GetBucketPolicyStatus`
++ `s3:PutObject`
+
 For more information about backup modes, see the [Microsoft documentation](https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/backup-overview-sql-server?view=sql-server-ver15)\.
 
 ## AWSSQLServer\-Index<a name="launch-wizard-sql-runbooks-sqlindex"></a>
@@ -42,3 +50,11 @@ For more information about index maintenance operations, see the [Microsoft docu
 The `AWSSQLServer-Restore` Automation document includes steps to download a backup database from a specified S3 bucket and folder to local storage\. You can also optionally restore the backup to a copy of the database\. The default behavior is to use the latest backup, and you can specify a time range to perform a point\-in\-time restore\. The following conditions must be met for the `AWSSQLServer-Restore` document to successfully restore a database:
 + The backup to use must have been performed by the `AWSSQLServer-Backup` document\.
 + There must be at least one full backup that occurred during the specified time range\.
+
+**Required IAM actions that must be added to your IAM policy to successfully run `AWSSQLServer-Restore`:**
++ `s3:UploadPart`
++ `s3:CompleteMultipartUpload`
++ `s3:CreateMultipartUpload`
++ `s3:GetBucketPolicyStatus`
++ `s3:GetBucketPolicyStatus`
++ `s3:PutObject`

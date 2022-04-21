@@ -15,7 +15,7 @@ This Launch Wizard assumes familiarity with Kubernetes concepts and usage\.
 
 ## Amazon Web Services account<a name="launch-wizard-eks-aws-account"></a>
 
-If you don’t already have an AWS account, create one at [https://aws\.amazon\.com]() by following the on\-screen instructions\. Part of the sign\-up process involves receiving a phone call and entering a PIN using the phone keypad\.
+If you don’t already have an AWS account, create one at [http://aws.amazon.com/](http://aws.amazon.com/) by following the on\-screen instructions\. Part of the sign\-up process involves receiving a phone call and entering a PIN using the phone keypad\.
 
 Your AWS account is automatically signed up for all AWS services\. You are charged only for the services you use\. 
 

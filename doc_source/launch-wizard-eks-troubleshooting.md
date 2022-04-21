@@ -48,7 +48,10 @@ If you encounter errors when you deploy Amazon EKS with Launch Wizard, and the l
   Unparsable WaitCondition data
   ```
 
- You can only connect to an EC2 instance if it is not terminated\. Launch Wizard terminates instances on failure if you enabled the setting **Enable rollback on failed deployment** during deployment\. If **Enable rollback on failed deployment** is enabled, you can still prevent the instance from getting terminated by updating the termination settings of that instance from the EC2 console before the AWS CloudFormation stack gets rolled back\. 
+ You can only connect to an EC2 instance if it is not terminated\. Launch Wizard terminates instances on stack creation failure by default\. You can enable the **Deactivate rollback on failed deployment** setting during deployment to prevent this behavior\. If the setting was not enabled, you can still prevent the instance from getting terminated by updating the termination settings of that instance from the EC2 console before the AWS CloudFormation stack gets rolled back\.
+
+**Note**  
+When you enable **Deactivate rollback on failed deployment**, you continue to incur AWS charges for the stack\. Ensure that you delete the stack when you finish troubleshooting\.
 
 **To find the EC2 instances from the Launch Wizard deployment**
 
