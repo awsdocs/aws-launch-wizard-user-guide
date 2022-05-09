@@ -611,7 +611,7 @@ On the **Configure deployment model** page, enter the deployment details for the
    + Under **Instance sizing**, choose **Use AWS recommended resources** or **Choose your instance**\.
      + **Use AWS recommended resources**\.
        + **Infrastructure requirements**\. Choose the requirements for your recommended resources from the dropdown list\.
-         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the amount of memory required exceeds 4TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
+         + **Based on CPU/Memory**\. If you select this option, enter the required number of vCPU **Cores** and **Memory**\. Amazon EC2supports up to 448 logical processors\. If the required amount of memory exceeds 12TB, [dedicated hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) are required\.
          + **SAPS \(SAP Application Performance Standard\)**\. If you select this option, enter the **SAPS** rating for the SAP certified instance types\. 
      + **Choose your instance**\.
        + **Instance type**\. Choose the instance type from the dropdown list\.
