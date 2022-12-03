@@ -5,6 +5,7 @@ This section contains steps for deploying an SAP application with Launch Wizard\
 **Topics**
 + [Access AWS Launch Wizard](#accessing-launch-wizard-sap)
 + [Deploy an SAP application with AWS Launch Wizard](#deploy-console-launch-wizard-sap)
++ [Clone deployment](#clone-deployment-sap)
 
 ## Access AWS Launch Wizard<a name="accessing-launch-wizard-sap"></a>
 
@@ -163,7 +164,7 @@ On the **Configure deployment model** page, enter the deployment details for a s
 1. **ASCS, PAS, and DB on one EC2 instance**\. Enter the deployment settings for your instance\.
    + **Instance details**\.
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-     + **Operating System**\. Select a supported operating system version for the ASCS instance\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
+     + **Operating System**\. Select a supported operating system version for the ASCS instance\. For a complete list of operating system versions supported for ASCS, see [Operating systems](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
      + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
      + **Private IP address**\. Choose whether to use an **Auto\-assigned \(default\)** IP address or a **Custom IP address**\.
@@ -207,7 +208,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 1. **ABAP System Central Services \(ASCS\) Server and Primary Application Server \(PAS\)**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
+       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Operating systems](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Host name**\. Enter the host name for the EC2 instances\.
      + **Auto Recovery**\. Auto recovery is an Amazon EC2 feature to increase instance availability\. Select the check box to enable EC2 automatic recovery for the instance\. For more information, see [Recover Your Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the Amazon EC2 User Guide\.
@@ -223,7 +224,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 1. **Settings for Database \(DB\) Server**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Instance sizing**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
+       + **Operating System**\. Select a supported operating system version for the ASCS and PAS instances\. For a complete list of operating system versions supported for ASCS, see [Operating systems](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown\. 
      + **Scale up and Scale out**\. Select an upgrade strategy for your system hardware to upgrade for increased data and workload\. 
        + **Scale\-up deployment**\.If you choose this deployment upgrade model, enter the host name for the database
@@ -288,7 +289,7 @@ On the **Configure SAP HANA deployment model** page, enter the deployment detail
 1. **Settings for ABAP System Central Services \(ASCS\) server**\. Enter the deployment settings for your instance\.
    + **Instance details**\. 
      + Under **Image type**, choose whether to use **AWS/Marketplace/Community images** or **Bring your own images \(BYOI\)**\.
-       + **Operating System**\. Select a supported operating system version for the ASCS instances\. For a complete list of operating system versions supported for ASCS, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
+       + **Operating System**\. Select a supported operating system version for the ASCS instances\. For a complete list of operating system versions supported for ASCS, see [Operating systems](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
        + **AMI ID**\. For BYOI, select the AMI that you want to use from the dropdown list\. 
      + **Host name**\. Enter the host name for the EC2 instance\.
      + **ASCS instance number**\. Enter the instance number for the SAP installation and setup, and to open up ports for security groups\. 
@@ -408,7 +409,7 @@ On the **Configure SAP application software installation** page, enter the softw
    + If you choose **No**, choose whether to install HANA software\. If you want to install HANA software, enter the **S3 location for HANA media** and the **HANA password**\. Then, proceed to **Step 6**\. If you don't want to install HANA software, proceed to **Step 9**\.
    + If you choose **Yes**, provide the information listed in the following steps\.
 
-1. **Application** and **Version**\. If you choose to install the SAP application software, select the supported application and version of the software you want to install\. The following configuration fields will change based on your application software and version selections\. For supported application versions, see [Supported application versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application)\.
+1. **Application** and **Version**\. If you choose to install the SAP application software, select the supported application and version of the software you want to install\. The following configuration fields will change based on your application software and version selections\. For supported application versions, see [SAP applications](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application)\.
 
 1. **SAP application software location**\. In order to install the SAP application software, Launch Wizard requires access to the relevant software and files\. For instructions to provide Launch Wizard access to the application software and associated files, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
    + **SAPCAR location**\. Enter the Amazon S3 path where the SAPCAR is located\.
@@ -641,3 +642,22 @@ On the **Configure deployment model** page, enter the deployment details for the
 + When you choose **Deploy** , you are redirected to the **Deployments page**, where you can view the status of your deployment, and also the deployment details\.
 
 ------
+
+## Clone deployment<a name="clone-deployment-sap"></a>
+
+You can now clone your SAP deployments created after April 21, 2022\.
+
+1. Sign in to [https://console\.aws\.amazon\.com/launchwizard](https://console.aws.amazon.com/launchwizard)\. 
+
+1. In the Deployments pane on the left, select **SAP**\.
+
+1. Choose an existing deployment from the list of deployments and select **Actions** > **Clone deployment**\.
+
+### Cloning inputs<a name="inputs-clone-deployment-sap"></a>
+
+With a cloned deployment, the following inputs must be provided\.
++ Enter a unique name for the cloned deployment\.
++ For SAP landscape infrastructure, you must define the configuration type\.
+  + You can **Create new configuration** by entering a new **Configuration name** and checking the **Verify connectivity** box\.
+  + To use the same configuration, select **Apply saved configuration** and choose a configuration from the list\.
++ The application and database credentials are not carried over\. Enter your application and database passwords when prompted\.

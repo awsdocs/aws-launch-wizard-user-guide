@@ -6,10 +6,6 @@ You can launch AWS Launch Wizard from the [AWS Launch Wizard console](https://co
 
 ## Deploy AWS Launch Wizard on Windows<a name="deploy-console-launch-wizard"></a>
 
-**Topics**
-+ [Deploy SQL Server Always On application](#deploy-console-launch-wizard-always-on)
-+ [Deploy SQL Failover Clustering application](#deploy-console-launch-wizard-failover-clustering)
-
 ### Deploy SQL Server Always On application<a name="deploy-console-launch-wizard-always-on"></a>
 
 The following steps guide you through a SQL Server Always On application deployment with AWS Launch Wizard after you have launched it from the console\.
@@ -22,7 +18,7 @@ The following steps guide you through a SQL Server Always On application deploym
 
 1. **Deployment model**\. Choose **High availability deployment** to deploy your SQL Server Always On application across multiple Availability Zones or **Single instance deployment** to deploy your SQL Server application on a single node\.
 
-1. You are prompted to enter the specifications for the new deployment The following tabs provide information about the specification fields\.
+1. You are prompted to enter the specifications for the new deployment\. The following tabs provide information about the specification fields\.
 
 ------
 #### [ General ]
@@ -78,22 +74,22 @@ This is the only opportunity for you to save the private key file\. Download it 
 
    You can connect to an existing Active Directory or, for high availability deployments, you can create a new one\. If you selected the **Create new Virtual Private Cloud \(VPC\)** option for high availability deployments, you must select **Create a new Active Directory**\.
 
-**Connecting to existing AWS Managed Active Directory or On Premises Active Directory**
+**Connecting to existing AWS Managed Active Directory or self\-managed Active Directory**
 
-   From the dropdown list, select whether you want to use AWS Managed Active Directory, or On Premises Active Directory\. If you select On Premises Active Directory, select the check box to verify that you have ensured a connection between the Active Directory and the VPC\.
+   From the dropdown list, select whether you want to use **AWS Managed Active Directory**, or **Self\-managed Active Directory**\. If you select **Self\-managed Active Directory**, select the check box to verify that you have ensured a connection between the Active Directory and the VPC\.
 
    Follow the steps for granting permissions in the Active Directory Default Organizational Unit \(OU\)\. 
-   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory \(Windows deployment\)Active Directory \(Windows\)](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
+   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory \(Windows deployment\)Active Directory \(Windows\)](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in AWS Secrets Manager as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server Always On deployment, it reads from AWS Secrets Manager\.
    + **DNS address**\. Enter the IP address of the DNS servers to which you are connecting\. These servers must be reachable from within the VPC that you selected\. 
    + **Optional DNS address**\. If you would like to use a backup DNS server, enter the IP address of the DNS server that you want to use as backup\. These servers must be reachable from within the VPC that you selected\. 
    + **Domain DNS name**\. Enter the Fully Qualified Domain Name \(FQDN\) of the [ forest root domain ](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/selecting-the-forest-root-domain) used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
 
 **Creating a new AWS Managed Active Directory through Launch Wizard**
-   + **Domain user name and password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server Always On deployment, it reads from the Parameter Store\.
+   + **Domain user name and password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in AWS Secrets Manager as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server Always On deployment, it reads from AWS Secrets Manager\.
    + **Domain DNS name**\. Enter a Fully Qualified Domain Name \(FQDN\) of the forest root domain used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
 
-**Creating an on\-premises Active Directory through Launch Wizard**  
-Launch Wizard allows you to connect to your on\-premises environment with [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\. 
+**Connecting to a self\-managed Active Directory through Launch Wizard**  
+Launch Wizard allows you to connect to a self\-managed Active Directory environment during deployment\. For more information, see [Self\-managed Active Directory](launch-wizard-setting-up.md#launch-wizard-ad-onprem)\.
 
 ------
 #### [ SQL Server ]
@@ -101,11 +97,13 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
    When you use an existing Active Directory, you have the option of using an existing SQL Server service account or creating a new account\. If you create a new Active Directory account, you must create a new SQL Server account\. 
    + **User name and password**\. If you are using an existing SQL Server service account, provide your user name and password\. This SQL Server service account should be part of the Managed Active Directory in which you are deploying\. If you are creating a new SQL Server service account through Launch Wizard, enter a user name for the SQL Server service account\. Create a complex Password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
    + **SQL Server install type**\. Select the version of SQL Server Enterprise that you want to deploy\. You can select an AMI from either the License\-included AMI or Custom AMI dropdown lists\.
-   + **Additional SQL Server settings \(optional\)**\. You can optionally specify additional nodes and their subnets\.
+   + **License\-included AMI**\. Choose an AMI for your SQL Server deployment which determines the version and edition of Windows Server and SQL Server that will be deployed\.
+   + **tempdb configuration \(optional\)**\. To improve performance, you can opt for the SQL Server tempdb system database to reside on a local NVMe SSD ephemeral storage device, also called the \(instance store volume\)\. NVMe SSD instance store volumes are available only on instance types that provide these local storage devices\. Additionally, only data that changes frequently should ever reside on these volumes\. They are not intended to store data long\-term\. For more information, see [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html)\.
+   + **Additional SQL Server settings \(optional\)**\. You can optionally specify the following:
      + **Nodes**\. Enter a **Primary SQL node name** and a **Secondary SQL node name \(HA deployments only\)**\. 
      + **Additional secondary SQL node \(HA deployments only, maximum of 5\)**\. Enter a secondary **Node name**, and select the **Access type**, the **Private subnet**, and the **Dedicated host**, if applicable, for the additional secondary SQL node from the dropdown lists\. You can add more secondary nodes by selecting **Add additional secondary node**\. 
      + **Witness node \(optional, HA deployments only\)**\. For improved fault tolerance, select the check box to add a file share quorum witness node\.
-     + **Additional naming**\. Enter a **Database name**\. For HA deployments, enter an **Availability group name**, a **Listener name**, and a **Cluster name**\. 
+     + **Additional naming**\. Enter a **Database name**\. For HA deployments, enter an **Availability group name**, a **Listener name**, and a **Windows cluster virtual network name**\. 
 
 ------
 
@@ -114,15 +112,13 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
 1. After configuring your application, you are prompted to define the infrastructure requirements for the new deployment on the **Define infrastructure requirements** page\. The following tabs provide information about the input fields\.
 
 ------
-#### [ Storage and Compute ]
-
-**Infrastructure requirements based on infrastructure**
+#### [ Define infrastructure requirements ]
 
    You can choose to select your instances and volume types, or to use AWS recommended resources\. If you choose to use AWS recommended resources, you have the option of defining your high availability cluster needs\. If no selections are made, default values are assigned\.
    + **Number of instance cores**\. Choose the number of CPU cores for your infrastructure\. The default value assigned is 4\. 
    + **Network performance**\. Choose your preferred network performance in Gbps\.
    + **Memory \(GB\)**\. Choose the amount of RAM that you want to attach to your EC2 instances\. The default value assigned is 4 GB\.
-   + **Type of storage drive**\. Select the storage drive type for the SQL data and tempdb volumes\. The default value assigned is SSD\. 
+   + **Type of storage drive**\. Select the storage drive type for the SQL data and tempdb volumes\. If you chose to place your tempdb on local storage, only the SQL data will be on the storage drive you select\. The default value assigned is SSD\. 
    + **SQL Server throughput**\. Select the sustained SQL Server throughput that you need\. 
    + **Recommended resources**\. Launch Wizard displays the system\-recommended resources based on your infrastructure selections\. If you want to change the recommended resources, select different infrastructure requirements\. 
 
@@ -228,23 +224,23 @@ This is the only opportunity for you to save the private key file\. Download it 
 
    You can connect to an existing Active Directory or create a new one\. If you selected the **Create new Virtual Private Cloud \(VPC\)** option for high availability deployments, you must select **Create a new Active Directory**\.
 
-**Connecting to existing AWS Managed Active Directory or On Premises Active Directory**
+**Connecting to existing AWS Managed Active Directory or self\-managed Active Directory**
 
-   From the dropdown list, select whether you want to use AWS Managed Active Directory, or On Premises Active Directory\. If you select On Premises Active Directory, select the check box to verify that you have ensured a connection between the Active Directory and the VPC\.
+   From the dropdown list, select whether you want to use **AWS Managed Active Directory**, or **Self\-managed Active Directory**\. If you select **Self\-managed Active Directory**, select the check box to verify that you have ensured a connection between the Active Directory and the VPC\.
 
    Follow the steps for granting permissions in the Active Directory Default Organizational Unit \(OU\)\. 
-   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory \(Windows deployment\)Active Directory \(Windows\)](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server FCI deployment, Launch Wizard reads from the Parameter Store\.
+   + **Domain user name and password**\. Enter the user name and password for your directory\. For required permissions for the domain user, see [Active Directory \(Windows deployment\)Active Directory \(Windows\)](launch-wizard-setting-up.md#launch-wizard-ad)\. Launch Wizard stores the password in AWS Secrets Manager as a secure string parameter\. It does not store the password on the service side\. To create a functional SQL Server FCI deployment, Launch Wizard reads from AWS Secrets Manager\.
    + **DNS address**\. Enter the IP address of the DNS servers to which you are connecting\. These servers must be reachable from within the VPC that you selected\. 
    + **Optional DNS address**\. If you would like to use a backup DNS server, enter the IP address of the DNS server that you want to use as backup\. These servers must be reachable from within the VPC that you selected\. 
    + **Domain DNS name**\. Enter the Fully Qualified Domain Name \(FQDN\) of the [ forest root domain ](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/selecting-the-forest-root-domain) used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
    + **Domain User security group — optional**\. To specify an existing security group, select one from the dropdown list\. The prerequisites for adding security groups can be viewed by selecting **Info**\.
 
 **Creating a new AWS Managed Active Directory through Launch Wizard**
-   + **Domain user name and password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in the Systems Manager Parameter Store of your account as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server FCI deployment, Launch Wizard reads from the Parameter Store\.
+   + **Domain user name and password**\. The domain user name is preset to “admin\.” Enter a password for your directory\. Launch Wizard stores the password in AWS Secrets Manager as a secure string parameter\. It does not store the password on the server side\. To create a functional SQL Server FCI deployment, Launch Wizard reads from AWS Secrets Manager\.
    + **Domain DNS name**\. Enter a Fully Qualified Domain Name \(FQDN\) of the forest root domain used for the Active Directory\. When you choose to create a new Active Directory, Launch Wizard creates a domain admin user on your Active Directory\.
 
-**Creating an on\-premises Active Directory through Launch Wizard**  
-Launch Wizard allows you to connect to your on\-premises environment with [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\. 
+**Connecting to a self\-managed Active Directory through Launch Wizard**  
+Launch Wizard allows you to connect to a self\-managed Active Directory environment during deployment\. For more information, see [Self\-managed Active Directory](launch-wizard-setting-up.md#launch-wizard-ad-onprem)\.
 
 ------
 #### [ SQL Server ]
@@ -252,12 +248,10 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
    When you use an existing Active Directory, you have the option of using an existing SQL Server service account or creating a new account\. If you create a new Active Directory account, you must create a new SQL Server account\. 
    + **User name and password**\. If you are using an existing SQL Server service account, provide your user name and password\. This SQL Server service account should be part of the Managed Active Directory in which you are deploying\. If you are creating a new SQL Server service account through Launch Wizard, enter a user name for the SQL Server service account\. Create a complex Password that is at least 8 characters long, and then reenter the password to verify it\. See [Password Policy](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017) for more information\.
    + **SQL Server install type**\. Select the version of SQL Server Enterprise that you want to deploy\. You can select an AMI from either the License\-included AMI or Custom AMI dropdown lists\.
-   + **Additional SQL Server settings \(optional\)**\. You can optionally specify additional nodes and their subnets\.
+   + **License\-included AMI**\. Choose an AMI for your SQL Server deployment which determines the version and edition of Windows Server and SQL Server that will be deployed\.
+   + **Additional SQL Server settings \(optional\)**\. You can optionally specify the following:
      + **Nodes**\. Enter a **Primary SQL node name** and a **Secondary SQL node name**\. 
-     + **Additional naming**\. You can specify a name for your SQL **FCI instance** and your **Cluster**\.
-     + **Additional secondary SQL node \(maximum of 5\)**\. Enter a secondary **Node name**, and select the **Access type**, the **Private subnet**, and the **Dedicated host**, if applicable, for the additional secondary SQL node from the dropdown lists\. You can add more secondary nodes by selecting **Add additional secondary node**\. 
-     + **Witness node \(optional\)**\. For improved fault tolerance, select the check box to add a file share quorum witness node\.
-     + **Additional naming**\. Enter a **Database name**, an **Availability group name**, a **Listener name**, and a **Cluster name**\. 
+     + **Additional naming**\. Enter a **SQL Server virtual network name** and a **Windows cluster virtual network name**\. 
 
 ------
 
@@ -266,9 +260,7 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
 1. After configuring your application, you are prompted to define the infrastructure requirements for the new deployment on the **Define infrastructure requirements** page\. The following tabs provide information about the input fields\.
 
 ------
-#### [ Storage and Compute ]
-
-**Infrastructure requirements based on infrastructure**
+#### [ Define infrastructure requirements ]
 
    You can choose to select your instances and volume types, or to use AWS recommended resources\. If you choose to use AWS recommended resources, you have the option of defining your high availability cluster needs\. If no selections are made, default values are assigned\.
 
@@ -289,12 +281,6 @@ Launch Wizard allows you to connect to your on\-premises environment with [AWS D
    + **Instance type**\. Select your preferred instance type from the dropdown list\. 
    + **Storage capacity**\. Choose your preferred EBS volume type\. For more information about volume types, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)\.
    + **Throughput capacity**\. Select the required sustained SQL Server throughput\.
-
-**Drive letters and volume size**
-   + **Drive letter**\. Select the storage drive letter for **Root drive**, **Logs**, **Data**, and **Backup** volumes\.
-**Important**  
-For custom AMIs, Launch Wizard assumes the root volume drive is `C:`\.
-   + **Volume size**\. Select the size of the SQL Server data volume in Gb for **Root drive**, **Logs**, **Data**, and **Backup** volumes\. SQL Server logs and data will be staged on the same data volume for this deployment\. Make sure that you select an adequate size for the data volume\.
 
 ------
 #### [ Tags\-Optional ]

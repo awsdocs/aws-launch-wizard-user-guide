@@ -1,97 +1,50 @@
 # Supported versions for SAP deployments<a name="launch-wizard-sap-versions"></a>
 
 **Topics**
-+ [Operating system](#launch-wizard-sap-ascs-support-os)
-+ [Application](#launch-wizard-sap-versions-application)
-+ [Application software and deployment patterns](#launch-wizard-sap-versions-application-install)
++ [Operating systems](#launch-wizard-sap-ascs-support-os)
++ [Databases](#launch-wizard-sap-versions-databases)
++ [SAP applications](#launch-wizard-sap-versions-application)
 
-## Supported operating system versions for SAP deployments<a name="launch-wizard-sap-ascs-support-os"></a>
+## Operating systems<a name="launch-wizard-sap-ascs-support-os"></a>
 
-The following table provides details for the operating systems supported by Launch Wizard for SAP deployments\.
-
-
-| Operating system version | Single\-node deployment | ASCS | ERS | PAS | SAP HANA database | SAP HANA database in HA cluster | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| Red\-Hat\-Enterprise\-Linux\-8\.2\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| Red\-Hat\-Enterprise\-Linux\-8\.1\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| Red\-Hat\-Enterprise\-Linux\-7\.6\-For\-SAP\-HA\-US\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-SP2\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-15\-SP2\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-SP2\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-SP1\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-15\-SP1\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-SP1\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-15\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-15\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP5\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-12\-SP5\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP5\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP4\-HVM | ✓ |  |  | ✓ | ✓ |  | 
-| SuSE\-Linux\-12\-SP4\-For\-SAP\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-| SuSE\-Linux\-12\-SP4\-For\-SAP\-BYOS\-HVM | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 
-
-For Additional Application Server \(AAS\), the operating system is inherited from the operating system selected for the PAS server\. 
-
-## Supported application versions for SAP deployments<a name="launch-wizard-sap-versions-application"></a>
-
-The following table provides details for the application versions supported by Launch Wizard for SAP deployments\.
+The following table provides details of the operating systems supported by Launch Wizard for SAP deployments\.
 
 
-| Application name | Supported versions | 
+****  
+
+| Operating system | Supported deployment patterns | 
 | --- | --- | 
-| SAP NetWeaver on HANA | 7\.5 SPS02 and 7\.5 SPS00 | 
-| SAP BW/4HANA | 2\.0 and 2021 | 
-| SAP S/4HANA | 1909, 2020, and 2021 | 
+| Red Hat Enterprise Linux 7\.6, 7\.7, 7\.9, 8\.1, and 8\.4 | All | 
+| SUSE Linux Enterprise Server for SAP Applications 15, 15 SP1, 15 SP2, 15 SP3, 12 SP4, and 12 SP5 | All | 
+| SUSE Linux Enterprise Server 15, 15 SP1, 15 SP2, 15 SP3, 12 SP4, and 12 SP5 | All, except high availability patterns | 
+| Bring Your Own Subscription Amazon Machine Image | All | 
 
-## Supported application software installation versions and deployment patterns<a name="launch-wizard-sap-versions-application-install"></a>
+## Databases<a name="launch-wizard-sap-versions-databases"></a>
 
-The following table provides details about the supported application software installation versions for the deployment patterns supported by Launch Wizard for SAP\.
+The following table provides details of the database versions supported by Launch Wizard for SAP deployments\.
 
 
-| Application and software version | OS | HANA DB versions | Single instance deployment | Distributed instance deployment with HANA scale\-up | Distributed instance deployment with HANA scale\-out | High availability deployment\* | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| NetWeaver 7\.5 SPS02 | SLES 15 SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS02 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | SLES 15 SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  |  Yes  | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS02 | SLES 15 for SAP SP1 |  HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04  | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS02 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS02 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS02 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | SLES 15 SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS0 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | SLES 15 SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | SLES 15 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS0 | SLES 15 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | SLES 12 SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | No | 
-| NetWeaver 7\.5 SPS0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| NetWeaver 7\.5 SPS0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 & HANA 2\.0 SPS 04 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | SLES 15 SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| S4HANA 2020 & 1909 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| S4HANA 2020 & 1909 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| S4HANA 2020 & 1909 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| S4HANA 2020 & 1909 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| S4HANA 2020 & 1909 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | SLES 15 SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| BW4HANA 2\.0 | SLES 15 for SAP SP2 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | SLES 15 SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| BW4HANA 2\.0 | SLES 15 for SAP SP1 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | SLES 15 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| BW4HANA 2\.0 | SLES 15 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | SLES 12 SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | No | 
-| BW4HANA 2\.0 | SLES 12 for SAP SP5 | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | RHEL 8\.2 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | RHEL 8\.1 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
-| BW4HANA 2\.0 | RHEL 7\.6 for SAP | HANA 2\.0 SPS 05 | Yes | Yes | Yes | Yes | 
+****  
+
+| Database | Versions | Service Pack Stack | 
+| --- | --- | --- | 
+| SAP HANA | 1\.0 | SP12 | 
+| SAP HANA | 2\.0 | SP04, SP05, and SP06 | 
+
+For more information on the supported operating systems for SAP service pack stacks, see [SAP Note 2235581](https://launchpad.support.sap.com/#/notes/2235581) \(requires access to the SAP portal\)\.
+
+## SAP applications<a name="launch-wizard-sap-versions-application"></a>
+
+The following table provides details of SAP applications supported by Launch Wizard for SAP deployments\.
+
+For more information on the supported operating systems for SAP service pack stacks, see [SAP Product Availability Matrix](https://userapps.support.sap.com/sap(bD1lbiZjPTAwMQ==)/support/pam/pam.html#ts=49) \(requires access to the SAP portal\)\. The versions in the following table link to the relevant sections of the SAP Product Availability Matrix\.
+
+
+****  
+
+| Applications | Versions | 
+| --- | --- | 
+| SAP NetWeaver on ABAP | [750](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3D%26o%3Dmost_viewed%257Cdesc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73554900100900000414%26pt%3Dg%257Cd%26ainstnr%3D73554900104900001064%26fclfilter%3D) and [752](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73554900100900001597%26pt%3Dt%257CPLTFRM%26ainstnr%3D73554900104900003577%26fclfilter%3DG1%257CSAP%2520HANA%2520DATABASE%253BG2%257CLINUX%2520ON%2520X86_64) | 
+| SAP BW4/HANA | [2\.0](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73555000100900003033%26pt%3Dg%257Cd%26ainstnr%3D73555000104900006672%26fclfilter%3D) and [2021](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73555000100900004721%26pt%3Dg%257Cd) | 
+| SAP S4/HANA | [1909](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73555000100900004721%26pt%3Dg%257Cd), [2020](images/https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73554900100900003539%26pt%3Dg%257Cd), [2021](https://userapps.support.sap.com/sap/support/pam?hash=s%3D%26filter%3Dfavorites%257CT%26o%3Dname%257Casc%26st%3Dl%26rpp%3D20%26page%3D1%26pvnr%3D73554900100900005134%26pt%3Dg%257Cd) | 
+| SAP Solution Manager | [7\.2](https://userapps.support.sap.com/sap(bD1lbiZjPTAwMQ==)/support/pam/pam.html#pvnr=01200615320900006067&pt=g%7Cd&ts=0) | 

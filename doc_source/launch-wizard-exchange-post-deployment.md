@@ -15,7 +15,7 @@ To help ensure that the deployed servers' operating systems and installed applic
 
 To install Windows updates on the RD Gateways with their public IP addresses:
 
-1. Identify the public IP addresses for the RD Gateways, from the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/)\.
+1. Identify the public IP addresses for the RD Gateways, from the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)\.
 
 1. Use the public IP of the RD Gateway to [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html)\.
 
@@ -31,7 +31,7 @@ To install Windows updates on the RD Gateways with their public IP addresses:
 
 To install Windows updates on the Exchange servers by connecting from within a public resource such as an RD Gateway or bastion host:
 
-1. Identify the public IP addresses for the public resource, and also the private IP addresses of the Exchange servers, from the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/)\.
+1. Identify the public IP addresses for the public resource, and also the private IP addresses of the Exchange servers, from the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)\.
 
 1. Use the public IP of the public resource to [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html)\.
 
@@ -68,7 +68,7 @@ If you chose to deploy a load balancer, these steps guide you through creating a
 
 1. To use the load balancer with your Exchange namespace, create a CNAME record in Active Directory that points to the load balancer\.
 
-1. Before proceeding, go to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2) and, under **Load balancer**, select the load balancer that Launch Wizard created\.
+1. Before proceeding, go to the [Amazon EC2 console](https://console.aws.amazon.com/ec2) and, under **Load balancer**, select the load balancer that Launch Wizard created\.
 
 1. Copy the value listed under the DNS name as shown in the following image:  
 ![\[An image of the load balancer DNS name.\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/images/exchange-elb-dns-1.png)

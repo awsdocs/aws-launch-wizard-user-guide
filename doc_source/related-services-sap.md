@@ -11,6 +11,7 @@ The following AWS services are used when you deploy an SAP application with AWS 
 + [Amazon Route 53](#launch-wizard-related-services-route53)
 + [AWS Backint Agent for SAP HANA](#launch-wizard-related-services-backint)
 + [AWS Task Orchestrator and Executor](#launch-wizard-related-services-ec2toe)
++ [Amazon FSx for NetApp ONTAP](#launch-wizard-sap-related-services-fsx)
 
 ## AWS CloudFormation<a name="launch-wizard-sap-related-services-cloudformation"></a>
 
@@ -43,3 +44,7 @@ The following AWS services are used when you deploy an SAP application with AWS 
 ## AWS Task Orchestrator and Executor<a name="launch-wizard-related-services-ec2toe"></a>
 
 [AWS Task Orchestrator and Executor](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-component-manager.html) is component management application used to orchestrate complex workflows, modify system configurations, and test your systems without writing code\. This application uses a declarative document schema\. As a standalone application it does not require additional server setup\. It can run on any cloud infrastructure and on premises\. AWS Launch Wizard uses this application to orchestrate the download of the pre\- and post\-configuration scripts, and to run them\. 
+
+## Amazon FSx for NetApp ONTAP<a name="launch-wizard-sap-related-services-fsx"></a>
+
+Amazon FSx for NetApp ONTAP is a fully managed service that provides highly reliable, scalable, high\-performing, and feature\-rich file storage built on NetApp's popular ONTAP file system\. You can now deploy and operate SAP HANA on AWS with Amazon FSx for NetApp ONTAP\. For more information, see [Amazon FSx for NetApp ONTAP](http://aws.amazon.com/fsx/netapp-ontap/)\.

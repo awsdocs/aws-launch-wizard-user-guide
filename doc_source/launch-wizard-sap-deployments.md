@@ -58,7 +58,7 @@ Launch Wizard creates a resource group for all of the AWS resources created for 
 Deploying and running the Amazon Web Services \(AWS\) Data Provider for SAP is a prerequisite for running SAP systems on AWS\. Launch Wizard automatically deploys AWS Data Provider for SAP on every Amazon EC2 instance that it launches\. AWS Data Provider for SAP is a tool that collects performance\-related data from AWS services\. It makes this data available to SAP applications to help monitor and improve the performance of business transactions\. AWS Data Provider for SAP uses operating system, network, and storage data that is most relevant to the operation of the SAP infrastructure\. Its data sources include Amazon EC2 and Amazon CloudWatch\. 
 
 **Note**  
-AWS Data Provider is installed using a downloadable installer, and is not automatically updated to the latest version\. You must manually check for and deploy updates, or manually set up an SSM distributor to install and update this service as described in [Installing DataProvider 4\.1](https://docs.aws.amazon.com/sap/latest/general/data-provider-installallation.html)\. 
+AWS Data Provider is installed using a downloadable installer, and is not automatically updated to the latest version\. You must manually check for and deploy updates, or manually set up an SSM distributor to install and update this service as described in [Installing DataProvider 4\.2](https://docs.aws.amazon.com/sap/latest/general/data-provider-installallation.html)\. 
 
 ## AWS Backint Agent for SAP HANA<a name="launch-wizard-sap-features-backint"></a>
 
@@ -70,7 +70,7 @@ You can provide custom pre\-deployment and post\-deployment configuration script
 
 ## Application software installation<a name="launch-wizard-sap-features-software-install"></a>
 
-Launch Wizard can install SAP application software that you have made available on Amazon S3, including SAP NetWeaver on HANA, SAP S/4HANA, and SAP BW/4HANA\. For more details about which operating systems and database versions are supported for each deployment pattern, see [Supported application software installation versions and deployment patterns](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application-install)\. For supported software versions and installation details, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
+Launch Wizard can install SAP application software that you have made available on Amazon S3, including SAP NetWeaver on HANA, SAP S/4HANA, and SAP BW/4HANA\. For more details about which operating systems and database versions are supported for each deployment pattern, see [SAP applications](launch-wizard-sap-versions.md#launch-wizard-sap-versions-application)\. For supported software versions and installation details, see [Make SAP application software available for AWS Launch Wizard to deploy SAP](launch-wizard-sap-software-install-details.md)\.
 
 ## Creation of AWS Service Catalog products<a name="launch-wizard-features-service-catalog"></a>
 

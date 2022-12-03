@@ -8,7 +8,6 @@ This section describes steps to help you troubleshoot deploying domain controlle
 + [Launch Wizard provisioning events](#launch-wizard-ad-provisioning)
 + [CloudWatch Logs](#launch-wizard-ad-logs)
 + [AWS CloudFormation stack](#launch-wizard-ad-cloudformation)
-+ [Errors](#launch-wizard-ad-errors)
 
 ## Launch Wizard provisioning events<a name="launch-wizard-ad-provisioning"></a>
 
@@ -26,17 +25,3 @@ Launch Wizard uses AWS CloudFormation to provision the infrastructure resources 
   + `LaunchWizard-STACK_NAME-TEMPLATE_NAME`\. This log includes all of the logs from each PowerShell script run from within the instance\.
 
 You can view the status of these CloudFormation stacks\. If any of them fail, you can view the cause of failure\.
-
-## Errors<a name="launch-wizard-ad-errors"></a>
-
-**Failed to create Forest Trust**
-+ **Cause:** Forest trust fails because of the lack of connectivity between the two domain controllers\.
-+ **Solution:** Ensure connectivity between the VPCs and ensure the ports are open between them\. See [Configure forest trust relationships](launch-wizard-ad-create-trusts.md) for more details about configuring forest trusts\.
-
-**The requested instance type is not supported in the requested Availability Zone**
-+ **Cause:** This failure can occur when you launch either your RDGW instance or your Active Directory Server instance, or during the validation of the instances that Launch Wizard launches in your selected subnets\. 
-+ **Solution:** Choose a different Availability Zone and retry the deployment from the initial page of the Launch Wizard console\.
-
-**Instance stabilization error**
-+ **Cause:** This failure can occur when the EC2 instance used for validation fails to stabilize\. When this happens, the EC2 instance is unable to communicate to the CloudFormation service to signal completions, resulting in `WaitCondition` errors\.
-+ **Solution:** Please contact [AWS Support](https://console.aws.amazon.com/support)\.

@@ -83,4 +83,4 @@ You must [tag each private subnet](https://docs.aws.amazon.com/ARG/latest/usergu
 
 1. When your deployment is ready, a notification informs you that your **Amazon EKS** application is successfully deployed\. If you have set up an Amazon SNS notification, you are also alerted through Amazon SNS\. You can manage and access all of the resources related to your application by selecting the deployment, and then selecting **Manage** from the **Actions** dropdown list\. 
 
-1. When the application is deployed, you can access your Amazon EC2 instances through the Amazon EC2 Console\.
+1. When the application is deployed, you can access your Amazon EC2 instances through the Amazon EC2 console\.

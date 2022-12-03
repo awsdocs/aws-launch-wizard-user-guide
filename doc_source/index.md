@@ -4,13 +4,13 @@
 *****Copyright &copy; Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
-Amazon's trademarks and trade dress may not be used in 
-     connection with any product or service that is not Amazon's, 
-     in any manner that is likely to cause confusion among customers, 
-     or in any manner that disparages or discredits Amazon. All other 
-     trademarks not owned by Amazon are the property of their respective
-     owners, who may or may not be affiliated with, connected to, or 
-     sponsored by Amazon.
+Amazon's trademarks and trade dress may not be used in
+connection with any product or service that is not Amazon's,
+in any manner that is likely to cause confusion among customers,
+or in any manner that disparages or discredits Amazon. All other
+trademarks not owned by Amazon are the property of their respective
+owners, who may or may not be affiliated with, connected to, or
+sponsored by Amazon.
 
 -----
 ## Contents
@@ -26,9 +26,16 @@ Amazon's trademarks and trade dress may not be used in
    + [Get started with AWS Launch Wizard for Active Directory](launch-wizard-ad-getting-started.md)
       + [Access AWS Launch Wizard](accessing-launch-wizard-ad.md)
       + [Set up for AWS Launch Wizard for Active Directory](launch-wizard-ad-setting-up.md)
-      + [Deploy an application with AWS Launch Wizard for Active Directory](launch-wizard-ad-deploying.md)
-      + [Configure forest trust relationships](launch-wizard-ad-create-trusts.md)
+      + [Deploy Active Directory to a new Amazon Virtual Private Cloud](launch-wizard-ad-deploying-new-vpc.md)
+         + [Deploy self-managed Active Directory to a new Amazon Virtual Private Cloud](launch-wizard-ad-deploying-new-vpc-self-managed.md)
+         + [Extend an existing Active Directory to a new Amazon Virtual Private Cloud](launch-wizard-ad-deploying-new-vpc-extend.md)
+         + [Deploy AWS Directory Service for Microsoft Active Directory to a new Amazon Virtual Private Cloud](launch-wizard-ad-deploying-new-vpc-managed-ad.md)
+      + [Deploy Active Directory to an existing Amazon Virtual Private Cloud](launch-wizard-ad-deploying-existing-vpc.md)
+         + [Deploy self-managed Active Directory to an existing Amazon Virtual Private Cloud](launch-wizard-ad-deploying-existing-vpc-self-managed.md)
+         + [Extend on-premises Active Directory to an existing Amazon Virtual Private Cloud](launch-wizard-ad-deploying-existing-vpc-extend.md)
+         + [Deploy AWS Directory Service for Microsoft Active Directory to an existing Amazon Virtual Private Cloud](launch-wizard-ad-deploying-existing-vpc-managed-ad.md)
    + [Manage application resources with AWS Launch Wizard for Active Directory](launch-wizard-ad-managing.md)
+   + [Post-deployment steps](launch-wizard-ad-post-deployment-steps.md)
    + [High availability and security best practices for AWS Launch Wizard for Active Directory](launch-wizard-ad-best-practices.md)
    + [Troubleshoot AWS Launch Wizard for Active Directory](launch-wizard-ad-troubleshooting.md)
 + [AWS Launch Wizard for Amazon Elastic Kubernetes Service](launch-wizard-eks.md)
@@ -96,6 +103,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Launch AWS Service Catalog products with Terraform](launch-wizard-sap-service-catalog-terraform.md)
       + [Launch AWS CloudFormation templates created in Launch Wizard](launch-wizard-sap-launch-artifacts-cloudformation.md)
    + [Scale SAP applications with AWS Launch Wizard for SAP after initial deployment](launch-wizard-sap-add-remove-nodes.md)
+   + [Deploy SAP applications with AWS Launch Wizard for SAP using a proxy server](launch-wizard-sap-deploy-proxy-server.md)
    + [Security groups in AWS Launch Wizard for SAP](launch-wizard-sap-security-groups.md)
    + [Troubleshoot AWS Launch Wizard for SAP](launch-wizard-sap-troubleshooting.md)
 + [AWS Launch Wizard for SQL Server](launch-wizard-sql.md)

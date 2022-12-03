@@ -93,9 +93,7 @@ This is your only opportunity to save the private key file\. Download it and sav
 1. After configuring your application, you are prompted to define the infrastructure requirements for the new deployment on the **Define infrastructure requirements** page\. The following tabs provide information about the input fields\.
 
 ------
-#### [ Storage and Compute ]
-
-**Infrastructure requirements based on infrastructure**
+#### [ Define infrastructure requirements ]
 
    You can choose to select your instances, storage and performance, and volume types, or to use AWS recommended resources\. If you choose to use AWS recommended resources, you have the option of defining your high availability cluster needs\. If no selections are made, default values are assigned\.
    + **Number of instance cores**\. Choose the number of CPU cores for your infrastructure\. The default value assigned is 4\. 

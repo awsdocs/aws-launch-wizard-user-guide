@@ -28,12 +28,12 @@ The following key operations are performed against your Active Directory by Laun
 + `CreateChild` role added to Windows Server Failover Cluster as part of `ActiveDirectoryAccessRule`\.
 + `FullControl` role added to SQL Server Service user as part of `FileSystemRights`\.
 
-### On\-premises Active Directory through AWS Direct Connect<a name="launch-wizard-ad-onprem"></a>
+### Self\-managed Active Directory<a name="launch-wizard-ad-onprem"></a>
 
-If you are [deploying SQL Server into an existing VPC and connecting to an on-premises Active Directory](launch-wizard-deployment-options.md#option-4), verify the following prerequisites\.
-+ Make sure you have connectivity between your AWS account and your on\-premises network\. You can establish a dedicated network connection from your on\-premises network to your AWS account with AWS Direct Connect\. For more information, see [the AWS Direct Connect documentation](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\. 
+If you are [deploying SQL Server into an existing VPC across multiple Availability Zones and connecting to a self-managed Active Directory](launch-wizard-deployment-options.md#option-4) or [deploying SQL Server into an existing VPC on a single node and connecting to a self-managed Active Directory](launch-wizard-deployment-options.md#option-5), verify the following prerequisites\.
++ If your self\-managed Active Directory resides in another network than where you are deploying SQL Server, make sure you have connectivity between your VPC and the self\-managed Active Directory network\. You must also be able to connect to any DNS servers you specify during deployment from your VPC\. For more information, see [Network\-to\-Amazon VPC connectivity options](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html)\.
++ Your SQL Server resources must be able to perform DNS resolution from within the VPC to any DNS servers you specify\. For options on how to set this up, see [ How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Amazon Route 53](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-amazon-route-53/) or [How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Microsoft Active Directory](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-microsoft-active-directory/)\.
 + The domain functional level of your Active Directory domain controller must be Windows Server 2012 or later\.
-+ The IP addresses of your DNS server must be either in the same VPC CIDR range as the one in which your Launch Wizard SQL Server Always On deployment will be created, or in the private IP address range\. 
 + The firewall on the Active Directory domain controllers should allow the connections from the Amazon VPC from which you will create the Launch Wizard deployment\. At a minimum, your configuration should include the ports mentioned in [How to configure a firewall for Active Directory domains and trusts](https://support.microsoft.com/en-us/help/179442/how-to-configure-a-firewall-for-domains-and-trusts)\.
 + The domain user requires the following permissions in the [Active Directory Default organizational unit \(OU\)](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/creating-an-organizational-unit-design) to enable Launch Wizard to perform the deployment successfully:
   + `Reset password`
@@ -42,9 +42,6 @@ If you are [deploying SQL Server into an existing VPC and connecting to an on-pr
   + `Create computer objects`
   + `Read all properties`
   + `Modify permissions`
-
-You can optionally perform the following step\.
-+ Establish DNS resolution across your environments\. For options on how to set this up, see [ How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Amazon Route 53](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-amazon-route-53/) or [How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Microsoft Active Directory](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-microsoft-active-directory/)\.
 
 ## AWS Identity and Access Management \(IAM\)<a name="launch-wizard-iam"></a>
 
@@ -166,9 +163,11 @@ The SQL media must be:
 
 ## Requirements for using Amazon FSx<a name="launch-wizard-sql-prerequisites-fsx"></a>
 
-Launch Wizard uses continuously available Amazon FSx file shares to host clustered databases\. The Amazon FSx file shares are accessible from within an instance joined to the domain\. You can either create a new Active Directory or connect to an existing Active Directory \(managed or on\-premises\)\. If you connect to an existing Active Directory, you can use preexisting security groups \. The security groups must satisfy port and security requirements for FSx to communicate with the domain, as described in [Using Amazon FSx with your self\-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) and [Using Amazon FSx with AWS Directory Service for Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/fsx-aws-managed-ad.html)\.
+Launch Wizard uses continuously available Amazon FSx file shares to host clustered databases\. The Amazon FSx file shares are accessible from within an instance joined to the domain\. You can either create a new Active Directory or connect to an existing Active Directory \(managed or self\-managed\)\. If you connect to an existing Active Directory, you can use preexisting security groups \. The security groups must satisfy port and security requirements for FSx to communicate with the domain, as described in [Using Amazon FSx with your self\-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) and [Using Amazon FSx with AWS Directory Service for Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/fsx-aws-managed-ad.html)\.
 
 If you are using an existing AWS Managed Active Directory instance, you must specify the ID of the managed Active Directory instance for FSx to be able to join the domain\. The account must have the same access rights in the domain as described in [Using Amazon FSx with your self\-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) and [Using Amazon FSx with AWS Directory Service for Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/fsx-aws-managed-ad.html)\.
+
+For Amazon FSx using NetApp ONTAP, Launch Wizard creates security groups in order to access the ONTAP file system and to set up failover clustering\. For port requirements, see [File System Access Control with Amazon VPC](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/limit-access-security-groups.html)\.
 
 **Backup schedule**  
 Launch Wizard uses FSx defaults for setting up the backup schedule\. You can change the default settings in the FSx console after the build completes\.
@@ -180,6 +179,26 @@ WeeklyMaintenanceStartTime: '6:22:00'
 DailyAutomaticBackupStartTime: '01:00'
 AutomaticBackupRetentionDays: 7
 ```
+
+**Amazon FSx using NetApp ONTAP**  
+Amazon FSx using NetApp ONTAP creates a new ONTAP file system for use with your Launch Wizard SQL deployment\. We use the formulas in the following table to calculate volume and LUN storage for optimal performance\.
+
+These values can be modified post deployment\.
+
+
+| Storage type | Size in GB | Sizing calculations | 
+| --- | --- | --- | 
+|  FSx storage  |  1024  | Size in GB | 
+|  Volume storage  |  870\.4  | 85% of total storage FSx capacity | 
+|  LUN storage  |  696\.32  | 80% of volume storage \(65% of total FSx storage\) | 
+| SQL data LUN size | 522\.24 | 60% of LUN storage | 
+| SQL log LUN size | 139\.264 | 20% of SQL Data LUN size | 
+
+**Backup schedule for ONTAP**  
+By default, ONTAP backups are disabled during builds\. You can set your own backup schedule from the Amazon FSx console\. Choose the **Backup** tab\. Then, choose **Update** to update the backup settings\. 
+
+**Note**  
+When you delete a Launch Wizard deployment that uses ONTAP, FSx creates a backup of the ONTAP volume before deleting the file system\. You can delete the backup from the Amazon FSx console if it is not required\. For more information, see [Deleting backups](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/using-backups.html#delete-backups) in the *FSx for ONTAP User Guide*\.
 
 ## Configuration settings \(deployment on Windows\)<a name="launch-wizard-config"></a>
 

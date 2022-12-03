@@ -8,7 +8,7 @@
 
 1. From the left navigation pane, choose **SAP**\.
 
-1. Under the**Deployments** tab, select the check box next to the application that you want to manage, and then choose **Actions**\. You can do the following:
+1. Under the **Deployments** tab, select the check box next to the application that you want to manage, and then choose **Actions**\. You can do the following:
 
    1. **Manage resources on the EC2 console**\. You are directed to the Amazon EC2 console, where you can view and manage your SAP application resources, such as Amazon EC2, Amazon EBS, Amazon VPC, Subnets, NAT Gateways, and Elastic IPs\. 
 

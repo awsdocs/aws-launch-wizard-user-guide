@@ -10,3 +10,4 @@ Self\-managed domain controllers deployed with Launch Wizard include the followi
 + **Security groups** to ensure the secure flow of traffic between the instances deployed in the VPC\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)\.
 + **AWS Secrets Manager** to protect secrets required to generate and store your Active Directory Administrator credentials\. 
 + **Amazon CloudWatch Logs** to monitor, store, and access your log files produced by AWS CloudFormation\.
++ Amazon Kinesis Agent for Microsoft Windows to gather, parse, transform, and stream logs, events, and metrics to Amazon CloudWatch Logs\. For more information, see [What Is Amazon Kinesis Agent for Microsoft Windows?](https://docs.aws.amazon.com/kinesis-agent-windows/latest/userguide/what-is-kinesis-agent-windows.html)

@@ -827,11 +827,12 @@ This policy includes the following permissions\.
         "arn:aws:ssm:*:*:document/AWSSAP-InstallBackint"
       ]
     },
-    {
+{
       "Effect": "Allow",
       "Action": [
         "fsx:DescribeFileSystems",
-        "fsx:ListTagsForResource"
+        "fsx:ListTagsForResource",
+        "fsx:DescribeStorageVirtualMachines"
       ],
       "Resource": "*",
       "Condition": {
@@ -859,6 +860,7 @@ View details about updates to AWS managed policies for AWS Launch Wizard since t
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  [AmazonEC2RolePolicyForLaunchWizard](#security-iam-awsmanpol-AmazonEC2RolePolicyForLaunchWizard) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | May 17, 2022 | 
 |  [AmazonLaunchWizard\_Fullaccess](#security-iam-awsmanpol-AmazonLaunchWizard_Fullaccess) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | April 12, 2022 | 
 |  [AmazonLaunchWizard\_Fullaccess](#security-iam-awsmanpol-AmazonLaunchWizard_Fullaccess) – Update to an existing policy  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | February 9, 2022 | 
 |  **AmazonLambdaRoleForLaunchWizard** – Policy deprecation  |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/security-iam-awsmanpol.html)  | February 7, 2022 | 

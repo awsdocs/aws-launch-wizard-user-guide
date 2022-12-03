@@ -26,13 +26,13 @@
 
    When you choose this configuration option, Launch Wizard provisions SQL Server on a single node in your existing AWS infrastructure\. Your AWS environment must include a VPC in one Availability Zone, a private subnet, a public subnet in the VPC, and an AWS Active Directory in the VPC \(this is the Active Directory on which you deploy your SQL nodes\)\. 
 
-1. **Deploy SQL Server into an existing VPC across multiple Availability Zones and connect to an on\-premises Active Directory**\. 
+1. **Deploy SQL Server into an existing VPC across multiple Availability Zones and connect to a self\-managed Active Directory**\. 
 
-   When you choose this configuration option, Launch Wizard provisions Windows Server Failover Clustering \(WSFC\) across multiple Availability Zones in your existing AWS infrastructure\. Your AWS environment must include a VPC with two or three Availability Zones, private subnets in each Availability Zone, at least one public subnet in the VPC, and an [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) connection to your on\-premises Active Directory\. 
+   When you choose this configuration option, Launch Wizard provisions Windows Server Failover Clustering \(WSFC\) across multiple Availability Zones in your existing AWS infrastructure\. Your AWS environment must include a VPC with two or three Availability Zones, private subnets in each Availability Zone, and at least one public subnet in the VPC\. If your self\-managed Active Directory resides in a different network, you must also establish connectivity and configure DNS resolution from your VPC to the self\-managed Active Directory's network\. For more information, see [Self\-managed Active Directory](launch-wizard-setting-up.md#launch-wizard-ad-onprem)\. 
 
-1. **Deploy a SQL Server into an existing VPC on a single node and connect to an on\-premises Active Directory**\. 
+1. **Deploy a SQL Server into an existing VPC on a single node and connect to a self\-managed Active Directory**\. 
 
-   When you choose this configuration option, Launch Wizard provisions SQL Server on a single node in your existing AWS infrastructure\. Your AWS environment must include a VPC in one Availability Zone, a private subnet, a public subnet in the VPC, and an [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) connection to your on\-premises Active Directory\.
+   When you choose this configuration option, Launch Wizard provisions SQL Server on a single node in your existing AWS infrastructure\. Your AWS environment must include a VPC in one Availability Zone, a private subnet, and a public subnet in the VPC\. If your self\-managed Active Directory resides in a different network, you must also establish connectivity and configure DNS resolution from your VPC to the self\-managed Active Directory's network\. For more information, see [Self\-managed Active Directory](launch-wizard-setting-up.md#launch-wizard-ad-onprem)\. 
 
 1. **Deploy SQL HA on Dedicated Hosts with your Windows BYOL or SQL Server BYOL licensed AMIs**\. 
 

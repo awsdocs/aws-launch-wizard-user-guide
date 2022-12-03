@@ -8,7 +8,6 @@ For SQL Server deployments on Linux, you must use an instance type built on the 
 + [Active Directory objects and DNS record clean up \(deployment on Windows\)](#launch-wizard-ad-dns-clean)
 + [Launch Wizard provisioning events](#launch-wizard-provisioning)
 + [CloudWatch Logs](#launch-wizard-logs)
-+ [SSM Automation execution](#launch-wizard-ssm-automation)
 + [AWS CloudFormation stack](#launch-wizard-cloudformation)
 + [Pacemaker on Ubuntu \(deployment on Linux\)](#launch-wizard-pacemaker)
 + [SQL Server Management Studio](#launch-wizard-troubleshooting-ssms)
@@ -49,21 +48,6 @@ Launch Wizard captures events from SSM Automation and AWS CloudFormation to trac
 ## CloudWatch Logs<a name="launch-wizard-logs"></a>
 
 Launch Wizard streams provisioning logs from all of the AWS log sources, such as AWS CloudFormation, SSM, and CloudWatch Logs\. CloudWatch Logs for a given application name can be viewed on the CloudWatch console for the log group name `LaunchWizard-APPLICATION_NAME` and log stream `ApplicationLaunchLog`\. 
-
-## SSM Automation execution<a name="launch-wizard-ssm-automation"></a>
-
-Launch Wizard uses SSM Automation to provision SQL Server Always On applications\. SSM Automation execution can be found in your account using the `ssm describe-automation-executions` API, and adding document name prefix filters\. Launch Wizard launches various automation documents in your account for validation and application provisioning\. The following are the relevant filters for the `ssm describe-automation-executions` API\.
-+ **Validation: Validate VPC connectivity**
-
-  `LaunchWizard-Validate-VPC-Connectivity-APPLICATION_NAME-subnet_id`, where `subnet_id` is the subnet on which to perform the validation\.
-+ **Validation: Validate credentials**
-
-  `LaunchWizard-Validate-Credentials-APPLICATION_NAME`
-+ **Application Provisioning: Provisioning resources and Post Configuration**
-
-  `LaunchWizard-SQLHAAlwaysOn-APPLICATION_NAME-Provision`
-
-You can view the status of these SSM Automation executions\. If any of them fail, you can view the cause of the failure\.
 
 ## AWS CloudFormation stack<a name="launch-wizard-cloudformation"></a>
 

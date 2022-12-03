@@ -8,10 +8,10 @@ Each application in your account in the same AWS Region can be uniquely identifi
 + [AWS CloudFormation stack](#launch-wizard-sap-cloudformation)
 + [Pre\- and post\-deployment configuration scripts](#launch-wizard-sap-troubleshooting-scripts)
 + [Application launch quotas](#launch-wizard-sap-quotas)
-+ [Enable termination protection](#launch-wizard-sap-terminate-protection)
 + [Instance level logs](#launch-wizard-sap-instance-level-logs)
 + [SAP application software deployment logs](#launch-wizard-sap-application-logs)
 + [Errors](#launch-wizard-sap-errors)
++ [Support](#launch-wizard-sap-support)
 
 ## Launch Wizard provisioning events<a name="launch-wizard-sap-provisioning"></a>
 
@@ -19,16 +19,48 @@ Launch Wizard captures events from SSM Automation and AWS CloudFormation to trac
 
 ## CloudWatch Logs<a name="launch-wizard-sap-logs"></a>
 
-Launch Wizard streams provisioning logs from all of the AWS log sources, such as AWS CloudFormation, SSM, and CloudWatch Logs\. CloudWatch Logs for a given application name can be viewed on the CloudWatch console for the log group name `LaunchWizard-APPLICATION_NAME` and log stream `ApplicationLaunchLog`\. 
+Launch Wizard streams provisioning logs from all of the AWS log sources, such as AWS CloudFormation, SSM, and CloudWatch Logs\. You can access CloudWatch logs for your SAP deployment with the following steps\.
+
+1. Sign in to console\.aws\.amazon\.com and go to AWS Launch Wizard\.
+
+1. Under **Deployments** on the left panel, go to **SAP** and you can see the list of your SAP deployments\.
+
+1. Select the failed deployment for which you want to verify the logs\.
+
+1. Choose **Actions** > **View/Manage resources** > **View CloudWatch application logs**\.
+
+1. You can now view the detailed logs and log streams that provide additional information on the SAP application type that failed during deployment\.
 
 ## AWS CloudFormation stack<a name="launch-wizard-sap-cloudformation"></a>
 
-Launch Wizard uses AWS CloudFormation to provision the infrastructure resources of an application\. AWS CloudFormation stacks can be found in your account using the AWS CloudFormation [describe\-stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html) API\. Launch Wizard launches various stacks in your account for validation and application resource creation\. The following are the relevant filters for the [describe\-stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html) API\.
+Launch Wizard uses AWS CloudFormation to provision the infrastructure resources of an application\. Launch Wizard launches various stacks in your account for validation and application resource creation\. You can verify the stacks via AWS console or AWS CLI\.
+
+------
+#### [ Console ]
+
+1. Sign in to console\.aws\.amazon\.com and go to AWS Launch Wizard\.
+
+1. Under **Deployments** on the left panel, go to **SAP** and you can see the list of your SAP deployments\.
+
+1. Select the failed deployment for which you want to verify the stacks\.
+
+1. Choose **Actions** > **View/Manage resources** > **View CloudFormation template **\.
+
+1. You can now view all the stacks and their current status\. To see more details on any stack, select a **Stack name**\.
+
+1. You are now on the **Stack details** page of your selected stack\. Choose **Events** from the top menu bar to view the cause of the failure\.
+
+------
+#### [ CLI ]
+
+ AWS CloudFormation stacks can be found in your account using the AWS CloudFormation [describe\-stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html) API\. The following are the relevant filters for the [describe\-stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html) API\.
 + **Application resources**
 
   `LaunchWizard-APPLICATION_NAME`\. 
 
 You can view the status of these AWS CloudFormation stacks\. If any of them fail, you can view the cause of the failure\.
+
+------
 
 ## Pre\- and post\-deployment configuration scripts<a name="launch-wizard-sap-troubleshooting-scripts"></a>
 
@@ -42,21 +74,13 @@ You can view the status of these AWS CloudFormation stacks\. If any of them fail
 
 Launch Wizard allows for a maximum of 25 active applications for any given application type\. Up to three applications can be `in progress` at a time\. If you want to increase this limit, contact [AWS Support](https://aws.amazon.com/contact-us)\.
 
-## Enable termination protection<a name="launch-wizard-sap-terminate-protection"></a>
-
-If you encounter errors when you deploy SAP systems with Launch Wizard, and the log information provided by Amazon CloudWatch is not sufficient to determine your issue, you must log in to the instance to determine the root cause\. In case of failures, Launch Wizard terminates the instances, which limits the means to troubleshoot a failure\. 
-
-You can update the termination settings to disable termination of the instances from the EC2 console\. From the **Instances** page, select an instance and choose **Action** > **Instance Settings** > **Change Termination Protection**\. Then choose **Yes, Enable**\.
-
-After you have determined the root cause, disable the termination protection before you delete the deployment in Launch Wizard\.
-
 ## Instance level logs<a name="launch-wizard-sap-instance-level-logs"></a>
 
-Detailed deployment and configuration logs can be found in `/root/install/scripts/log` during the deployment process, when the instances are being launched and configured\. The name of the log file is `install.log`\. To check the progress of the deployment, you can log in to an instance as soon its instance state is listed as **running**\.
+To check the progress of a deployment, you can log in to an instance as soon its instance state is listed as **running**\. When the deployment is finished, the log files are moved to `/tmp`\.
 
-When the deployment is finished, the log files are moved to `/tmp`\.
+By default, your provisioned Amazon EC2 instances are retained when a deployment fails\. If you created your Launch Wizard deployment with these default settings, you can navigate to the following paths for further evaluation\.
 
-In addition to the `install.log` file, the `install.dbg` file includes additional error information in case of failure scenarios\. `install.json` includes all of your console selections to configure the deployment\.
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/launch-wizard-sap-troubleshooting.html)
 
 ## SAP application software deployment logs<a name="launch-wizard-sap-application-logs"></a>
 
@@ -76,3 +100,41 @@ Depending on which SAP components are deployed on an instance, Launch Wizard cre
   + Change the name of the configuration template and continue\.
   + Choose another template and continue\.
   + Delete the template causing the error by navigating to the **Saved Infrastructure Setting** tab under **Deployments – SAP**, and then continue with your configuration using the same configuration name\.
+
+## Support<a name="launch-wizard-sap-support"></a>
+
+If your deployment is failing after following the troubleshooting steps listed here, we recommend you to create a support case with the following information\.
+
+```
+            [Error description]:<Provide a brief description of the error.>
+            
+            [Deployment information]: Provide information about the failed deployment.
+            Account number: <AWS account number>
+            Deployment name: <Enter deployment name>
+            Deployment type: <Single-instance/Multi-instance/High availability>
+            SAP HANA version: <Enter SAP HANA database version>
+            SAP application: <Enter SAP application name>
+            OS type: <Enter operating system>
+            OS version: <Enter operating system version>
+            Amazon EC2 instance family: <Enter Amazon EC2 instance family>
+            Amazon EC2 instance type: <Enter Amazon EC2 instance type>
+            If used proxy: <Yes/No>
+            AMI type: <BYOI/BYOS/Marketplace>
+            Instances retained: <Yes/No>
+            FailedStackID (optional): 
+            
+            [Required logs] Provide the following logs. Based on the scenario and state of deployment, some logs may not be available.
+            /root/install/scripts/log/
+            /tmp/install.log
+            /tmp/inputs.json
+            /var/log/cloud-init.log
+            /var/log/hdblcm.log (If SAP HANA install is selected)
+            /tmp/NW directory (If SAP HANA install is selected)
+            
+            If you haven't retained your Amazon EC2 instance, provide the logs extracted from CloudWatch logs.
+            
+            [Troubleshooting]
+            Provide the details of the troubleshooting steps that you carried out and the results from them.
+```
+
+For more information, see [Creating a support case](https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#creating-a-support-case)\.

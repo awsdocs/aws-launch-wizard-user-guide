@@ -13,7 +13,7 @@ The following general prerequisites must be met to deploy an application with La
 + You must create an IAM user and attach the **AmazonLaunchWizard\_Fullaccess** policy\. See the [following sections](#launch-wizard-sap-iam) for the steps to attach the policy to the IAM user\.
 + To run custom pre\- and post\-configuration deployment scripts, you must add the permissions listed in [Add permissions to run custom pre\- and post\-deployment configuration scripts](#launch-wizard-sap-iam-scripts) to the `AmazonEC2RoleForLaunchWizard` role\. 
 + If you want to install an SAP HANA database, you must download the software from the SAP Software Download page and upload it to an Amazon S3 bucket\. For steps on how to download the software and upload it to an Amazon S3 bucket, see [Make SAP HANA software available for AWS Launch Wizard to deploy a HANA database](launch-wizard-sap-structure.md)\.
-+ Depending on the operating system version you want to use for the SAP deployment, an SAP Marketplace subscription may be required\. For a complete list of supported operating system versions, see [Supported operating system versions for SAP deployments](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
++ Depending on the operating system version you want to use for the SAP deployment, an SAP Marketplace subscription may be required\. For a complete list of supported operating system versions, see [Operating systems](launch-wizard-sap-versions.md#launch-wizard-sap-ascs-support-os)\.
 
 ## AWS Identity and Access Management \(IAM\)<a name="launch-wizard-sap-iam"></a>
 

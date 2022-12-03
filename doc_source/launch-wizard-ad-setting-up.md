@@ -3,62 +3,52 @@
 Verify the following prerequisites to deploy self\-managed domain controllers with AWS Launch Wizard\.
 
 **Topics**
-+ [Active Directory](#launch-wizard-ad-setup)
-+ [AWS Identity and Access Management \(IAM\)](#launch-wizard-ad-iam)
-+ [Requirements for using custom AMIs](#launch-wizard-ad-custom-ami)
-+ [Configuration settings](#launch-wizard-ad-config)
++ [Specialized knowledge](#launch-wizard-ad-specialized-knowledge)
++ [Amazon Web Services account](#launch-wizard-ad-aws-account)
++ [Technical requirements](#launch-wizard-ad-technical-requirements)
++ [Service Quotas](#launch-wizard-ad-resource-quotas)
++ [IAM permissions](#launch-wizard-ad-iam-permissions)
++ [Active Directory deployment options](#launch-wizard-ad-setup)
 
-## Active Directory<a name="launch-wizard-ad-setup"></a>
+## Specialized knowledge<a name="launch-wizard-ad-specialized-knowledge"></a>
 
-This section contains information to set up for deployment of domain controllers into an existing VPC and for deployment into an existing, on\-premises Active Directory\. It also contains information for setting up forest trusts\. 
+This deployment requires a moderate level of familiarity with AWS services\. If you’re new to AWS, see [Getting Started Resource Center](http://aws.amazon.com/getting-started) and [AWS Training and Certification](http://aws.amazon.com/training)\. These sites provide materials for learning how to design, deploy, and operate your infrastructure and applications on the AWS Cloud\.
 
-### Active Directory on EC2<a name="launch-wizard-ad-setup-managed"></a>
+This Launch Wizard deployment assumes familiarity with Active Directory concepts and usage\.
 
-If you deploy domain controllers into an existing VPC with an existing Active Directory, Launch Wizard requires domain administrator credentials to be added to Secrets Manager to join your domain controllers to Active Directory and promote them\. In addition, a resource policy must be attached to the secret so that Launch Wizard can access the secret\. Launch Wizard guides you through the following process of attaching the required policy to your secret\.
+## Amazon Web Services account<a name="launch-wizard-ad-aws-account"></a>
 
-**How to attach the resource policy to your secret so that Launch Wizard can access the secret**
+If you don’t already have an AWS account, create one at [http://aws.amazon.com/](http://aws.amazon.com/) by following the on\-screen instructions\. Part of the sign\-up process involves receiving a phone call and entering a PIN using the phone keypad\.
 
-1. Navigate to the [Secrets Manager console](https://console.aws.amazon.com/secretsmanager)\.
+Your AWS account is automatically signed up for all AWS services\. You are charged only for the services you use\. 
 
-1. Under **Secret name**, choose the name of your secret\.
+## Technical requirements<a name="launch-wizard-ad-technical-requirements"></a>
 
-1. Under **Resource permissions**, choose **Edit permissions**\.
+Before you start the Launch Wizard deployment, review the following information and make sure that your account is properly configured\. Otherwise, deployment might fail\. 
 
-1. Copy the following policy and paste it into the **Resource permissions** box, entering your account ID in the path of the IAM ARN\.
+## Service Quotas<a name="launch-wizard-ad-resource-quotas"></a>
 
-   ```
-   {
-       "Version" : "2012-10-17",
-       "Statement" : [ {
-           "Effect" : "Allow",
-           "Principal" : {
-               "AWS" :
-               "arn:aws:iam::<account-id>:role/service-role/AmazonEC2RoleForLaunchWizard"
-           },
-           "Action" : [
-               "secretsmanager:GetSecretValue",
-               "secretsmanager:CreateSecret",
-               "secretsmanager:GetRandomPassword"
-           ],
-           "Resource" : "*"
-           } 
-       ]
-   }
-   ```
+If necessary, [request service quota increases](https://console.aws.amazon.com/servicequotas/) for the resources deployed by Launch Wizard\. You might need to request increases if your existing deployment currently uses these resources and if this Launch Wizard deployment could result in exceeding the default quotas\. The [Service Quotas console](https://console.aws.amazon.com/servicequotas/) displays your usage and quotas for some aspects of some services\. For more information, see [What is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) and [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)\.
 
-1. Choose **Save**\.
+## IAM permissions<a name="launch-wizard-ad-iam-permissions"></a>
 
-1. Resume your Launch Wizard deployment\.
+Before deploying the Launch Wizard application, you must sign in to the AWS Management Console with IAM permissions for the resources that the templates deploy\. The *AdministratorAccess* managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions\. For more information, see [AWS managed policies for job functions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html)\.
 
-The following key operations are performed against your Active Directory by Launch Wizard\. These operations result in the creation of new records or entries in Active Directory\.
-+ Creates a new Amazon EC2 instance and joins it to the domain\.
-+ Creates ingress and egress rules to communicate with your domain controllers\.
-+ Promotes the server to a domain controller in your domain\.
-+ Updates local DNS on the new domain controllers to point to your DNS server\.
+## Active Directory deployment options<a name="launch-wizard-ad-setup"></a>
 
-### On\-premises Active Directory through AWS Direct Connect<a name="launch-wizard-ad-setup-onprem"></a>
+This section contains information on what configuration is performed for deployment of domain controllers into a new or existing VPC\. You can deploy a new Active Directory infrastructure on Amazon EC2, deploy a new AWS Managed Microsoft AD, or extend an existing on\-premises Active Directory into the AWS Cloud\.
 
-If you are deploying domain controllers into an existing VPC and connecting to an on\-premises Active Directory, ensure that the following prerequisites are in place\.
+### Active Directory configurations<a name="launch-wizard-ad-setup-managed"></a>
+
+When you use Launch Wizard to deploy Active Directory, the following key operations are performed\. These operations result in the creation of new records or entries in Active Directory\.
++ When you create a new Active Directory domain, Launch Wizard creates two new Amazon EC2 instances and promotes the servers to domain controllers in your domain\.
++ When you extend an existing Active Directory domain, Launch Wizard creates two new Amazon EC2 instances and optionally joins them to the domain\.
++ When you create an AWS Managed Microsoft AD, Launch Wizard deploys the managed directory\.
++ All deployment types create ingress and egress rules to communicate with your domain controllers\.
+
+### On\-premises Active Directory through AWS Direct Connect<a name="launch-wizard-ad-setup-extend"></a>
+
+If you are deploying domain controllers to extend an on\-premises Active Directory into an existing VPC, ensure that the following prerequisites are in place\.
 + Make sure that you have connectivity between your AWS account and your on\-premises network\. You can establish a dedicated network connection from your on\-premises network to your AWS account with AWS Direct Connect\. For more information, see [the AWS Direct Connect documentation](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\. 
 + The domain functional level of your Active Directory domain controller must be Windows Server 2012 or later\.
 + The IP addresses of your DNS server must be either in the same VPC CIDR range as the one in which your Launch Wizard domain controllers will be created, or in the private IP address range\. 
@@ -66,104 +56,3 @@ If you are deploying domain controllers into an existing VPC and connecting to a
 
 You can optionally perform the following step\.
 + Establish DNS resolution across your environments\. For options on how to set this up, see [ How to Set Up DNS Resolution Between On\-Premises Networks and AWS using AWS Directory Service and Amazon Route 53](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-amazon-route-53/) or [How to Set Up DNS Resolution Between On\-Premises Networks and AWS Using AWS Directory Service and Microsoft Active Directory](https://aws.amazon.com/blogs/security/how-to-set-up-dns-resolution-between-on-premises-networks-and-aws-using-aws-directory-service-and-microsoft-active-directory/)\.
-
-### Trust relationships<a name="launch-wizard-ad-setup-trusts"></a>
-
-If you are creating a forest trust relationship, you must complete the [prerequisites forAWS Managed Active Directory](#launch-wizard-ad-setup-managed) before you set up the trust\. For more information about creating forest trust relationships, see [Configure forest trust relationships](launch-wizard-ad-create-trusts.md)\.
-
-## AWS Identity and Access Management \(IAM\)<a name="launch-wizard-ad-iam"></a>
-
-The following steps establish the required AWS Identity and Access Management \(IAM\) role and set up the IAM user for permissions\.
-
-### One\-time creation of IAM Role<a name="launch-wizard-ad-iam-role"></a>
-
-On the **Choose Application** page of Launch Wizard, under **Permissions**, Launch Wizard displays the IAM role required for the Amazon EC2 instances that have been created by Launch Wizard to access other AWS services on your behalf\. When you select **Next**, Launch Wizard attempts to discover the IAM role in your account\. If the role exists, the role is attached to the instance profile for the Amazon EC2 instances that Launch Wizard will launch into your account\. If the role does not exist, Launch Wizard attempts to create the role with the same name, `AmazonEC2RoleForLaunchWizard`\. This role is comprised of two IAM managed policies: `AmazonSSMManagedInstanceCore` and `AmazonEC2RolePolicyForLaunchWizard`\. After the role is created, the IAM Administrator can delegate the application deployment process to another IAM user who, in turn, must have the Launch Wizard IAM managed policy described in the following section\.
-
-### IAM user setup<a name="launch-wizard-ad-iam-user-setup"></a>
-
-To deploy self\-managed domain controllers with Launch Wizard, you must create an [Identity and Access Management \(IAM\) policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and attach it to your IAM user identity\. The IAM policy defines the user permissions\. If you do not already have an IAM user in your account, follow the steps listed in [Create an IAM User in Your AWS Account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)\.
-
-When you have an IAM user in your account, create an IAM policy\.
-
-1. Go to the IAM console at [ https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam)\. In the left navigation pane, choose **Policies**\.
-
-1. Choose **Users** from the left navigation pane\. 
-
-1. Select the **User name** of the user to which you want to attach the policy\.
-
-1. Select **Add permissions**\. 
-
-1. Select **Attach existing policies directly**\. 
-
-1. Search for the policy named **AmazonLaunchWizard\_Fullaccess**, and select the check box to the left of the policy name\.
-
-1. Select **Next: Review**\. 
-
-1. Verify that the correct policy is listed, and then select **Add permissions**\. 
-
-**Important**  
-Make sure that you log in with the user associated with the policy described in this procedure when you use Launch Wizard\. 
-
-## Requirements for using custom AMIs<a name="launch-wizard-ad-custom-ami"></a>
-
-We recommend that you use license\-included Windows AMIs whenever possible\. There are scenarios for which you may want to use a custom Windows AMI\. For example, you may have existing licenses \(BYOL\), or you may have made changes to one of our public images and re\-imaged it\.
-
-If you use license\-included Windows AMIs, you are not required to perform any pre\-checks on the AMI to ensure that it meets Launch Wizard requirements\.
-
-Launch Wizard relies on user data to begin the process of configuring domain controller instances that the service launches in your account\. For more information, see [User Data Scripts](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. By default, all Windows AMIs have user data execution enabled for the initial launch\. To ensure that your custom AMIs are set up to run the User Data script at launch, follow the AWS\-recommended method to prepare your AMIs using [EC2Launch v2](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch-v2.html)\. For more information about how to prepare your custom AMI using the options to Shutdown with Sysprep or Shutdown without Sysprep, see [Create a Standard Amazon Machine Image Using Sysprep](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Creating_EBSbacked_WinAMI.html#ami-create-standard) or [EC2Launch v2 and Sysprep](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html#ec2launch-v2-sysprep)\. If you want to directly enable user data as part of the custom AMI creation process, follow the steps for Subsequent Reboots or Starts under [Running Commands on Your Windows Instance at Launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html)\. 
-
-If you use a custom AMI, the volume drive letter for the root partition should be `C:`, because EC2Launch v2 and EC2Config rely on this configuration to install the components\. 
-
-While not exhaustive, the following requirements cover most of the configurations whose alteration might impact the successful deployment of a domain controllers using Launch Wizard\.
-
-
-| Windows Server 2016 | Windows Server 2019 | 
-| --- | --- | 
-|  YES  |  YES  | 
-|  YES  |  YES  | 
-| YES | YES | 
-
-**Operating system requirements**
-+ Windows Server 2016 
-+ Windows Server 2019
-+ English language pack only 
-+ The root volume drive for the custom AMI should be C:
-
-**AWS software and drivers**
-+ AWS CloudFormation `cfn-init` script \(See [Bootstrapping AWS CloudFormation Windows stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-windows-stacks-bootstrapping.html)\.
-+ EC2Launch \(Windows Server 2016\)
-+ AWS SSM \([SSM agent must be installed](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html)\)
-+ AWS Tools for Windows PowerShell
-+ Network drivers \(SRIOV, ENA\)
-+ Storage drivers \(NVMe, AWS PV\)
-
-## Configuration settings<a name="launch-wizard-ad-config"></a>
-
-The following configuration settings are applied when deploying self\-managed domain controllers with Launch Wizard\.
-
-
-| Setting | Applies to | 
-| --- | --- | 
-|  Current EC2Launch and SSM Agent  |  Windows Server 2016 and Windows Server 2019  | 
-|  Current AWS PV, ENA, and NVMe drivers  |  Windows Server 2016 and Windows Server 2019  | 
-|  Current SRIOV drivers  |  Windows Server 2016 and Windows Server 2019  | 
-|  Allow ICMP traffic through the firewall  |  Windows Server 2016 and Windows Server 2019  | 
-|  Allow RDP traffic through host firewall  |  Windows Server 2016 and Windows Server 2019  | 
-|  RealTimeIsUniversal registry key set  |  Windows Server 2016 and Windows Server 2019  | The following AMI settings can impact the Launch Wizard deployment:
-
-**System Time**  
-**RealTimeIsUniversal**\. If disabled, Windows system time drifts when the time zone is set to a value other than UTC\.
-
-**Windows Firewall**  
-In most cases, Launch Wizard configures the correct protocols and ports\. However, custom Windows Firewall rules could impact the cluster service\. To ensure that your custom AMI works with Launch Wizard, see [Service overview and network port requirements for Windows](https://support.microsoft.com/en-us/help/832017/service-overview-and-network-port-requirements-for-windows)\.
-
-**Remote Desktop**  
-**Service Start**\. Remote Desktop service must be enabled\.  
-**Remote Desktop Connections**\. Must be enabled\.
-
-**Network Interface**  
-**DHCP Service Startup**\. DHCP service should be enabled\.  
-**DHCP on Ethernet**\. DHCP should be enabled\.
-
-**PowerShell**  
-**Execution Policy**\. The execution policy in all AWS license\-included AMIs is set to `Unrestricted`\. We recommend that you set this policy to `Unrestricted` when you set up domain controllers using AWS Launch Wizard You can change the policy when setup is complete\. 

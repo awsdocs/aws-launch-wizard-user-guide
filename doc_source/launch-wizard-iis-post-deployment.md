@@ -15,7 +15,7 @@ To help ensure that the deployed servers' operating systems and installed applic
 
 To run Windows updates on the RD Gateways with their public IP addresses:
 
-1. Identify the public IP addresses for the RD Gateways, from the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/)\.
+1. Identify the public IP addresses for the RD Gateways, from the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)\.
 
 1. Use the public IP of the RD Gateway to [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html)\.
 
@@ -31,7 +31,7 @@ To run Windows updates on the RD Gateways with their public IP addresses:
 
 To run Windows updates on the IIS servers by connecting from within a public resource such as an RD Gateway or bastion host:
 
-1. Identify the public IP addresses for the public resource, and also the private IP addresses of the IIS servers, from the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/)\.
+1. Identify the public IP addresses for the public resource, and also the private IP addresses of the IIS servers, from the [Amazon EC2 console](https://console.aws.amazon.com/ec2/)\.
 
 1. Use the public IP of the public resource to [connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html)\.
 
@@ -72,7 +72,7 @@ To run Windows updates on the servers with Amazon EC2 Systems Manager and port f
 
 The following steps use the AWS CLI to start an SSM Session Manager connection on a specified Amazon EC2 instance and invoke the SSM document *AWS\-StartPortForwardingSession*\. This allows an RDP connection from your computer to the target Amazon EC2 instance using the redirected port\.
 
-1. You can locate instance IDs to connect to from the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), for example *i\-1234567890abcdef0*\.
+1. You can locate instance IDs to connect to from the [Amazon EC2 console](https://console.aws.amazon.com/ec2/), for example *i\-1234567890abcdef0*\.
 
 1. Run the following command in the AWS CLI by providing your target instance ID after the `--target` parameter, and a free local port on your computer for the `localPortNumber`
 

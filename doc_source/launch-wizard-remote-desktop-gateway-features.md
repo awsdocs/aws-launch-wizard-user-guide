@@ -14,7 +14,7 @@ AWS Launch Wizard makes it more efficient for you to deploy third\-party applica
 
 ## Application Resource Groups for discoverability<a name="launch-wizard-remote-desktop-gateway-resource-groups"></a>
 
-Launch Wizard creates a Resource Group for all of the AWS resources created for your Remote Desktop Gateway application\. You can manage the resources through the Amazon EC2 Console or with AWS Systems Manager\. When you access Systems Manager through Launch Wizard, the resources are automatically filtered for you based on your Resource Group\. You can manage, patch, and maintain your Remote Desktop Gateway applications in Systems Manager\.
+Launch Wizard creates a Resource Group for all of the AWS resources created for your Remote Desktop Gateway application\. You can manage the resources through the Amazon EC2 console or with AWS Systems Manager\. When you access Systems Manager through Launch Wizard, the resources are automatically filtered for you based on your Resource Group\. You can manage, patch, and maintain your Remote Desktop Gateway applications in Systems Manager\.
 
 ## AWS resource selection<a name="launch-wizard-remote-desktop-gateway-features-resource-selection"></a>
 

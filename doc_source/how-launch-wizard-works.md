@@ -6,7 +6,7 @@ Launch Wizard provides an estimated cost of deployment\. You can modify your res
 
 Launch Wizard creates a CloudFormation stack according to your infrastructure needs\. You can reuse the template created by CloudFormation as a baseline for future infrastructure provisioning\. 
 
-For deployments on Windows, Launch Wizard supports [AWS Managed Microsoft Active Directory \(AD\)](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html)\. It also supports connecting to on\-premises Active Directory using [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)\.
+For deployments on Windows, Launch Wizard supports [AWS Managed Microsoft Active Directory \(AD\)](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) and connecting to a self\-managed Active Directory environment\.
 
 **Topics**
 + [Implementation details \(Windows\)](#launch-wizard-implementation)

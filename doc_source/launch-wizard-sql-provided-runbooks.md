@@ -25,15 +25,13 @@ The backup modes are defined as follows:
 + **Differential** — the delta of changes since the last full backup\.
 + **Transactional** — a log of changes from the last full or differential backup, depending on the last backup type taken\.
 
-The following conditions must be met for the `AWSSQLServer-Backup` document to successfully back up a database:
-+ Backups must be staged to the local disk to run `AWSSQLServer-Backup`\. 
-+ The maximum size of the backup file for uploading to Amazon S3 is 500 GB or less\.
+To help ensure that the `AWSSQLServer-Backup` document can successfully back up a database that resides on resources provisioned with Launch Wizard, make sure the following is in place:
++ SQL Server was provisioned on a single node or with Always On availability groups \(AG\)\.
++ The `@@SERVERNAME` property in SQL Server matches the hostname of the operating system where the automation runs\.
++ The backup file is staged to a local disk\.
++ The size of the backup file for uploading to an S3 bucket is 500 GB or less\.
 
 **Required IAM actions that must be added to your IAM policy to successfully run `AWSSQLServer-Backup`:**
-+ `s3:UploadPart`
-+ `s3:CompleteMultipartUpload`
-+ `s3:CreateMultipartUpload`
-+ `s3:GetBucketPolicyStatus`
 + `s3:GetBucketPolicyStatus`
 + `s3:PutObject`
 
@@ -52,9 +50,5 @@ The `AWSSQLServer-Restore` Automation document includes steps to download a back
 + There must be at least one full backup that occurred during the specified time range\.
 
 **Required IAM actions that must be added to your IAM policy to successfully run `AWSSQLServer-Restore`:**
-+ `s3:UploadPart`
-+ `s3:CompleteMultipartUpload`
-+ `s3:CreateMultipartUpload`
-+ `s3:GetBucketPolicyStatus`
 + `s3:GetBucketPolicyStatus`
 + `s3:PutObject`

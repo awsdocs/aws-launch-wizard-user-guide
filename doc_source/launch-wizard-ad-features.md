@@ -10,7 +10,7 @@
 
 ## Simple application deployment<a name="launch-wizard-ad-features-app-deployment"></a>
 
-AWS Launch Wizard makes it efficient for you to deploy self\-managed domain controllers on AWS\. When you enter the domain controller requirements, AWS Launch Wizard deploys the necessary AWS resources for a production\-ready environment\. This means that you do not have to manage separate infrastructure pieces or spend time provisioning and configuring your domain controllers\. 
+AWS Launch Wizard makes it efficient for you to deploy self\-managed domain controllers and AWS Directory Service for Microsoft Active Directory on AWS\. When you enter the domain controller requirements, AWS Launch Wizard deploys the necessary AWS resources for a production\-ready environment\. This means that you do not have to manage separate infrastructure pieces or spend time provisioning and configuring your domain controllers\. 
 
 ## AWS resource selection<a name="launch-wizard-ad-features-resource-selection"></a>
 

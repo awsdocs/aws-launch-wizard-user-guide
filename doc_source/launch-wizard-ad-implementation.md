@@ -106,6 +106,6 @@ The Launch Wizard self\-managed domain controller deployment sets up the followi
 + NAT gateways are deployed to public subnets, providing outbound internet access for instances in private subnets\.
 + Remote Desktop gateways are deployed in an Auto Scaling group in one Availability Zone to allow access to the domain controllers\.
 
-The specified version of Windows Server is used for the Remote Desktop Gateway instances and the domain controller instances\. Launch Wizard deploys AWS resources, including a Systems Manager Automation document\. When the second node is deployed, it initiates running the Automation document through Amazon EC2 user data\. The automation workflow deploys the required components, finalizes the configuration to create a new AD forest, and promotes instances in two Availability Zones to Active Directory domain controllers\.
+Launch Wizard deploys AWS resources, including a Systems Manager Automation document\. When the second node is deployed, it initiates running the Automation document through Amazon EC2 user data\. The automation workflow deploys the required components, finalizes the configuration to create a new AD forest, and promotes instances in two Availability Zones to Active Directory domain controllers\.
 
 To view architectural diagrams showing best practices for setting up an AD DS environment, see [Active Directory Domain Services on AWS](http://aws.amazon.com/quickstart/architecture/active-directory-ds/)\.

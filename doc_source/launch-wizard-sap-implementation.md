@@ -26,7 +26,9 @@ Amazon Elastic Block Store \(Amazon EBS\) volumes are included in the architectu
 
 By default, Launch Wizard deploys Amazon EBS volumes for the SAP HANA database that meet the storage KPIs for SAP as listed in [Storage Configuration for SAP HANA](https://docs.aws.amazon.com/sap/latest/sap-hana/hana-ops-storage-config.html)\.
 
-For NetWeaver database stacks, you can choose between a `gp2`, `io1`, or `io2` volume for the `usr/sap/SAPSID` and `/sapmnt` \(for non\-HA deployment architectures\) file systems, whereas other configurations are deployed with `gp2` volumes\.
+For NetWeaver database stacks, you can choose between a `gp2`, `io1`, or `io2` volume for the `usr/sap/SAPSID` and `/sapmnt` \(for non\-HA deployment architectures\) file systems, whereas other configurations are deployed with `gp3` volumes\. The `gp3` volumes are used by default\.
+
+Launch Wizard also supports the use of Amazon FSx for NetApp ONTAP for SAP HANA databases\. FSx for ONTAP file systems can be used for `data`, `log`, and `shared` \(`hana-shared` and `usr-sap`\) file systems\. For more information, see [SAP HANA on AWS with Amazon FSx for NetApp ONTAP](https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-amazon-fsx.html)\.
 
 In an SAP landscape, development occurs in the development system and is then imported into the QA and follow\-on systems\. For this import to occur successfully, a shared file system is required for SAP systems in the landscape\. Amazon EFS is used to create the SAP Transport file system that is shared between multiple SAP systems in the landscape\. 
 
@@ -41,7 +43,7 @@ When a transport files system is created with Amazon Elastic File System, Launch
 
 ## Amazon Elastic File System setup for SAP Central Services instances configured for high availability<a name="launch-wizard-sap-efs-ha"></a>
 
-The SAP Central Services instances that make up a NetWeaver high availability deployment, ABAP Central Server \(ASCS\) and Enqueue Replication Server \(ERS\) instances, must contain the following file systems to be highly available: `/sapmnt`, `/usr/sap<SAPSID>/ASCS<XX>`, and `/usr/sap/<SAPSID>/ERS<XX>`\. These file systems are built with Amazon EFS to avoid a single point of failure for the SAP system\. Launch Wizard creates these file systems for the NetWeaver high availability pattern using a single Amazon Elastic File System\. 
+The SAP Central Services instances that make up a NetWeaver high availability deployment, ABAP Central Server \(ASCS\) and Enqueue Replication Server \(ERS\) instances, must contain the following file systems to be highly available: `/sapmnt`, `/usr/sap/<SAPSID>/ASCS<XX>`, and `/usr/sap/<SAPSID>/ERS<XX>`\. These file systems are built with Amazon EFS to avoid a single point of failure for the SAP system\. Launch Wizard creates these file systems for the NetWeaver high availability pattern using a single Amazon Elastic File System\. 
 
 The following table contains information about how a single Amazon EFS is configured and mounted on an ASCS, ERS, Primary Application Server \(PAS\), and Additional Application Server \(AAS\)\. 
 

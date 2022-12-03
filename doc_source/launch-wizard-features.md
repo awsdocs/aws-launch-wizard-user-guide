@@ -86,4 +86,6 @@ You can also get automated insights when a failover event or problem, such as a 
 
 ## Amazon FSx for Failover Clustering \(FCI\)<a name="launch-wizard-features-fci"></a>
 
-Launch Wizard uses Amazon FSx to provide Failover Clustering for SQL Server deployments\. Failover Clustering is a high availability solution for SQL that puts all database and log files in shared storage \(Amazon FSx\)\. The Amazon FSx file share spans multiple Availability Zones and is highly redundant, allowing for automatic failover between SQL nodes in the event of failure\.
+Launch Wizard uses Amazon FSx to provide Failover Clustering for SQL Server deployments\. Failover Clustering is a high availability solution for SQL that puts all database and log files in shared storage \(Amazon FSx\)\. The Amazon FSx file share spans multiple Availability Zones and is highly redundant, which allows for automatic failover between SQL nodes in the event of failure\.
+
+Launch Wizard offers two storage options for your FCI deployments: Amazon FSx for Windows or Amazon FSx for NetApp ONTAP\. If you choose NetApp ONTAP as the storage type for FCI, License Manager creates the user name `FSXAdmin` and a password during the deployment\. The user name and password are stored in AWS Secrets Manager to manage ONTAP\.

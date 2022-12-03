@@ -2,10 +2,10 @@
 
 This section describes steps to upload the SAP application software to Amazon S3 to make it available for Launch Wizard to deploy SAP\.
 
-AWS Launch Wizard supports the following software versions\. To install a software version, you must provide the SAP software files to Launch Wizard by downloading them from the [SAP Support Portal](https://support.sap.com/en/index.html) and then uploading them to Amazon S3\. To access and use the files for installation, Launch Wizard requires them to be formatted according to the Amazon S3 file path syntax listed in the following table\. 
+AWS Launch Wizard supports the following software versions\. To install a software version, you must provide the SAP software files to Launch Wizard by downloading them from the [SAP Support Portal](https://support.sap.com/en/index.html) and then uploading them to Amazon S3 \(storage class \- Standard\)\. To access and use the files for installation, Launch Wizard requires them to be formatted according to the Amazon S3 file path syntax listed in the following table\. 
 
 **Note**  
-The software versions and CD numbers listed in the following table should be used as a reference for all of the software components required to deploy SAP, as well as for how to format the Amazon S3 path to make the software available for Launch Wizard to deploy SAP\. Launch Wizard supports NetWeaver 7\.50, NetWeaver 7\.52, S/4 HANA 1909, S/4 HANA 2020, and BW/4HANA 2\.0\. You can determine the latest CD numbers of supported applications by referring to the [SAP Maintenance Planner](https://support.sap.com/en/alm/solution-manager/processes-72/maintenance-planner.html]) or [SAP Software Downloads](https://support.sap.com/en/my-support/software-downloads.html)\. 
+The software versions and CD numbers listed in the following table should be used as a reference for all of the software components required to deploy SAP, as well as for how to format the Amazon S3 path to make the software available for Launch Wizard to deploy SAP\. Launch Wizard supports NetWeaver 7\.50, NetWeaver 7\.52, S/4 HANA 1909, S/4 HANA 2020, and BW/4HANA 2\.0\. You can determine the latest CD numbers of supported applications by referring to the [SAP Maintenance Planner](https://support.sap.com/en/alm/solution-manager/processes-72/maintenance-planner.html) or [SAP Software Downloads](https://support.sap.com/en/my-support/software-downloads.html)\. 
 
 ------
 #### [ NetWeaver 7\.52 ]
@@ -154,5 +154,24 @@ The following HANA DB version is supported\.
 | CD name | Versions | CD number | Amazon S3 file path | 
 | --- | --- | --- | --- | 
 | SAP HANA Database software | hana\-20\-sp05  | 51054623  | S3://<Your SAP software bucket>/<Path representing NW version>/HANA\_DB\_Software | 
+
+------
+#### [ Solution Manager 7\.2 ]
+
+
+| CD name | Versions | CD number | Amazon S3 file path | 
+| --- | --- | --- | --- | 
+| SWPM | SWPM 1\.0 latest version  | SWPM10SP30\_0\-20009701\.SAR | S3://<Your SAP software bucket>/<Path representing SolutionManager version>/SWPM | 
+| SAPCAR | SAPCAR\_1010\-70006178\.exe |  N/A | S3://<Your SAP software bucket>/<Path representing SolutionManager version>/SAPCAR | 
+| Exports | SAP Solution Manager 7\.2 | 51054655\_1\.ZIP…51054655\_4\.ZIP igsexe\_12\-80003187\.sar igshelper\_17\-10010245\.sar | S3://<Your SAP software bucket>/<Path representing SolutionManager version>/Exports | 
+| Kernel components | NW 7\.53 |  `SAPEXE_700-80002573.SAR` `SAPEXEDB_700-80002572.SAR` `SAPHOSTAGENT49_49-20009394.SAR`  `SAPJVM8_89-80000202.SAR`  | S3://<Your SAP software bucket>/<Path representing SolutionManager version>/Kernel | 
+| SAP HANA Client | 2\.5  | IMDB\_CLIENT20\_005\_111\-80002082\.SAR | S3://<Your SAP software bucket>/<Path representing SolutionManager version>/HANA\_Client\_Software | 
+
+The following HANA DB versions are supported\.
+
+**Note**  
+Use the latest CDs for the version\.
+
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/launchwizard/latest/userguide/launch-wizard-sap-software-install-details.html)
 
 ------

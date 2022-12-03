@@ -14,7 +14,7 @@ Best practices for using Amazon EKS on AWS
 
 ## Use AWS CloudFormation for ongoing management<a name="use-cloudformation"></a>
 
-We recommend using CloudFormation for managing updates and resources that are created by this Launch Wizard deployment\. Using the Amazon EC2 Console, AWS CLI, or API to change or delete resources can cause future CloudFormation operations on the stack to behave unexpectedly\. 
+We recommend using CloudFormation for managing updates and resources that are created by this Launch Wizard deployment\. Using the Amazon EC2 console, AWS CLI, or API to change or delete resources can cause future CloudFormation operations on the stack to behave unexpectedly\. 
 
 ## Monitor additional resource usage<a name="monitor-resource-usage"></a>
 

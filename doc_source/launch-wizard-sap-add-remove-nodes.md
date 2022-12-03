@@ -11,15 +11,15 @@ You can scale an SAP application horizontally to meet increased performance requ
 
 ## Shared responsibility model<a name="launch-wizard-sap-add-remove-nodes-shared-responsiblity"></a>
 
-According to the [AWS Shared Responsibility Model](http://aws.amazon.com/compliance/shared-responsibility-model), scaling an SAP application that was deployed with AWS Launch Wizard requires prescribed manual activities that you must complete before adding or removing nodes\. These manual activities may vary depending on the scenario, for example, adding an application or database node\. The activities may also vary based on the source deployment architecture, for example, multi\-node or single\-node\. For example, you assume the responsibility of creating an Amazon Machine Image \(AMI\) of an existing application server or HANA worker node, upon which this feature depends\. It is your responsibility to ensure that the provided image is bootable in the VPC and subnet, and that Launch Wizard can access the instance through AWS Systems Manager\. AWS relieves the operational burden by using the image to provision the infrastructure as a new instance, and by installing the application, configuringit, or both\.
+According to the [AWS Shared Responsibility Model](http://aws.amazon.com/compliance/shared-responsibility-model), scaling an SAP application that was deployed with AWS Launch Wizard requires prescribed manual activities that you must complete before adding or removing nodes\. These manual activities may vary depending on the scenario, for example, adding an application or database node\. The activities may also vary based on the source deployment architecture, for example, multi\-node or single\-node\. For example, you assume the responsibility of creating an Amazon Machine Image \(AMI\) of an existing application server or HANA subordinate node, upon which this feature depends\. It is your responsibility to ensure that the provided image is bootable in the VPC and subnet, and that Launch Wizard can access the instance through AWS Systems Manager\. AWS relieves the operational burden by using the image to provision the infrastructure as a new instance, and by installing the application, configuringit, or both\.
 
 ## Prerequisites for creating an AMI<a name="launch-wizard-sap-add-remove-nodes-prerequisites"></a>
 
 Before you create an AMI to attach additional nodes, make sure that you:
 + Have a successful initial deployment\.
-+ Create an AMI from the deployment to which you are adding the node\. If you want to add nodes to multiple deployments, you must create an AMI \(application/HANA worker\) for each deployment\.
++ Create an AMI from the deployment to which you are adding the node\. If you want to add nodes to multiple deployments, you must create an AMI \(application/HANA subordinate\) for each deployment\.
 
-  When an application is provisioned with Launch Wizard, multiple packages are installed, and operating system parameters are adjusted to make the operating system compliant and ready to install SAP\. Periodically, these packages and parameters get updated and change over time\. In addition, there can be changes to the disk layout as the application grows\. This configuration drift is not tracked by Launch Wizard, and therefore Launch Wizard is not able to record and replay it\. To mitigate the challenges presented by configuration drift, you must create and provide the latest image \(AMI\) of an existing server, including all of its volumes, which Launch Wizard uses to create the additional server or HANA worker node\. This process allows Launch Wizard to create new nodes that are similar to the existing nodes in terms of operating system packages and versions, and storage\.
+  When an application is provisioned with Launch Wizard, multiple packages are installed, and operating system parameters are adjusted to make the operating system compliant and ready to install SAP\. Periodically, these packages and parameters get updated and change over time\. In addition, there can be changes to the disk layout as the application grows\. This configuration drift is not tracked by Launch Wizard, and therefore Launch Wizard is not able to record and replay it\. To mitigate the challenges presented by configuration drift, you must create and provide the latest image \(AMI\) of an existing server, including all of its volumes, which Launch Wizard uses to create the additional server or HANA subordinate node\. This process allows Launch Wizard to create new nodes that are similar to the existing nodes in terms of operating system packages and versions, and storage\.
 
 ## Create an image for scaling SAP deployments<a name="launch-wizard-sap-add-remove-nodes-create-image"></a>
 
@@ -52,27 +52,33 @@ Add or remove an additional server or node by using an Amazon EC2 Systems Manage
 
 | AWS Launch Wizard for SAP application type | Deployment architecture | Supported scenario | AMI required | 
 | --- | --- | --- | --- | 
-|  HANA  | Multi\-node | Add a HANA worker node | Worker node of source deployment | 
-|  NetWeaver on HANA  |  Multi\-node  | Add an application server node | PAS/AAS of source deployment | 
+| SAP HANA | Multi\-node | Add a HANA subordinate node | subordinate node of source deployment | 
+| SAP HANA with FSx for ONTAP | Multi\-node | Add a HANA standby node | Subordinate or standby node of source deployment | 
+| SAP HANA with FSx for ONTAP | Multi\-node | Add a HANA subordinate node | Subordinate or standby node of source deployment | 
+| SAP NetWeaver on SAP HANA | Multi\-node | Add an application server node | PAS/AAS of source deployment | 
+| SAP NetWeaver on SAP HANA with FSx for ONTAP | Multi\-node | Add a HANA standby node | Subordinate or standby node of source deployment | 
+| SAP NetWeaver on SAP HANA with FSx for ONTAP | Multi\-node | Add a HANA subordinate node | Subordinate or standby node of source deployment | 
+| SAP NetWeaver on SAP HANA | High availability | Add an application server node | PAS/AAS of source deployment | 
 
 **Topics**
-+ [Add HANA worker node to existing HANA scale\-out installation](#launch-wizard-sap-add-remove-nodes-scenarios-hana-worker)
++ [Add HANA subordinate node to existing HANA scale\-out installation](#launch-wizard-sap-add-remove-nodes-scenarios-hana-subordinate)
++ [Add HANA standby node to existing HANA scale\-out installations](#launch-wizard-sap-add-remove-nodes-scenarios-hana-standby)
 + [Add additional application server \(AAS\) to existing NetWeaver distributed installation](#launch-wizard-sap-add-remove-nodes-scenarios-server)
 
-### Add HANA worker node to existing HANA scale\-out installation<a name="launch-wizard-sap-add-remove-nodes-scenarios-hana-worker"></a>
+### Add HANA subordinate node to existing HANA scale\-out installation<a name="launch-wizard-sap-add-remove-nodes-scenarios-hana-subordinate"></a>
 
 **Prerequisites**  
 For prerequisites, see [Prerequisites for creating an AMIPrerequisites](#launch-wizard-sap-add-remove-nodes-prerequisites)\.
 
 **Assumptions**  
 Before you proceed with this procedure, consider the following assumptions:
-+ A worker node will be created using the same instance type as an existing worker node\. Verify that all of the worker nodes are running on the same Amazon EC2 instance type\.
++ A subordinate node will be created using the same instance type as an existing subordinate node\. Verify that all of the subordinate nodes are running on the same Amazon EC2 instance type\.
 + All HANA nodes and respective services are up and running\.
 + There are no upgrades or patching in progress\.
 + No maintenance activities, such as backups, are in progress\.
 
-**Workflow for adding a HANA worker node**  
-When you add an additional HANA worker node to your existing HANA scale\-out installation, Launch Wizard for SAP performs the following:
+**Workflow for adding a HANA subordinate node**  
+When you add an additional HANA subordinate node to your existing HANA scale\-out installation, Launch Wizard for SAP performs the following:
 
 1. An instance is created using the provided AMI\.
 
@@ -86,22 +92,24 @@ When you add an additional HANA worker node to your existing HANA scale\-out ins
 
 1. `/usr/sap`, `/hana/data`, and `/hana/log` folders are cleaned up\.
 
+   They are not cleaned up in Amazon FSx based deployments\. New Amazon FSx volumes on a new FSx for ONTAP file system along with storage virtual machines for `log` and `data` volumes will be created and mounted on the newly created instance\.
+
 1. `saphostagent` is set up\.
 
-1. The HANA worker node is set up using `add_hosts`\.
+1. The HANA subordinate node is set up using `add_hosts`\.
 
 1. If post\-deployment configuration scripts are provided, they are run\.
 
-**Console steps for adding a HANA worker node to an existing scale\-out installation**  
-Perform the following steps in the Launch Wizard for SAP console to add a HANA worker node:
+**Console steps for adding a HANA subordinate node to an existing scale\-out installation**  
+Perform the following steps in the Launch Wizard for SAP console to add a HANA subordinate node:
 
 1. Navigate to the Launch Wizard for SAP **Deployments** page\.
 
-1. Select the check box next to the deployment to which you want to add a new node\. From the **Action** menu, select **Deploy additional components**>**HANA worker node**\. You will be taken to the **Configure settings** page\.
+1. Select the check box next to the deployment to which you want to add a new node\. From the **Action** menu, select **Deploy additional components**>**HANA subordinate node**\. You will be taken to the **Configure settings** page\.
 
-1. Under **Settings for additional worker node**, specify the following parameters:
-   + **HANA worker node AMI** — select the AMI to provision the worker node\. You must use the most recent version of the AMI generated from the source deployment to which the worker node is being added\.
-   + **Hostname of worker node** — Enter the hostname of the Amazon EC2 instance on which the SAP system will be deployed\.
+1. Under **Settings for additional subordinate node**, specify the following parameters:
+   + **HANA subordinate node AMI** — select the AMI to provision the subordinate node\. You must use the most recent version of the AMI generated from the source deployment to which the subordinate node is being added\.
+   + **Hostname of subordinate node** — Enter the hostname of the Amazon EC2 instance on which the SAP system will be deployed\.
    + **Private IP address** \(optional\) — Select the private IP address to assign to the new instance\. If you do not provide an IP address, Launch Wizard assigns one for you\.
 
 1. Under **Pre\-deployment configuration script**, optionally specify the following parameters:
@@ -126,16 +134,88 @@ Perform the following steps in the Launch Wizard for SAP console to add a HANA w
 1. On the **Review** page, verify your settings and configuration\. Choose **Deploy** if you are satisfied with your selections\. To edit your selections, choose **Edit** or **Previous**\. It can take up to 10 minutes to create your new node\.
 
 **Manual activities required**  
-The following manual activities are required to successfully add a HANA worker node to an existing scale\-out installation\.
+The following manual activities are required to successfully add a HANA subordinate node to an existing scale\-out installation\.
 + Host entries are updated only on the HANA master and newly added nodes\. Refresh `/etc/hosts` entries from the HANA master node on all of the other existing nodes\.
-+ When the automation workflow runs, a new HANA worker node is attached to the existing HANA deployment\. The node is ready to be used\. A HANA table redistribution plan must be determined and performed\. For more information about how to redistribute the tables to the new nodes, see [Redistributing Tables in a Scaleout SAP HANA System](https://help.sap.com/viewer/6b94445c94ae495c83a19646e7c3fd56/2.0.03/en-US/c6579b60d9761014ae59c8c868e6e054.html) in the SAP documentation\.
-+ The newly added worker node is not set up in the same placement group\. Attach the new worker node to the placement group and restart all of the HANA nodes for the placement groups to take effect\. 
++ When the automation workflow runs, a new HANA subordinate node is attached to the existing HANA deployment\. The node is ready to be used\. A HANA table redistribution plan must be determined and performed\. For more information about how to redistribute the tables to the new nodes, see [Redistributing Tables in a Scaleout SAP HANA System](https://help.sap.com/viewer/6b94445c94ae495c83a19646e7c3fd56/2.0.03/en-US/c6579b60d9761014ae59c8c868e6e054.html) in the SAP documentation\.
++ The newly added subordinate node is not set up in the same placement group\. Attach the new subordinate node to the placement group and restart all of the HANA nodes for the placement groups to take effect\. 
++ For FSx for ONTAP based deployments, you must mount the newly created FSx for ONTAP volumes for `hana-data` and `hana-log` on all the database nodes\.
 
-**Delete a HANA worker node from an existing scale\-out installation**  
-The process of deleting a HANA worker node from an existing scale\-out installation is partially automated\. Before you delete a worker node, you must redistribute the data for a multi\-database container \(MDC\) before deleting the node\. For more information about how to redistribute the tables to the new nodes, see [Redistributing Tables in a Scaleout SAP HANA System](https://help.sap.com/viewer/6b94445c94ae495c83a19646e7c3fd56/2.0.03/en-US/c6579b60d9761014ae59c8c868e6e054.html) in the SAP documentation\.
+**Delete a HANA subordinate node from an existing scale\-out installation**  
+The process of deleting a HANA subordinate node from an existing scale\-out installation is partially automated\. Before you delete a subordinate node, you must redistribute the data for a multi\-database container \(MDC\) before deleting the node\. For more information about how to redistribute the tables to the new nodes, see [Redistributing Tables in a Scaleout SAP HANA System](https://help.sap.com/viewer/6b94445c94ae495c83a19646e7c3fd56/2.0.03/en-US/c6579b60d9761014ae59c8c868e6e054.html) in the SAP documentation\.
 
 **Note**  
 You can only delete a node that was created with the add or remove node feature using Launch Wizard for SAP\.
+
+### Add HANA standby node to existing HANA scale\-out installations<a name="launch-wizard-sap-add-remove-nodes-scenarios-hana-standby"></a>
+
+**Prerequisites**  
+For prerequisites, see [Prerequisites for creating an AMIPrerequisites](#launch-wizard-sap-add-remove-nodes-prerequisites)\.
+
+**Assumptions**  
+Before you proceed with this procedure, consider the following assumptions:
++ A standby node is ONLY possible if the parent deployment is made using FSx for ONTAP file system\.
++ A standby node will be created using the same instance type as an existing standby node\. Verify that all of the standby nodes are running on the same Amazon EC2 instance type\.
++ All HANA nodes and respective services are up and running\.
++ There are no upgrades or patching in progress\.
++ No maintenance activities, such as backups, are in progress\.
+
+**Workflow for adding a HANA standby node**  
+When you add an additional HANA standby node to your existing HANA scale\-out installation, Launch Wizard for SAP performs the following:
+
+1. An instance is created using the provided AMI\.
+
+1. The hostname is updated when the instance boots\.
+
+1. `/etc/hosts` is updated on the master node, and then the host file is synced to the newly created node\.
+
+1. All abandoned services and processes are cleaned up\.
+
+1. If pre\-deployment configuration scripts are provided, they are run\.
+
+1. `/usr/sap`, `/hana/data`, and `/hana/log` are not cleaned up\. New Amazon FSx volumes on a new FSx for ONTAP file system along with storage virtual machines for `log` and `data` volumes will be created and mounted on the newly created instance\.
+
+1. `saphostagent` is set up\.
+
+1. The HANA standby node is set up using `add_hosts`\.
+
+1. If post\-deployment configuration scripts are provided, they are run\.
+
+**Console steps for adding a HANA standby node to an existing scale\-out installation**  
+Perform the following steps in the Launch Wizard for SAP console to add a HANA standby node:
+
+1. Navigate to the Launch Wizard for SAP **Deployments** page\.
+
+1. Select the check box next to the deployment to which you want to add a new node\. From the **Action** menu, select **Deploy additional components**>**HANA standby node**\. You will be taken to the **Configure settings** page\.
+
+1. Under **Settings for additional standby node**, specify the following parameters:
+   + **HANA standby node AMI** — select the AMI to provision the standby node\. You must use the most recent version of the AMI generated from the source deployment to which the standby node is being added\.
+   + **Hostname of standby node** — Enter the hostname of the Amazon EC2 instance on which the SAP system will be deployed\.
+   + **Private IP address** \(optional\) — Select the private IP address to assign to the new instance\. If you do not provide an IP address, Launch Wizard assigns one for you\.
+
+1. Under **Pre\-deployment configuration script**, optionally specify the following parameters:
+   + **Deployment settings** — Select the check box to ignore all deployment failures and proceed with a deployment\. 
+   + **Configuration script** — Add one or more configuration scripts, depending on the number of servers included in the deployment\. The scripts run in the order they are added\. You can view detailed execution logs or failure information in the Amazon CloudWatch logs after a deployment is complete\.
+
+1. Under **Post\-deployment configuration script**, optionally specify the following parameters:
+   + **Deployment settings** — Select the check box to ignore all deployment failures and proceed with a deployment\. 
+   + **Configuration script** — Add one or more configuration scripts, depending on the number of servers included in the deployment\. The scripts run in the order they are added\. You can view detailed execution logs or failure information in the Amazon CloudWatch logs after a deployment is complete\.
+
+1. Choose **Next** when the preceding parameters are specified, and the **Review infrastructure configuration** page opens\.
+
+1. Under **Infrastructure configuration**, specify the following parameters:
+   + **Key pair name** — Select a key pair to securely connect to your instance\.
+   + **Virtual Private Cloud \(VPC\)** — the VPC in which the domain controllers will be deployed is the same as for the original deployment\.
+   + **Private subnet** — The private subnet is determined by the subnet specified in your original deployment\.
+   + **Security group assigned to database servers** — Select a security group that is currently assigned to a database node\.
+   + **HANA password** — enter a password for the SAP HANA installation\.
+
+1. Choose **Next** when you are satisfied with your infrastructure configuration selections\. You will be taken to the **Review** page\.
+
+1. On the **Review** page, verify your settings and configuration\. Choose **Deploy** if you are satisfied with your selections\. To edit your selections, choose **Edit** or **Previous**\. It can take up to 10 minutes to create your new node\.
+
+**Manual activities required**  
+The following manual activities are required to successfully add a HANA standby node to an existing scale\-out installation\.
++ For FSx for ONTAP based deployments, you must mount the newly created FSx for ONTAP volumes for `hana-data` and `hana-log` on all the database nodes\.
 
 ### Add additional application server \(AAS\) to existing NetWeaver distributed installation<a name="launch-wizard-sap-add-remove-nodes-scenarios-server"></a>
 
@@ -177,7 +257,7 @@ Perform the following steps in the Launch Wizard for SAP console to add an AAS n
 
 1. Select the check box next to the deployment to which you want to add a new node\. From the **Action** menu, select **Deploy additional components**>**Additional application server \(AAS\)**\. The **Configure settings** page opens\.
 
-1. Under **Settings for additional worker node**, specify the following parameters:
+1. Under **Settings for additional subordinate node**, specify the following parameters:
    + **Additional application server \(AAS\) AMI** — Select the AMI to provision the additional application server\. You must use the most recent version of the AMI created from the source deployment\.
    + **Hostname of additional application server** — Enter the hostname of the Amazon EC2 instance on which the SAP system will be deployed\.
    + **Instance number of AAS** — Enter the instance number of the additional application server\.
